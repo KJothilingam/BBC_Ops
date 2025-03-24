@@ -1,0 +1,77 @@
+/* Sidebar General Styling */
+.sidebar {
+    width: 250px;
+    height: 90vh;
+    background: #fff;
+    box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 20px;
+    position: fixed;
+}
+
+/* Logo Section */
+.logo {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.logo .bulb {
+    font-size: 30px;
+    color: #FFD700;
+}
+
+.logo h1 {
+    font-size: 20px;
+    font-weight: bold;
+    color: #2c2c2c;
+}
+
+/* Menu Items */
+.menu {
+    list-style: none;
+    padding: 0;
+    width: 100%;
+}
+
+.menu li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 15px;
+    cursor: pointer;
+    color: gray;
+    font-size: 16px;
+    transition: 0.3s;
+}
+
+.menu li i {
+    width: 20px;
+    text-align: center;
+}
+
+.menu li.active,
+.menu li:hover {
+    background: #4318FF;
+    color: white;
+    border-radius: 5px;
+}
+
+/* Logout Button */
+.logout {
+    margin-top: auto;
+    padding: 10px;
+    width: 80%;
+    background: linear-gradient(45deg, #4318FF, #7F5FFF);
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.logout:hover {
+    opacity: 0.8;
+}
