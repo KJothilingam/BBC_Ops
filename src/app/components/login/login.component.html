@@ -1,1 +1,45 @@
-<p>login works!</p>
+<div class="login-container">
+    <!-- Left Section - Login Form -->
+    <div class="login-form">
+      <h2>Branch Login</h2>
+      <p>Enter your Employee ID and Verify OTP to Get started !!!</p>
+  
+      <!-- Branch Selection -->
+      <label for="branch">Select your District</label>
+      <select id="branch" [(ngModel)]="selectedBranch">
+        <option value="" disabled selected>Select your District...</option>
+        <option *ngFor="let branch of branches" [value]="branch">{{ branch }}</option>
+      </select>
+  
+      <!-- Email Input -->
+      <label for="email">Email*</label>
+      <input type="email" id="email" [(ngModel)]="email" placeholder="mail@simmple.com">
+  
+      <!-- Generate OTP Button -->
+      <button class="otp-btn" (click)="generateOTP()">Generate OTP</button>
+  
+      <!-- OTP Input -->
+      <label for="otp">OTP*</label>
+      <div class="otp-container">
+        <input [type]="showOTP ? 'text' : 'password'" id="otp" [(ngModel)]="otp" placeholder="Min. 8 characters">
+        <span class="toggle" (click)="toggleOTPVisibility()">👁️</span>
+      </div>
+  
+      <!-- Keep me logged in Checkbox -->
+      <!-- <label class="checkbox-label">
+        <input type="checkbox" [(ngModel)]="keepLoggedIn"> Keep me logged in
+      </label> -->
+  
+      <!-- Verify Button -->
+      <button class="verify-btn" (click)="verifyOTP()">Verify</button>
+    </div>
+  
+    <!-- Right Section - Branding -->
+    <div class="branding">
+      <div class="logo">
+        <span class="bulb">💡</span>
+        <h1>BBC Ops</h1>
+      </div>
+    </div>
+  </div>
+  

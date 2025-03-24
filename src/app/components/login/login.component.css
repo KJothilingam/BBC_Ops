@@ -1,0 +1,115 @@
+/* General Styling */
+body, html {
+    margin: 0;
+    height: 100%;
+    width: 100%;
+    font-family: "Inter", sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #f8f9fc;
+}
+
+/* Login Container */
+.login-container {
+    display:flex;
+    width: 98vw;
+    height: 95vh;
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* Left Section - Login Form */
+.login-form {
+    flex: 1;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+h2 {
+    color: #2c2c2c;
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+p {
+    font-size: 14px;
+    color: gray;
+    margin-bottom: 20px;
+}
+
+/* Inputs */
+label {
+    font-size: 14px;
+    font-weight: bold;
+    margin: 10px 0 5px;
+}
+
+input, select {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.otp-container {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.toggle {
+    position: absolute;
+    right: 10px;
+    cursor: pointer;
+    color: #555;
+}
+
+/* Buttons */
+button {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.otp-btn {
+    background-color: #4318FF;
+    color: white;
+    margin-top: 10px;
+}
+
+.verify-btn {
+    background-color: #4318FF;
+    color: white;
+    margin-top: 15px;
+}
+
+/* Right Section - Branding */
+.branding {
+    flex: 1;
+    background: linear-gradient(45deg, #4318FF, #7F5FFF);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    text-align: center;
+}
+
+.logo h1 {
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.bulb {
+    font-size: 50px;
+}
