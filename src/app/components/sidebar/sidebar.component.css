@@ -1,15 +1,21 @@
-/* Sidebar General Styling */
+
+/* Sidebar Styling */
 .sidebar {
     width: 250px;
-    height: 100vh;
+    height: 100vh; /* Full viewport height */
     background: #fff;
     box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
     align-items: center;
     padding-top: 20px;
-    position: fixed;
+
+    position: fixed; /* Fixed to the left */
+    left: 0;
+    top: 0;
+    overflow-y: auto; /* Sidebar scrolls only if needed */
 }
+
 
 /* Logo Section */
 .logo {
@@ -28,11 +34,13 @@
     color: #2c2c2c;
 }
 
+
 /* Menu Items */
 .menu {
     list-style: none;
     padding: 0;
     width: 100%;
+    flex-grow: 1;  /* ✅ Pushes logout button to the bottom */
 }
 
 .menu li {
@@ -60,8 +68,9 @@
 
 /* Logout Button */
 .logout {
-    margin-top: auto;
+    margin-top: 70%;  /* ✅ Moves logout button to 80% of sidebar height */
     padding: 10px;
+    margin-bottom: 30%;
     width: 80%;
     background: linear-gradient(45deg, #4318FF, #7F5FFF);
     color: white;

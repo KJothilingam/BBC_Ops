@@ -1,15 +1,30 @@
 /* General Styles */
 .dashboard-container {
     padding: 20px;
+    padding-left: 20%;
     background: #F8FAFF;
+    min-height: 100vh; /* Ensures content fills viewport */
+    display: flex;
+    flex-direction: column;
+    max-width: 80%;
 }
+
 
 /* Top Cards */
 .top-cards {
     display: flex;
     gap: 20px;
     margin-bottom: 20px;
+    align-items: flex-start; /* Ensures all cards align at the top */
+    justify-content: flex-start; /* Aligns the cards to the left */
 }
+
+/* Ensure individual cards have no extra margins */
+.top-cards > * {
+    margin: 0;
+    padding: 0;
+}
+
 
 .card {
     flex: 1;
