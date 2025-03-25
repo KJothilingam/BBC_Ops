@@ -1,0 +1,49 @@
+<app-sidebar></app-sidebar>
+<div class="container">
+    <div class="header">
+      <h2>Manage User</h2>
+      <span class="branch">Lalitpur Branch</span>
+    </div>
+  
+    <div class="search-container">
+      <input type="text" placeholder="Search" [(ngModel)]="searchText" />
+      <button class="theme-toggle">
+        <i class="moon-icon"></i>
+      </button>
+      <button class="add-user" (click)="addUser()">Add User</button>
+    </div>
+  
+    <div class="user-table">
+      <table>
+        <thead>
+          <tr>
+            <th>UID</th>
+            <th>Name</th>
+            <th>Address</th>
+            <th>SCNO</th>
+            <th>Amount</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let user of filteredUsers">
+            <td>{{ user.uid }}</td>
+            <td>{{ user.name }}</td>
+            <td>{{ user.address }}</td>
+            <td>{{ user.scno }}</td>
+            <td>{{ user.amount }}</td>
+            <td>
+              <button class="edit-btn" (click)="editUser(user)">
+                <i class="edit-icon"></i>
+              </button>
+              <button class="delete-btn" (click)="deleteUser(user.uid)">
+                <i class="delete-icon"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  
+  </div>
+  

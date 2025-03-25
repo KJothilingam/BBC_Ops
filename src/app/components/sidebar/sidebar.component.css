@@ -13,7 +13,6 @@
     position: fixed; /* Fixed to the left */
     left: 0;
     top: 0;
-    overflow-y: auto; /* Sidebar scrolls only if needed */
 }
 
 
@@ -83,4 +82,10 @@
 
 .logout:hover {
     opacity: 0.8;
+}
+
+.menu li.active {
+    background: #4318FF;  /* Highlight color */
+    color: white;
+    border-radius: 5px;
 }

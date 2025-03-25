@@ -26,4 +26,8 @@ export const routes: Routes = [
         path:'generatebill',
         loadComponent :()=>import('./components/generate-bill/generate-bill.component').then((c)=> c.GenerateBillComponent),
     },
+    {
+        path:'manageuser',
+        loadComponent :()=>import('./components/manage-user/manage-user.component').then((c)=> c.ManageUserComponent),
+    },
 ];
