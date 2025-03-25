@@ -18,4 +18,5 @@ export class AuthService {
   verifyOtp(email: string, otp: string): Observable<any> {
     return this.http.post(`${this.apiUrl}/verify-otp`, { email, otp });
   }
+  
 }

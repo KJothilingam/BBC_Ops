@@ -86,23 +86,45 @@ export class LoginComponent {
   }
   
   
-
   verifyOtp() {
     const enteredOtp = this.otpInputs.map(input => input.nativeElement.value).join('');
-
+  
     if (enteredOtp.length !== 6) {
       this.toastr.warning("⚠️ Enter complete 6-digit OTP", "Warning!", { timeOut: 10000 });
       return;
     }
-
+  
     this.authService.verifyOtp(this.email, enteredOtp).subscribe(
       response => {
-        this.toastr.success("✅ OTP Verified!", "Success!", { timeOut: 20000 });
-        this.router.navigate(['/dashboard']);
+        if (response.userId && response.userName) {
+          // ✅ Store user details in localStorage
+          localStorage.setItem('userId', response.userId);
+          localStorage.setItem('userName', response.userName);
+          
+          this.toastr.success(
+            `✅ OTP Verified!<br><strong>Welcome, ${response.userName}!</strong>`,
+            "Success!",
+            { timeOut: 20000, enableHtml: true }
+          );
+  
+          // ✅ Log User Details
+          this.getUserDetails();
+  
+          this.router.navigate(['/dashboard']);
+        } else {
+          this.toastr.error("❌ Invalid Response from Server", "Error!", { timeOut: 10000 });
+        }
       },
       error => {
         this.toastr.error(error.error.message || "❌ Invalid OTP", "Error!", { timeOut: 10000 });
       }
     );
   }
-}
+  
+  getUserDetails() {
+    const userId = localStorage.getItem('userId');
+    const userName = localStorage.getItem('userName');
+  
+    console.log(`Logged in User: ${userName} (ID: ${userId})`);
+  }
+}  
