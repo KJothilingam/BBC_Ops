@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, ElementRef, QueryList, ViewChildren } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-login',
@@ -9,27 +9,26 @@ import { FormsModule } from '@angular/forms';
 })
 export class LoginComponent {
 
+ 
+  @ViewChildren('otpInput') otpInputs!: QueryList<ElementRef>;
 
-  selectedBranch: string = '';
-  email: string = '';
-  otp: string = '';
-  showOTP: boolean = false;
-  keepLoggedIn: boolean = false;
-  branches = ['Branch 1', 'Branch 2', 'Branch 3'];
-
-  generateOTP() {
-    alert('OTP has been sent to ' + this.email);
+  moveNext(event: any, index: number): void {
+    const inputValue = event.target.value;
+    if (inputValue.length === 1 && index < this.otpInputs.length - 1) {
+      this.otpInputs.toArray()[index + 1].nativeElement.focus();
+    }
   }
 
-  toggleOTPVisibility() {
-    this.showOTP = !this.showOTP;
-  }
-
-  verifyOTP() {
-    if (this.otp.length >= 8) {
-      alert('OTP Verified Successfully');
-    } else {
-      alert('Invalid OTP. Must be at least 8 characters.');
+  moveBack(event: KeyboardEvent, index: number): void {
+    if (event.key === 'Backspace') {
+      const inputs = this.otpInputs.toArray();
+      
+      if (index > 0) {
+        // Clear the current input
+        inputs[index].nativeElement.value = '';  
+        // Move focus to previous input
+        inputs[index - 1].nativeElement.focus();
+      }
     }
   }
 
