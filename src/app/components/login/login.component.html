@@ -1,24 +1,25 @@
 <section class="form">
-  
-  <div class="container" id="container" #container>
-
+  <div class="container">
     <div class="form-container sign-in">
-      <form>
-        <div class="social-icons">
-        </div>
+      <form #loginForm="ngForm">
         <h1 class="signin">Sign In</h1>
-        <input type="email" placeholder="Email">
-        <button type="button" class="btn">Generate OTP</button>
-        <!-- <input type="password" placeholder="OTP"> -->
+        
+        <!-- Email Input -->
+        <input type="email" [(ngModel)]="email" name="email" placeholder="Email" required autocomplete="off">
+        <button type="button" class="btn" (click)="generateOtp()">Generate OTP</button>
+
         <h2 class="signin">Enter OTP</h2>
+
+        <!-- OTP Inputs -->
         <div class="otp-input-container">
-          <input #otpInput type="text" maxlength="1" class="otp-input" 
+          <input #otpInput type="text" maxlength="1" class="otp-input"
                  *ngFor="let item of [0,1,2,3,4,5]; let i = index"
                  (input)="moveNext($event, i)"
-                 (keydown)="moveBack($event, i)">
+                 (keydown)="moveBack($event, i)"
+                 name="otp{{i}}" required>
         </div>
         
-        <button type="button" >Sign In</button>
+        <button type="button" (click)="verifyOtp()">Sign In</button>
       </form>
     </div>
 
@@ -27,9 +28,8 @@
         <div class="toggle-panel toggle-left">
           <h1>Welcome Back!</h1>
           <p>Enter your personal details to use all site features</p>
-          <button class="hidden" id="login" >Sign In</button>
+          <button class="hidden" id="login">Sign In</button>
         </div>
-       
       </div>
     </div>
   </div>
