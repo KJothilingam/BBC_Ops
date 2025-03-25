@@ -13,30 +13,45 @@ import { SidebarComponent } from "../sidebar/sidebar.component";
 export class ManageUserComponent {
   searchText: string = '';
 
-  users = [
-    { uid: 112, name: 'Mithlesh Kumar Singh', address: 'Kritipur, Kathmandu', scno: '12358G', amount: '987569326' },
-    { uid: 113, name: 'Suron Maharjan', address: 'Natole, Lalitpur', scno: '86523B', amount: '987569326' },
-    { uid: 114, name: 'Sandesh Bajracharya', address: 'Bhinchhebahal, Lalitpur', scno: '78365D', amount: '987569326' }
+  customers = [
+    {
+      customerId: 1,
+      name: 'John Doe',
+      email: 'john@example.com',
+      phoneNumber: '9876543210',
+      address: 'Kathmandu, Nepal',
+      unitConsumption: 150,
+      billDueDate: new Date('2024-04-10')
+    },
+    {
+      customerId: 2,
+      name: 'Jane Smith',
+      email: 'jane@example.com',
+      phoneNumber: '9807654321',
+      address: 'Lalitpur, Nepal',
+      unitConsumption: 120,
+      billDueDate: new Date('2024-05-15')
+    }
   ];
 
-  get filteredUsers() {
-    return this.users.filter(user =>
-      user.name.toLowerCase().includes(this.searchText.toLowerCase()) ||
-      user.address.toLowerCase().includes(this.searchText.toLowerCase()) ||
-      user.scno.toLowerCase().includes(this.searchText.toLowerCase())
+  get filteredCustomers() {
+    return this.customers.filter(customer =>
+      customer.name.toLowerCase().includes(this.searchText.toLowerCase()) ||
+      customer.email.toLowerCase().includes(this.searchText.toLowerCase()) ||
+      customer.phoneNumber.includes(this.searchText)
     );
   }
 
-  addUser() {
-    console.log("Add User Clicked");
+  addCustomer() {
+    console.log("Add Customer Clicked");
   }
 
-  editUser(user: any) {
-    console.log("Edit User", user);
+  editCustomer(customer: any) {
+    console.log("Edit Customer", customer);
   }
 
-  deleteUser(uid: number) {
-    this.users = this.users.filter(user => user.uid !== uid);
-    console.log("User Deleted", uid);
+  deleteCustomer(customerId: number) {
+    this.customers = this.customers.filter(customer => customer.customerId !== customerId);
+    console.log("Customer Deleted", customerId);
   }
 }
