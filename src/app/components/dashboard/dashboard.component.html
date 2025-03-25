@@ -1,2 +1,67 @@
+<!-- <app-sidebar></app-sidebar> -->
 
-<app-sidebar></app-sidebar>
+<div class="dashboard-container">
+    <!-- Top Cards -->
+    <div class="top-cards">
+        <div class="card">
+            <div class="icon"><i class="fas fa-users"></i></div>
+            <div class="details">
+
+                <h4>Users</h4>
+                <h2>45</h2>
+            </div>
+        </div>
+        <div class="card">
+            <div class="icon"><i class="fas fa-dollar-sign"></i></div>
+            <div class="details">
+                <h4>Total Payments</h4>
+                <h2>Rs. 200,000</h2>
+            </div>
+        </div>
+        <div class="card">
+            <div class="icon"><i class="fas fa-user-check"></i></div>
+            <div class="details">
+                <h4>Active Users</h4>
+                <h2>22</h2>
+            </div>
+        </div>
+    </div>
+
+    <!-- Graph & Payment Analysis -->
+    <div class="middle-section">
+        <div class="graph-card">
+            <h4>Total Payments</h4>
+            <h2>Rs. 200,000</h2>
+            <canvas #paymentGraph></canvas>  <!-- ✅ Use Angular Template Reference -->
+        </div>
+        <div class="pie-chart">
+            <h4>Payment Analysis</h4>
+            <canvas #pieChart></canvas>  <!-- ✅ Use Angular Template Reference -->
+        </div>
+    </div>
+
+    <!-- Recent Payments -->
+    <div class="recent-payments">
+        <h4>Recent Payments</h4>
+        <div class="payment-list">
+            <div class="payment-item">
+                <img src="https://via.placeholder.com/40" alt="User">
+                <span>Mithlesh K. Singh</span>
+                <span class="amount">Rs. 3000</span>
+                <span class="time">30s ago</span>
+            </div>
+            <div class="payment-item">
+                <img src="https://via.placeholder.com/40" alt="User">
+                <span>Suron Maharjan</span>
+                <span class="amount">Rs. 800</span>
+                <span class="time">58s ago</span>
+            </div>
+            <div class="payment-item">
+                <img src="https://via.placeholder.com/40" alt="User">
+                <span>Sandesh Bajracharya</span>
+                <span class="amount">Rs. 5500</span>
+                <span class="time">1m ago</span>
+            </div>
+        </div>
+    </div>
+</div>
