@@ -11,13 +11,19 @@ export const appConfig: ApplicationConfig = {
     provideAnimations(),
     provideToastr({
       positionClass: 'toast-center-custom',
-      timeOut: 10000,
-      extendedTimeOut: 5000,
-      closeButton: true,
+      timeOut: 1000,  // ⏳ Show for 0.5 seconds (500ms)
+      extendedTimeOut: 0, // ⏳ No delay on hover
+      closeButton: true,  // ✅ Enable close button
+      tapToDismiss: true, // ✅ Click anywhere on toast to close
       progressBar: true,
-      preventDuplicates: true,
-      tapToDismiss: false
-    })
-    ,
-  provideHttpClient(),provideZoneChangeDetection({ eventCoalescing: true }), provideRouter(routes), provideClientHydration(withEventReplay())]
+      preventDuplicates: true, // ✅ Prevent duplicate messages
+      maxOpened: 1, // ✅ Only one toast at a time
+      autoDismiss: true, // ✅ Auto-remove toast when expired
+      newestOnTop: true, // ✅ Ensure new toast replaces old ones
+    }),
+    provideHttpClient(),
+    provideZoneChangeDetection({ eventCoalescing: true }),
+    provideRouter(routes),
+    provideClientHydration(withEventReplay())
+  ]
 };

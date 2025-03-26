@@ -1,70 +1,79 @@
-/* Custom centered toaster */
-.toast-center-custom {
-    top: 20px !important;
-    left: 50% !important;
-    transform: translateX(-50%) !important;
-    position: fixed !important;
-    z-index: 9999 !important;
-  }
-  
-  /* Ensure proper width */
-  .toast-container .ngx-toastr {
-    min-width: 300px;
-    text-align: center;
-  }
-  
-  /* Style overrides */
-  .toast-success {
-    background-color: #4CAF50 !important;
-    color: white !important;
-    font-weight: bold;
-  }
-  
-  .toast-error {
-    background-color: #D32F2F !important;
-    color: white !important;
-    font-weight: bold;
-  }
-  
-  .toast-warning {
-    background-color: #FFA000 !important;
-    color: white !important;
-    font-weight: bold;
-  }
-  
-  /* Optional: Fade-in animation */
-  .toast {
-    animation: fadeInDown 0.5s ease-in-out;
-  }
 
-  
-/* ✅ Fix close button positioning */
+/* ✅ Center Toaster */
+.toast-center-custom {
+  top: 20px !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  position: fixed !important;
+  z-index: 9999 !important;
+  cursor: pointer !important; /* ✅ Make entire toast clickable */
+}
+
+
+/* ✅ Ensure proper width */
+.toast-container .ngx-toastr {
+  min-width: 300px;
+  text-align: center;
+  cursor: pointer !important; /* ✅ Make entire toast clickable */
+}
+
+/* ✅ Success Toast */
+.toast-success {
+  background-color: #4CAF50 !important;
+  color: white !important;
+  font-weight: bold;
+}
+
+/* ✅ Error Toast */
+.toast-error {
+  background-color: #D32F2F !important;
+  color: white !important;
+  font-weight: bold;
+}
+
+/* ✅ Warning Toast */
+.toast-warning {
+  background-color: #FFA000 !important;
+  color: white !important;
+  font-weight: bold;
+}
+
+/* ✅ Close Button Styling (Clickable) */
 .toast-close-button {
-    position: absolute !important;
-    top: 5px !important;
-    right: 8px !important;
-    font-size: 18px !important;
-    color: white !important;
-    background: none !important;
-    border: none !important;
-    cursor: pointer !important;
-  }
-  
-  /* ✅ Optional: Improve toast styling */
-  .toast {
-    border-radius: 8px !important;
-    padding: 15px !important;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2) !important;
-  }
-  
-  @keyframes fadeInDown {
-    from {
+  position: absolute !important;
+  top: 5px !important;
+  right: 10px !important;
+  font-size: 16px !important;
+  color: white !important;
+  cursor: pointer !important;
+  opacity: 1 !important;
+  background: none !important;
+  border: none !important;
+  z-index: 10000 !important; /* ✅ Ensure it's above everything */
+}
+
+
+/* ✅ Improve Close Button Hover */
+.toast-close-button:hover {
+  opacity: 0.7 !important;
+}
+
+/* ✅ Animation */
+.toast {
+  border-radius: 8px !important;
+  padding: 15px !important;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2) !important;
+  animation: fadeInDown 0.5s ease-in-out;
+}
+
+/* ✅ Animation */
+@keyframes fadeInDown {
+  from {
       opacity: 0;
       transform: translateY(-20px);
-    }
-    to {
+  }
+  to {
       opacity: 1;
       transform: translateY(0);
-    }
   }
-  
+}

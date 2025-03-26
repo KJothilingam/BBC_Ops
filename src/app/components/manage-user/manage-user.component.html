@@ -1,4 +1,5 @@
 <app-sidebar></app-sidebar>
+
 <div class="container">
     <div class="header">
         <h2>Manage Customers</h2>
@@ -11,6 +12,26 @@
             <i class="bi bi-search"></i>
         </div>
         <button class="add-user" (click)="addCustomer()">Add Customer</button>
+        <button class="add-user" data-bs-toggle="modal" data-bs-target="#bulkUploadModal">
+            BulkFile Upload
+        </button>
+    </div>
+
+    <!-- Bulk Upload Modal -->
+    <div class="modal fade" id="bulkUploadModal" tabindex="-1" aria-labelledby="bulkUploadModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="bulkUploadModalLabel">Bulk Upload Customers</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="file" (change)="onFileSelected($event)" accept=".csv" />
+                    <button class="btn btn-success mt-2" (click)="uploadFile()">Upload CSV</button>
+                    <p *ngIf="message" class="message">{{ message }}</p>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div class="user-table">
@@ -28,7 +49,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let customer of filteredCustomers">
+                <tr *ngFor="let customer of paginatedCustomers">
                     <td>{{ customer.customerId }}</td>
                     <td>{{ customer.name }}</td>
                     <td>{{ customer.email }}</td>
@@ -45,13 +66,22 @@
                             <button class="delete-btn" (click)="deleteCustomer(customer.customerId)">
                                 <i class="bi bi-trash3-fill"></i>
                             </button>
+                            
                         </div>
                     </td>
-                    
-                    
-                    
                 </tr>
             </tbody>
         </table>
     </div>
+    
+    <!-- Pagination Controls - Move outside the table -->
+    <div class="pagination">
+        <button class="add-user" (click)="prevPage()" [disabled]="currentPage === 1">Previous</button>
+        <h6>
+            <span> Page {{ currentPage }} of {{ totalPages }} </span>
+        </h6>
+        <button class="add-user" (click)="nextPage()" [disabled]="currentPage * itemsPerPage >= filteredCustomers.length">Next</button>
+    </div>
+    
+
 </div>

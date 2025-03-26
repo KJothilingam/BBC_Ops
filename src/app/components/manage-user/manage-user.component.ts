@@ -1,38 +1,65 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SidebarComponent } from "../sidebar/sidebar.component";
+import { CustomerService } from '../../services/customer.service';
 
 @Component({
   selector: 'app-manage-user',
   standalone: true,
   imports: [CommonModule, FormsModule, SidebarComponent],
   templateUrl: './manage-user.component.html',
-  styleUrls: ['./manage-user.component.css'] // ✅ Fixed
+  styleUrls: ['./manage-user.component.css']
 })
-export class ManageUserComponent {
-  searchText: string = '';
+export class ManageUserComponent implements OnInit {
 
-  customers = [
-    {
-      customerId: 1,
-      name: 'John Doe',
-      email: 'john@example.com',
-      phoneNumber: '9876543210',
-      address: 'Kathmandu, Nepal',
-      unitConsumption: 150,
-      billDueDate: new Date('2024-04-10')
-    },
-    {
-      customerId: 2,
-      name: 'Jane Smith',
-      email: 'jane@example.com',
-      phoneNumber: '9807654321',
-      address: 'Lalitpur, Nepal',
-      unitConsumption: 120,
-      billDueDate: new Date('2024-05-15')
+  searchText: string = '';
+  selectedFile: File | null = null;
+  message: string = '';
+  showBulkUpload: boolean = false;
+  customers: any[] = [];
+  currentPage: number = 1;
+  itemsPerPage: number = 10;
+
+  constructor(private customerService: CustomerService) {}
+
+  ngOnInit() {
+    this.fetchCustomers();
+  }
+
+  fetchCustomers() {
+    this.customerService.fetchCustomers().subscribe({
+      next: (data) => {
+        this.customers = data;
+      },
+      error: (err) => console.error("Error fetching customers:", err)
+    });
+  }
+
+  toggleBulkUpload() {
+    this.showBulkUpload = !this.showBulkUpload;
+  }
+
+  onFileSelected(event: any) {
+    this.selectedFile = event.target.files[0];
+  }
+
+  uploadFile() {
+    if (!this.selectedFile) {
+      this.message = "Please select a CSV file.";
+      return;
     }
-  ];
+
+    this.customerService.uploadCSV(this.selectedFile).subscribe({
+      next: (response) => {
+        this.message = response.message;
+        this.fetchCustomers();
+      },
+      error: (err) => {
+        this.message = err.message;
+      }
+    });
+  }
 
   get filteredCustomers() {
     return this.customers.filter(customer =>
@@ -42,6 +69,36 @@ export class ManageUserComponent {
     );
   }
 
+  get paginatedCustomers() {
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    return this.filteredCustomers.slice(startIndex, startIndex + this.itemsPerPage);
+  }
+
+  nextPage() {
+    if ((this.currentPage * this.itemsPerPage) < this.filteredCustomers.length) {
+      this.currentPage++;
+    }
+  }
+
+  prevPage() {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+    }
+  }
+
+  deleteCustomer(customerId: string) {
+    if (confirm('Are you sure you want to delete this customer?')) {
+      this.customerService.deleteCustomer(customerId).subscribe({
+        next: () => {
+          this.customers = this.customers.filter(customer => customer.customerId !== customerId);
+          console.log('Customer Deleted:', customerId);
+        },
+        error: (err) => console.error('Error deleting customer:', err)
+      });
+    }
+  }
+  
+
   addCustomer() {
     console.log("Add Customer Clicked");
   }
@@ -50,8 +107,8 @@ export class ManageUserComponent {
     console.log("Edit Customer", customer);
   }
 
-  deleteCustomer(customerId: number) {
-    this.customers = this.customers.filter(customer => customer.customerId !== customerId);
-    console.log("Customer Deleted", customerId);
+  get totalPages() {
+    return Math.ceil(this.filteredCustomers.length / this.itemsPerPage);
   }
+  
 }
