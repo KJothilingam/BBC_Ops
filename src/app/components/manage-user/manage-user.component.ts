@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SidebarComponent } from "../sidebar/sidebar.component";
 import { CustomerService } from '../../services/customer.service';
@@ -21,6 +21,10 @@ export class ManageUserComponent implements OnInit {
   customers: any[] = [];
   currentPage: number = 1;
   itemsPerPage: number = 10;
+  @Input() customer: any = {};
+  showModal: boolean = false;
+  selectedCustomer: any = null;
+
 
   constructor(private customerService: CustomerService ,  private toastr: ToastrService) {}
 
@@ -121,9 +125,43 @@ export class ManageUserComponent implements OnInit {
     console.log("Add Customer Clicked");
   }
 
-  editCustomer(customer: any) {
-    console.log("Edit Customer", customer);
+  openModal(customer: any) {
+    this.customer = { ...customer }; // Clone to avoid modifying directly
+    this.showModal = true;
   }
+
+  closeModal() {
+    this.showModal = false;
+  }
+
+  openUpdateModal(customer: any) {
+    this.selectedCustomer = { ...customer };
+  }
+  
+  updateCustomer() {
+    if (!this.selectedCustomer.customerId) return;
+  
+    this.customerService.updateCustomer(this.selectedCustomer.customerId, this.selectedCustomer).subscribe({
+      next: (response) => {
+        if (response.status) {
+          this.toastr.success("Customer updated successfully!", "Success");
+          this.fetchCustomers();  // Refresh data
+          const modal = document.getElementById('editCustomerModal') as any;
+          modal?.classList.remove('show');
+          document.body.classList.remove('modal-open');
+          modal?.setAttribute('aria-hidden', 'true');
+        } else {
+          this.toastr.error("Failed to update customer.", "Error");
+        }
+      },
+      error: (error) => {
+        console.error("Update error:", error);
+        this.toastr.error("Server error. Try again.", "Error");
+      }
+    });
+  }
+  
+
 
   get totalPages() {
     return Math.ceil(this.filteredCustomers.length / this.itemsPerPage);

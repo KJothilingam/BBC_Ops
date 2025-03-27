@@ -173,3 +173,43 @@ th, td {
   cursor: not-allowed !important; /* Show disabled cursor */
   opacity: 0.7; /* Reduce opacity */
 }
+
+
+
+
+.modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 400px;
+  text-align: center;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+.form-input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+}
+.btn-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+}
+.btn-save {
+  background: #4318FF;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.btn-cancel {
+  background: #6c757d;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+}
