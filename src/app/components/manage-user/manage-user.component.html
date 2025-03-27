@@ -1,88 +1,9 @@
 <app-sidebar></app-sidebar>
 
 <div class="container">
-    <!-- <div class="modal-container" *ngIf="showModal">
-        <div class="modal-content">
-          <h2>Update Customer</h2>
-          
-          <label>Name:</label>
-          <input type="text" [(ngModel)]="customer.name" />
-      
-          <label>Email:</label>
-          <input type="email" [(ngModel)]="customer.email" />
-      
-          <label>Phone Number:</label>
-          <input type="text" [(ngModel)]="customer.phoneNumber" />
-      
-          <label>Address:</label>
-          <input type="text" [(ngModel)]="customer.address" />
-      
-          <label>Unit Consumption:</label>
-          <input type="number" [(ngModel)]="customer.unitConsumption" />
-      
-          <label>Bill Due Date:</label>
-          <input type="date" [(ngModel)]="customer.billDueDate" />
-      
-          <label>Meter Number:</label>
-          <input type="text" [(ngModel)]="customer.meterNumber" />
-      
-          <label>Connection Type:</label>
-          <select [(ngModel)]="customer.connectionType">
-            <option value="DOMESTIC">Domestic</option>
-            <option value="COMMERCIAL">Commercial</option>
-          </select>
-      
-          <div class="btn-container">
-            <button (click)="updateCustomer()">Save</button>
-            <button (click)="closeModal()">Cancel</button>
-          </div>
-        </div>
-      </div>
-       -->
-      <!-- Edit Customer Modal -->
-<div class="modal fade" id="editCustomerModal" tabindex="-1" aria-labelledby="editCustomerModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="editCustomerModalLabel">Update Customer</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <label>Name:</label>
-          <input type="text" class="form-control" [(ngModel)]="selectedCustomer.name" />
   
-          <label>Email:</label>
-          <input type="email" class="form-control" [(ngModel)]="selectedCustomer.email" />
-  
-          <label>Phone Number:</label>
-          <input type="text" class="form-control" [(ngModel)]="selectedCustomer.phoneNumber" />
-  
-          <label>Address:</label>
-          <input type="text" class="form-control" [(ngModel)]="selectedCustomer.address" />
-  
-          <label>Unit Consumption:</label>
-          <input type="number" class="form-control" [(ngModel)]="selectedCustomer.unitConsumption" />
-  
-          <label>Bill Due Date:</label>
-          <input type="date" class="form-control" [(ngModel)]="selectedCustomer.billDueDate" />
-  
-          <label>Meter Number:</label>
-          <input type="text" class="form-control" [(ngModel)]="selectedCustomer.meterNumber" />
-  
-          <label>Connection Type:</label>
-          <select class="form-control" [(ngModel)]="selectedCustomer.connectionType">
-            <option value="DOMESTIC">Domestic</option>
-            <option value="COMMERCIAL">Commercial</option>
-          </select>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-          <button type="button" class="btn btn-primary" (click)="updateCustomer()">Save</button>
-        </div>
-      </div>
-    </div>
-  </div>
-  
+    
+
 
 
 
@@ -120,6 +41,53 @@
         </div>
     </div>
 
+<!-- Update Customer Modal -->
+<div class="modal fade" id="updateCustomerModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Update Customer</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <label>Name:</label>
+                <input type="text" [(ngModel)]="selectedCustomer.name" class="form-control"/>
+
+                <label>Email:</label>
+                <input type="email" [(ngModel)]="selectedCustomer.email" class="form-control"/>
+
+                <label>Phone Number:</label>
+                <input type="text" [(ngModel)]="selectedCustomer.phoneNumber" class="form-control"/>
+
+                <label>Address:</label>
+                <input type="text" [(ngModel)]="selectedCustomer.address" class="form-control"/>
+
+                <label>Unit Consumption:</label>
+                <input type="number" [(ngModel)]="selectedCustomer.unitConsumption" class="form-control"/>
+
+                <label>Bill Due Date:</label>
+                <input type="date" [(ngModel)]="selectedCustomer.billDueDate" class="form-control"/>
+
+                <label>Meter Number:</label>
+                <input type="text" [(ngModel)]="selectedCustomer.meterNumber" class="form-control"/>
+
+                <label>Connection Type:</label>
+                <select [(ngModel)]="selectedCustomer.connectionType" class="form-control">
+                    <option value="DOMESTIC">Domestic</option>
+                    <option value="COMMERCIAL">Commercial</option>
+                </select>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" (click)="updateCustomer()">Save</button>
+                <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
     <div class="user-table">
         <table>
             <thead>
@@ -147,13 +115,10 @@
 
                         
                         <div class="action-buttons">
-                            <button class="edit-btn" data-bs-toggle="modal" data-bs-target="#editCustomerModal" (click)="openUpdateModal(customer)">
-                                <i class="bi bi-pencil-square"></i>
-                              </button>
                               
-                            <!-- <button class="edit-btn" (click)="openUpdateModal(customer)">
+                            <button class="btn btn-warning" (click)="openUpdateModal(customer)" data-bs-toggle="modal" data-bs-target="#updateCustomerModal">
                                 <i class="bi bi-pencil-square"></i>
-                            </button> -->
+                            </button>
                             <span class="separator"></span>
                                 <button class="delete-btn" (click)="deleteCustomer(customer)">
                                 <i class="bi bi-trash3-fill"></i>
@@ -167,12 +132,19 @@
     </div>
     
     <!-- Pagination Controls - Move outside the table -->
-    <div class="pagination">
+    <!-- <div class="pagination">
         <button class="add-user" (click)="prevPage()" [disabled]="currentPage === 1">Previous</button>
         <h6>
             <span> Page {{ currentPage }} of {{ totalPages }} </span>
         </h6>
         <button class="add-user" (click)="nextPage()" [disabled]="currentPage * itemsPerPage >= filteredCustomers.length">Next</button>
+    </div> -->
+    <div class="pagination">
+        <button class="add-user" (click)="prevPage()" [disabled]="currentPage === 1">Previous</button>
+        <h6>
+            <span> Page {{ currentPage }} of {{ totalPages }} </span>
+        </h6>
+        <button class="add-user" (click)="nextPage()" [disabled]="currentPage >= totalPages">Next</button>
     </div>
     
 

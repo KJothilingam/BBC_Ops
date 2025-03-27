@@ -13,7 +13,6 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./manage-user.component.css']
 })
 export class ManageUserComponent implements OnInit {
-
   searchText: string = '';
   selectedFile: File | null = null;
   message: string = '';
@@ -23,10 +22,10 @@ export class ManageUserComponent implements OnInit {
   itemsPerPage: number = 10;
   @Input() customer: any = {};
   showModal: boolean = false;
-  selectedCustomer: any = null;
+  selectedCustomer: any = {};
+  showUpdateForm: boolean = false;
 
-
-  constructor(private customerService: CustomerService ,  private toastr: ToastrService) {}
+  constructor(private customerService: CustomerService, private toastr: ToastrService) {}
 
   ngOnInit() {
     this.fetchCustomers();
@@ -40,6 +39,10 @@ export class ManageUserComponent implements OnInit {
       error: (err) => console.error("Error fetching customers:", err)
     });
   }
+  openUpdateModal(customer: any) {
+    this.selectedCustomer = { ...customer }; // Clone customer data to prevent direct modification
+}
+
 
   toggleBulkUpload() {
     this.showBulkUpload = !this.showBulkUpload;
@@ -80,7 +83,7 @@ export class ManageUserComponent implements OnInit {
   }
 
   nextPage() {
-    if ((this.currentPage * this.itemsPerPage) < this.filteredCustomers.length) {
+    if (this.currentPage < this.totalPages) {
       this.currentPage++;
     }
   }
@@ -92,79 +95,50 @@ export class ManageUserComponent implements OnInit {
   }
 
   deleteCustomer(customer: any) {
-    console.log("Deleting customer:", customer);  // Debugging log
-  
-    if (!customer || !customer.name || !customer.customerId) {
-      console.error("Invalid customer data", customer);
+    if (!customer || !customer.customerId) {
       this.toastr.error("Invalid customer data", "Error");
       return;
     }
-  
+
     const confirmation = confirm(`Are you sure you want to delete ${customer.name} (ID: ${customer.customerId})?`);
-    if (confirmation) {
-      this.customerService.deleteCustomer(customer.customerId).subscribe({
-        next: (response) => {
-          if (response.status) {
-            this.toastr.success(`${customer.name} (ID: ${customer.customerId}) deleted successfully!`, "Success");
-            this.customers = this.customers.filter(c => c.customerId !== customer.customerId);
-          } else {
-            this.toastr.error("Customer not found.", "Error");
-          }
-        },
-        error: (err) => {
-          console.error("Error deleting customer:", err);
-          this.toastr.error("Failed to delete customer. Please try again.", "Error");
+    if (!confirmation) return;
+
+    this.customerService.deleteCustomer(customer.customerId).subscribe({
+      next: (response) => {
+        if (response?.status) {
+          this.toastr.success(`${customer.name} deleted successfully!`, "Success");
+          this.customers = this.customers.filter(c => c.customerId !== customer.customerId);
+        } else {
+          this.toastr.error("Customer not found or already deleted.", "Error");
         }
-      });
-    }
+      },
+      error: (err) => {
+        console.error("Error deleting customer:", err);
+        this.toastr.error("Failed to delete customer. Please try again.", "Error");
+      }
+    });
   }
-  
-  
 
   addCustomer() {
     console.log("Add Customer Clicked");
   }
 
-  openModal(customer: any) {
-    this.customer = { ...customer }; // Clone to avoid modifying directly
-    this.showModal = true;
+  toggleUpdateForm(customer?: any) {
+    if (customer) {
+      this.selectedCustomer = { ...customer };
+    } else {
+      this.selectedCustomer = {};
+    }
+    this.showUpdateForm = !this.showUpdateForm;
+    this.showBulkUpload = false;
   }
 
-  closeModal() {
-    this.showModal = false;
-  }
-
-  openUpdateModal(customer: any) {
-    this.selectedCustomer = { ...customer };
-  }
-  
   updateCustomer() {
-    if (!this.selectedCustomer.customerId) return;
-  
-    this.customerService.updateCustomer(this.selectedCustomer.customerId, this.selectedCustomer).subscribe({
-      next: (response) => {
-        if (response.status) {
-          this.toastr.success("Customer updated successfully!", "Success");
-          this.fetchCustomers();  // Refresh data
-          const modal = document.getElementById('editCustomerModal') as any;
-          modal?.classList.remove('show');
-          document.body.classList.remove('modal-open');
-          modal?.setAttribute('aria-hidden', 'true');
-        } else {
-          this.toastr.error("Failed to update customer.", "Error");
-        }
-      },
-      error: (error) => {
-        console.error("Update error:", error);
-        this.toastr.error("Server error. Try again.", "Error");
-      }
-    });
+    console.log("Updated Customer:", this.selectedCustomer);
+    this.showUpdateForm = false;
   }
-  
-
 
   get totalPages() {
     return Math.ceil(this.filteredCustomers.length / this.itemsPerPage);
   }
-  
 }

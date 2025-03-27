@@ -5,7 +5,7 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  max-width:86%;
+  max-width: 86%;
 }
 
 .header {
@@ -24,6 +24,7 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 15px;
+  gap: 10px;
 }
 
 .user-table {
@@ -42,19 +43,7 @@ th, td {
   border-bottom: 1px solid #ddd;
 }
 
-.edit-btn, .delete-btn {
-  background: none;
-  border: none;
-  cursor: pointer;
-}
-
 /* Search box styles */
-.search-container {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
 .search-box {
   display: flex;
   align-items: center;
@@ -88,11 +77,18 @@ th, td {
   border-radius: 8px;
   cursor: pointer;
   transition: 0.3s;
-  /* padding: 20px; */
 }
 
 .add-user:hover {
   opacity: 0.8;
+}
+
+/* Disabled button */
+.add-user:disabled {
+  background: #ccc !important;
+  color: #666 !important;
+  cursor: not-allowed !important;
+  opacity: 0.7;
 }
 
 /* Action buttons */
@@ -132,84 +128,51 @@ th, td {
 }
 
 /* Bulk Upload Modal */
+.modal-dialog {
+  max-width: 500px;
+}
+
 .modal-content {
   padding: 15px;
   border-radius: 10px;
+  max-height: 90vh;
 }
 
+/* Modal body styling */
 .modal-body {
-  text-align: center;
-}
-
-.modal-body input {
-  display: block;
-  margin: 10px auto;
-}
-
-.modal-body .btn-success {
-  background: #28a745;
-  border: none;
-  padding: 8px 12px;
-  border-radius: 8px;
-  cursor: pointer;
-}
-
-.modal-body .message {
-  color: #28a745;
-  font-size: 14px;
-  margin-top: 10px;
-}
-
-.pagination {
+  max-height: 60vh;
+  overflow-y: auto;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 20px;
-  gap: 15px; /* Adjust the gap as needed */
-}
-.add-user:disabled {
-  background: #ccc !important; /* Grey background */
-  color: #666 !important; /* Dark grey text */
-  cursor: not-allowed !important; /* Show disabled cursor */
-  opacity: 0.7; /* Reduce opacity */
+  flex-direction: column;
+  gap: 10px;
 }
 
-
-
-
-.modal-content {
-  background: white;
-  padding: 20px;
-  border-radius: 10px;
-  width: 400px;
-  text-align: center;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+/* Align labels to the left */
+.modal-body label {
+  text-align: left;
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
 }
-.form-input {
-  width: 100%;
+
+/* Increase input field width */
+.modal-body input, .modal-body select {
+  width: 90%;
+  font-size: 14px;
   padding: 8px;
-  margin-bottom: 10px;
   border-radius: 5px;
-  border: 1px solid #ddd;
+  border: 1px solid #ccc;
 }
-.btn-container {
+
+/* Use Grid Layout for a Compact Form */
+.modal-body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+/* Center align modal footer buttons */
+.modal-footer {
   display: flex;
   justify-content: space-between;
-  margin-top: 15px;
-}
-.btn-save {
-  background: #4318FF;
-  color: white;
-  border: none;
-  padding: 8px 12px;
-  border-radius: 8px;
-  cursor: pointer;
-}
-.btn-cancel {
-  background: #6c757d;
-  color: white;
-  border: none;
-  padding: 8px 12px;
-  border-radius: 8px;
-  cursor: pointer;
 }
