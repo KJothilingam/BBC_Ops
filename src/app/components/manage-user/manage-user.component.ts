@@ -87,32 +87,29 @@ export class ManageUserComponent implements OnInit {
     }
   }
 
-  // deleteCustomer(customerId: string) {
-  //   if (confirm('Are you sure you want to delete this customer?')) {
-  //     this.customerService.deleteCustomer(customerId).subscribe({
-  //       next: () => {
-  //         this.customers = this.customers.filter(customer => customer.customerId !== customerId);
-  //         console.log('Customer Deleted:', customerId);
-  //       },
-  //       error: (err) => console.error('Error deleting customer:', err)
-  //     });
-  //   }
-  // }
   deleteCustomer(customer: any) {
+    console.log("Deleting customer:", customer);  // Debugging log
+  
+    if (!customer || !customer.name || !customer.customerId) {
+      console.error("Invalid customer data", customer);
+      this.toastr.error("Invalid customer data", "Error");
+      return;
+    }
+  
     const confirmation = confirm(`Are you sure you want to delete ${customer.name} (ID: ${customer.customerId})?`);
-    
     if (confirmation) {
       this.customerService.deleteCustomer(customer.customerId).subscribe({
         next: (response) => {
           if (response.status) {
-            this.toastr.success(`${response.customerName} (ID: ${response.customerId}) deleted successfully!`, 'Success');
+            this.toastr.success(`${customer.name} (ID: ${customer.customerId}) deleted successfully!`, "Success");
             this.customers = this.customers.filter(c => c.customerId !== customer.customerId);
           } else {
-            this.toastr.error('Customer not found.', 'Error');
+            this.toastr.error("Customer not found.", "Error");
           }
         },
-        error: () => {
-          this.toastr.error('Failed to delete customer. Please try again.', 'Error');
+        error: (err) => {
+          console.error("Error deleting customer:", err);
+          this.toastr.error("Failed to delete customer. Please try again.", "Error");
         }
       });
     }
