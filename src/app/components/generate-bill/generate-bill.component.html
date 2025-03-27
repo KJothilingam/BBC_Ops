@@ -1,1 +1,46 @@
-<p>generate-bill works!</p>
+<app-sidebar></app-sidebar>
+
+<div class="container">
+    <div class="header">
+        <div>
+            <p class="breadcrumb">Pages / Generate Bill</p>
+            <h2 class="title">Generate Bill</h2>
+            <span class="branch">Lalitpur Branch</span>
+        </div>
+        <div class="search-bar">
+            <input type="text" placeholder="Search">
+            <i class="fa fa-search"></i>
+            <div class="profile-icon">
+                <img src="assets/profile-avatar.png" alt="Profile">
+            </div>
+        </div>
+    </div>
+
+    <div class="bill-card">
+        <h3 class="card-title">Calculate Bill</h3>
+
+        <form>
+            <label>UID</label>
+            <input type="text" placeholder="Enter UID" required>
+
+            <div class="date-fields">
+                <div>
+                    <label>Date</label>
+                    <input type="date" required>
+                </div>
+                <div>
+                    <label>Due Date</label>
+                    <input type="date" required>
+                </div>
+            </div>
+
+            <label>Units</label>
+            <input type="text" placeholder="Enter Units" required>
+
+            <label>Bill Due</label>
+            <input type="text" placeholder="Enter Amount" required>
+
+            <button type="submit" class="calculate-btn">Calculate</button>
+        </form>
+    </div>
+</div>
