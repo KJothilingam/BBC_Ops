@@ -24,6 +24,9 @@ export class ManageUserComponent implements OnInit {
   showModal: boolean = false;
   selectedCustomer: any = {};
   showUpdateForm: boolean = false;
+  // selectedCustomer: any = {}; // Stores customer data
+  // showUpdateForm: boolean = false;
+  isUpdating: boolean = false; // Loader state
 
   constructor(private customerService: CustomerService, private toastr: ToastrService) {}
 
@@ -49,8 +52,22 @@ export class ManageUserComponent implements OnInit {
   }
 
   onFileSelected(event: any) {
-    this.selectedFile = event.target.files[0];
+    const file = event.target.files[0];
+  
+    if (file) {
+      const fileType = file.name.split('.').pop()?.toLowerCase();
+      
+      if (fileType !== 'csv') {
+        this.toastr.error('Only CSV files are allowed!', 'Invalid File Type');
+        this.selectedFile = null;
+        event.target.value = ''; // Reset file input
+        return;
+      }
+  
+      this.selectedFile = file;
+    }
   }
+  
 
   uploadFile() {
     if (!this.selectedFile) {
@@ -134,10 +151,52 @@ export class ManageUserComponent implements OnInit {
   }
 
   updateCustomer() {
-    console.log("Updated Customer:", this.selectedCustomer);
-    this.showUpdateForm = false;
+    console.log("Selected Customer Data:", this.selectedCustomer); // Debugging log
+  
+    if (!this.selectedCustomer || !this.selectedCustomer.customerId) {
+      this.toastr.error('Invalid customer data. Please select a valid customer.', 'Update Failed');
+      return;
+    }
+  
+    this.isUpdating = true; // Show loader
+  
+    this.customerService.updateCustomer(this.selectedCustomer.customerId, this.selectedCustomer)
+      .subscribe(
+        (response) => {
+          console.log("Update Response:", response); // Debugging log
+  
+          if (response && response.status && response.customer) { // ✅ Ensure response.customer exists
+            this.toastr.success('Customer updated successfully!', 'Success');
+  
+            // Update the customer list dynamically
+            const index = this.customers.findIndex(c => c.customerId === response.customer.customerId);
+            if (index !== -1) {
+              this.customers[index] = { ...response.customer };
+            }
+  
+            // Force UI update
+            this.customers = [...this.customers];
+  
+            // Close form & reset selectedCustomer
+            this.showUpdateForm = false;
+            this.selectedCustomer = null;
+          } else {
+            console.warn("Unexpected Response:", response); // Debugging log
+            this.toastr.error('Failed to update customer.', 'Error');
+          }
+        },
+        (error) => {
+          console.error("Update Error:", error);
+          this.toastr.error('Something went wrong. Please try again.', 'Update Failed');
+        }
+      ).add(() => {
+        this.isUpdating = false; // Hide loader in all cases
+      });
   }
-
+  
+  
+  
+  
   get totalPages() {
     return Math.ceil(this.filteredCustomers.length / this.itemsPerPage);
   }

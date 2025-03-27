@@ -1,5 +1,6 @@
 .container {
   padding: 20px;
+  position: relative;
   margin-left: 14%;
   background: #F8FAFF;
   min-height: 100vh;
@@ -175,4 +176,15 @@ th, td {
 .modal-footer {
   display: flex;
   justify-content: space-between;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative; /* Changed from absolute to relative */
+  margin-top: 20px; /* Adds space above */
+  width: 100%;
+  padding: 10px 0;
+  gap: 10px;
 }
