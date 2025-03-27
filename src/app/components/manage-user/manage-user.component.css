@@ -1,11 +1,11 @@
 .container {
   padding: 20px;
-  margin-left: 18%;
+  margin-left: 14%;
   background: #F8FAFF;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  max-width: 82%;
+  max-width:86%;
 }
 
 .header {
@@ -164,7 +164,12 @@ th, td {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 20px; /* Space between table and pagination */
-  /* margin: 20px; */
-  /* margin-left: 30px; */
+  margin-top: 20px;
+  gap: 15px; /* Adjust the gap as needed */
+}
+.add-user:disabled {
+  background: #ccc !important; /* Grey background */
+  color: #666 !important; /* Dark grey text */
+  cursor: not-allowed !important; /* Show disabled cursor */
+  opacity: 0.7; /* Reduce opacity */
 }

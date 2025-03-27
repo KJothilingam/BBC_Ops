@@ -1,7 +1,7 @@
 
 /* Sidebar Styling */
 .sidebar {
-    width: 250px;
+    width: 200px;
     height: 100vh; /* Full viewport height */
     background: #fff;
     box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.1);

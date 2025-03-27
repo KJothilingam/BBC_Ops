@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SidebarComponent } from "../sidebar/sidebar.component";
 import { CustomerService } from '../../services/customer.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-manage-user',
@@ -21,7 +22,7 @@ export class ManageUserComponent implements OnInit {
   currentPage: number = 1;
   itemsPerPage: number = 10;
 
-  constructor(private customerService: CustomerService) {}
+  constructor(private customerService: CustomerService ,  private toastr: ToastrService) {}
 
   ngOnInit() {
     this.fetchCustomers();
@@ -86,17 +87,37 @@ export class ManageUserComponent implements OnInit {
     }
   }
 
-  deleteCustomer(customerId: string) {
-    if (confirm('Are you sure you want to delete this customer?')) {
-      this.customerService.deleteCustomer(customerId).subscribe({
-        next: () => {
-          this.customers = this.customers.filter(customer => customer.customerId !== customerId);
-          console.log('Customer Deleted:', customerId);
+  // deleteCustomer(customerId: string) {
+  //   if (confirm('Are you sure you want to delete this customer?')) {
+  //     this.customerService.deleteCustomer(customerId).subscribe({
+  //       next: () => {
+  //         this.customers = this.customers.filter(customer => customer.customerId !== customerId);
+  //         console.log('Customer Deleted:', customerId);
+  //       },
+  //       error: (err) => console.error('Error deleting customer:', err)
+  //     });
+  //   }
+  // }
+  deleteCustomer(customer: any) {
+    const confirmation = confirm(`Are you sure you want to delete ${customer.name} (ID: ${customer.customerId})?`);
+    
+    if (confirmation) {
+      this.customerService.deleteCustomer(customer.customerId).subscribe({
+        next: (response) => {
+          if (response.status) {
+            this.toastr.success(`${response.customerName} (ID: ${response.customerId}) deleted successfully!`, 'Success');
+            this.customers = this.customers.filter(c => c.customerId !== customer.customerId);
+          } else {
+            this.toastr.error('Customer not found.', 'Error');
+          }
         },
-        error: (err) => console.error('Error deleting customer:', err)
+        error: () => {
+          this.toastr.error('Failed to delete customer. Please try again.', 'Error');
+        }
       });
     }
   }
+  
   
 
   addCustomer() {
