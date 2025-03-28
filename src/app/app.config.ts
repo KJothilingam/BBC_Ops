@@ -3,7 +3,7 @@ import { provideRouter } from '@angular/router';
 import { BrowserAnimationsModule, provideAnimations } from '@angular/platform-browser/animations'; // ✅ Fix Animation Error
 import { routes } from './app.routes';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withFetch } from '@angular/common/http';
 import { provideToastr, ToastrModule } from 'ngx-toastr';
 
 export const appConfig: ApplicationConfig = {
@@ -20,7 +20,8 @@ export const appConfig: ApplicationConfig = {
       autoDismiss: true, // ✅ Auto-remove toast when expired
       newestOnTop: true, // ✅ Ensure new toast replaces old ones
     })),
-    provideHttpClient(),
+    // provideHttpClient(),
+    provideHttpClient(withFetch()),
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideClientHydration(withEventReplay())

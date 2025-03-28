@@ -151,50 +151,46 @@ export class ManageUserComponent implements OnInit {
   }
 
   updateCustomer() {
-    console.log("Selected Customer Data:", this.selectedCustomer); // Debugging log
-  
     if (!this.selectedCustomer || !this.selectedCustomer.customerId) {
       this.toastr.error('Invalid customer data. Please select a valid customer.', 'Update Failed');
       return;
     }
-  
+
     this.isUpdating = true; // Show loader
   
     this.customerService.updateCustomer(this.selectedCustomer.customerId, this.selectedCustomer)
-      .subscribe(
-        (response) => {
+      .subscribe({
+        next: (response) => {
           console.log("Update Response:", response); // Debugging log
-  
-          if (response && response.status && response.customer) { // ✅ Ensure response.customer exists
+
+          if (response && response.status) { // ✅ Handle success case
             this.toastr.success('Customer updated successfully!', 'Success');
-  
-            // Update the customer list dynamically
-            const index = this.customers.findIndex(c => c.customerId === response.customer.customerId);
-            if (index !== -1) {
+
+            // Update local UI list
+            const index = this.customers.findIndex(c => c.customerId === this.selectedCustomer.customerId);
+            if (index !== -1 && response.customer) {
               this.customers[index] = { ...response.customer };
             }
-  
-            // Force UI update
-            this.customers = [...this.customers];
-  
-            // Close form & reset selectedCustomer
+
+            this.customers = [...this.customers]; // Force UI refresh
+
+            // Close modal
             this.showUpdateForm = false;
-            this.selectedCustomer = null;
+            this.selectedCustomer = {};
           } else {
-            console.warn("Unexpected Response:", response); // Debugging log
-            this.toastr.error('Failed to update customer.', 'Error');
+            console.warn("Unexpected Response:", response);
+            this.toastr.error(response?.message || 'Failed to update customer.', 'Error');
           }
         },
-        (error) => {
-          console.error("Update Error:", error);
+        error: (err) => {
+          console.error("Update Error:", err);
           this.toastr.error('Something went wrong. Please try again.', 'Update Failed');
         }
-      ).add(() => {
+      }).add(() => {
         this.isUpdating = false; // Hide loader in all cases
       });
-  }
-  
-  
+}
+
   
   
   get totalPages() {
