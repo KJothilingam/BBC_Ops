@@ -53,6 +53,13 @@ export class CustomerService {
       );
 }
 
+    addCustomer(customerData: any): Observable<any> {
+      return this.http.post<any>(`${this.apiUrl}/add`, customerData).pipe(
+        tap(response => console.log("API Response:", response)), 
+        catchError(this.handleError)
+      );
+    }
+
 
 
 

@@ -23,6 +23,7 @@ export class ManageUserComponent implements OnInit {
   @Input() customer: any = {};
   showModal: boolean = false;
   selectedCustomer: any = {};
+  newCustomer: any = {};
   showUpdateForm: boolean = false;
   // selectedCustomer: any = {}; // Stores customer data
   // showUpdateForm: boolean = false;
@@ -45,6 +46,10 @@ export class ManageUserComponent implements OnInit {
   openUpdateModal(customer: any) {
     this.selectedCustomer = { ...customer }; // Clone customer data to prevent direct modification
 }
+openAddModal() {
+  this.newCustomer = {};
+}
+
 
 
   toggleBulkUpload() {
@@ -137,8 +142,19 @@ export class ManageUserComponent implements OnInit {
   }
 
   addCustomer() {
-    console.log("Add Customer Clicked");
+    this.customerService.addCustomer(this.newCustomer).subscribe({
+      next: (response) => {
+        this.toastr.success('Customer added successfully!', 'Success');
+        this.fetchCustomers(); // Refresh customer list
+        this.newCustomer = {}; // Reset form
+      },
+      error: (err) => {
+        this.toastr.error('Failed to add customer.', 'Error');
+        console.error(err);
+      }
+    });
   }
+  
 
   toggleUpdateForm(customer?: any) {
     if (customer) {

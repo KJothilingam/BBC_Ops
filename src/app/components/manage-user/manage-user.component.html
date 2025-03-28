@@ -16,7 +16,11 @@
             <input type="text" placeholder="Search" [(ngModel)]="searchText" />
             <i class="bi bi-search"></i>
         </div>
-        <button class="add-user" (click)="addCustomer()">Add Customer</button>
+
+        <button class="add-user" (click)="openAddModal()" data-bs-toggle="modal" data-bs-target="#updateAddModal">
+            Add Customer
+        </button>
+        <!-- <button class="add-user" (click)="addCustomer()">Add Customer</button> -->
         <button class="add-user" data-bs-toggle="modal" data-bs-target="#bulkUploadModal">
             BulkFile Upload
         </button>
@@ -82,6 +86,49 @@
         </div>
     </div>
 </div>
+<!-- Add Customer Modal -->
+<div class="modal fade" id="updateAddModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add Customer</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <label>Name:</label>
+                <input type="text" [(ngModel)]="newCustomer.name" class="form-control"/>
+
+                <label>Email:</label>
+                <input type="email" [(ngModel)]="newCustomer.email" class="form-control"/>
+
+                <label>Phone Number:</label>
+                <input type="text" [(ngModel)]="newCustomer.phoneNumber" class="form-control"/>
+
+                <label>Address:</label>
+                <input type="text" [(ngModel)]="newCustomer.address" class="form-control"/>
+
+                <label>Unit Consumption:</label>
+                <input type="number" [(ngModel)]="newCustomer.unitConsumption" class="form-control"/>
+
+                <label>Bill Due Date:</label>
+                <input type="date" [(ngModel)]="newCustomer.billDueDate" class="form-control"/>
+
+                <label>Meter Number:</label>
+                <input type="text" [(ngModel)]="newCustomer.meterNumber" class="form-control"/>
+
+                <label>Connection Type:</label>
+                <select [(ngModel)]="newCustomer.connectionType" class="form-control">
+                    <option value="DOMESTIC">Domestic</option>
+                    <option value="COMMERCIAL">Commercial</option>
+                </select>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" (click)="addCustomer()">ADD</button>
+                <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 
@@ -128,21 +175,12 @@
             </tbody>
         </table>
     </div>
-    
-    <!-- Pagination Controls - Move outside the table -->
-    <!-- <div class="pagination">
-        <button class="add-user" (click)="prevPage()" [disabled]="currentPage === 1">Previous</button>
-        <h6>
-            <span> Page {{ currentPage }} of {{ totalPages }} </span>
-        </h6>
-        <button class="add-user" (click)="nextPage()" [disabled]="currentPage * itemsPerPage >= filteredCustomers.length">Next</button>
-    </div> -->
     <div class="pagination">
         <button class="add-user" (click)="prevPage()" [disabled]="currentPage === 1">Previous</button>
         <h6>
             <span> Page {{ currentPage }} of {{ totalPages }} </span>
         </h6>
-        <button class="add-user" (click)="nextPage()" [disabled]="currentPage >= totalPages">Next</button>
+        <button class="add-user" (click)="nextPage()" [disabled]="currentPage === totalPages">Next</button>
     </div>
     
 
