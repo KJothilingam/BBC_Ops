@@ -155,28 +155,28 @@ export class ManageUserComponent implements OnInit {
       this.toastr.error('Invalid customer data. Please select a valid customer.', 'Update Failed');
       return;
     }
-
+  
     this.isUpdating = true; // Show loader
   
     this.customerService.updateCustomer(this.selectedCustomer.customerId, this.selectedCustomer)
       .subscribe({
         next: (response) => {
           console.log("Update Response:", response); // Debugging log
-
+  
           if (response && response.status) { // ✅ Handle success case
             this.toastr.success('Customer updated successfully!', 'Success');
-
+  
             // Update local UI list
             const index = this.customers.findIndex(c => c.customerId === this.selectedCustomer.customerId);
             if (index !== -1 && response.customer) {
               this.customers[index] = { ...response.customer };
             }
-
+  
             this.customers = [...this.customers]; // Force UI refresh
-
-            // Close modal
+  
+            // ✅ Close modal explicitly
             this.showUpdateForm = false;
-            this.selectedCustomer = {};
+            this.selectedCustomer = {};  
           } else {
             console.warn("Unexpected Response:", response);
             this.toastr.error(response?.message || 'Failed to update customer.', 'Error');
@@ -189,8 +189,8 @@ export class ManageUserComponent implements OnInit {
       }).add(() => {
         this.isUpdating = false; // Hide loader in all cases
       });
-}
-
+  }
+  
   
   
   get totalPages() {
