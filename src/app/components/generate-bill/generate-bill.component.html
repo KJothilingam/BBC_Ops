@@ -51,32 +51,45 @@
 
     <div class="bill-container">
         <h3 class="bill-title">Invoice Details</h3>
-      
+    
+        <!-- Filter Dropdown -->
+        <div class="filter-container">
+            <label for="statusFilter">Filter by Status:</label>
+            <select id="statusFilter" [(ngModel)]="selectedStatus" (change)="filterBills()">
+                <option value="">All</option>
+                <option value="PENDING">Pending</option>
+                <option value="PAID">Paid</option>
+                <option value="OVERDUE">Overdue</option>
+            </select>
+        </div>
+    
         <table class="bill-table">
-          <thead>
-            <tr>
-              <th>Invoice ID</th>
-              <th>Date</th>
-              <th>Due Date</th>
-              <th>Status</th>
-              <th>Amount</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let bill of bills">
-              <td>{{ bill.invoiceId }}</td>
-              <td>{{ bill.createdAt | date: 'dd.MMM.yyyy' }}</td>
-              <td>{{ bill.dueDate | date: 'dd.MMM.yyyy' }}</td>
-              <td [ngClass]="getPaymentStatusClass(bill.paymentStatus)">
-                {{ bill.paymentStatus }}
-              </td>
-              <td>Rs. {{ bill.totalBillAmount }}</td>
-            </tr>
-          </tbody>
-          
+            <thead>
+                <tr>
+                    <th>Customer ID</th>  <!-- ✅ Added Customer ID Column -->
+                    <th>Invoice ID</th>
+                    <th>Date</th>
+                    <th>Due Date</th>
+                    <th>Status</th>
+                    <th>Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let bill of filteredBills">
+                    <td>{{ bill.customer_id }}</td>  <!-- ✅ Display Customer ID Correctly -->
+                    <td>{{ bill.invoiceId }}</td>
+                    <td>{{ bill.createdAt | date: 'dd.MMM.yyyy' }}</td>
+                    <td>{{ bill.dueDate | date: 'dd.MMM.yyyy' }}</td>
+                    <td [ngClass]="getPaymentStatusClass(bill.paymentStatus)">
+                        {{ bill.paymentStatus }}
+                    </td>
+                    <td>Rs. {{ bill.totalBillAmount }}</td>
+                </tr>
+            </tbody>
+            
         </table>
-      </div>
-      
+    </div>
+    
 
     
 </div>

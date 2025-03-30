@@ -181,4 +181,19 @@ input {
     color: #d40000; /* Red */
     font-weight: bold;
   }
-  
+  .filter-container {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.filter-container label {
+    font-weight: bold;
+}
+
+.filter-container select {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}

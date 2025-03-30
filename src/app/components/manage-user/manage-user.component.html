@@ -139,7 +139,7 @@
                 <tr>
                     <th>Customer ID</th>
                     <th>Name</th>
-                    <th>Email</th>
+                    <th>Meter No.</th>
                     <th>Phone Number</th>
                     <th>Address</th>
                     <th>Unit Consumption</th>
@@ -151,7 +151,7 @@
                 <tr *ngFor="let customer of paginatedCustomers">
                     <td>{{ customer.customerId }}</td>
                     <td>{{ customer.name }}</td>
-                    <td>{{ customer.email }}</td>
+                    <td>{{ customer.meterNumber }}</td>
                     <td>{{ customer.phoneNumber }}</td>
                     <td>{{ customer.address }}</td>
                     <td>{{ customer.unitConsumption }}</td>

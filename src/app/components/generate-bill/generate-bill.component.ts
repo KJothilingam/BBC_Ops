@@ -19,9 +19,12 @@ export class GenerateBillComponent {
     meterNumber: '',
     monthDate: '',
     dueDate: '',
+    customer_id:'',
     unitConsumed: 0
   };
-  
+  filteredBills: any[] = [];
+  selectedStatus: string = '';
+  bills: any[] = [];
 
   constructor(
     private billService: BillService,
@@ -84,17 +87,29 @@ export class GenerateBillComponent {
         return '';
     }
   }
-  
-  bills: any[] = [];
+
   fetchBills() {
     this.billService.getAllBills().subscribe(
       (data) => {
-        this.bills = data;
+        this.bills = data.map(bill => ({
+          ...bill,
+          customer_id: bill.customer?.customerId || 'N/A'  // ✅ Extract customerId correctly
+        }));
+        this.filteredBills = [...this.bills]; // ✅ Initialize filteredBills with all data
       },
       (error) => {
         console.error('Error fetching bills:', error);
       }
     );
+  }
+  
+  
+  filterBills() {
+    if (!this.selectedStatus) {
+      this.filteredBills = [...this.bills]; // ✅ Ensure all records are shown when no filter is selected
+    } else {
+      this.filteredBills = this.bills.filter(bill => bill.paymentStatus === this.selectedStatus);
+    }
   }
   
   
