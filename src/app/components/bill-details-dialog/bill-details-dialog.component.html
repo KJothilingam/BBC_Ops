@@ -1,0 +1,12 @@
+<div class="dialog-container">
+    <h2>Bill Details</h2>
+    <p><strong>Invoice ID:</strong> {{ bill.invoiceId }}</p>
+    <p><strong>Customer Name:</strong> {{ bill.customer.name }}</p>
+    <p><strong>Meter Number:</strong> {{ bill.customer.meterNumber }}</p>
+    <p><strong>Unit Consumed:</strong> {{ bill.customer.unitConsumption }}</p>
+    <p><strong>Total Amount:</strong> ₹{{ bill.totalBillAmount }}</p>
+    <p><strong>Due Date:</strong> {{ bill.dueDate | date }}</p>
+  
+    <button class="close-btn" (click)="closeDialog()">Close</button>
+  </div>
+  

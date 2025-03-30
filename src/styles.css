@@ -5,3 +5,28 @@
   z-index: 99999 !important; /* ✅ Ensure Toastr is on top */
   position: fixed !important;
 }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+/* Success Snackbar */
+.success-snackbar {
+  background-color: #4caf50 !important; /* Green */
+  color: white !important;
+  font-weight: bold;
+}
+
+/* Error Snackbar */
+.error-snackbar {
+  background-color: #f44336 !important; /* Red */
+  color: white !important;
+  font-weight: bold;
+}
+
+/* Warning Snackbar */
+.warning-snackbar {
+  background-color: #ff9800 !important; /* Orange */
+  color: white !important;
+  font-weight: bold;
+}

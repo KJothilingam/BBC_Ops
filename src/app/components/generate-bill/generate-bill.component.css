@@ -75,8 +75,8 @@
     max-width: 900px;
     margin: auto;
     border: 2px solid #4a00e0;
+    margin-bottom: 30px; /* Increase space between both cards */
 }
-
 .card-title {
     font-size: 20px;
     font-weight: bold;
@@ -130,3 +130,55 @@ input {
 .calculate-btn:hover {
     background: #8e2de2;
 }
+
+
+.bill-container {
+    border: 2px solid purple;
+    padding: 20px;
+    border-radius: 8px;
+    width: 80%;
+    margin: auto;
+    background-color: #fff;
+    margin-top: 30px; /* Increase spacing if needed */
+}
+  
+  .bill-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .bill-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .bill-table th, .bill-table td {
+    border-bottom: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+  }
+  
+  .bill-table th {
+    font-weight: bold;
+  }
+  
+  .bill-table tr:hover {
+    background-color: #f5f5f5;
+  }
+  /* Payment Status Styling */
+.status-pending {
+    color: #d4a100; /* Yellow */
+    font-weight: bold;
+  }
+  
+  .status-paid {
+    color: #008000; /* Green */
+    font-weight: bold;
+  }
+  
+  .status-overdue {
+    color: #d40000; /* Red */
+    font-weight: bold;
+  }
+  

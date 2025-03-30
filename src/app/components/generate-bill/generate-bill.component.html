@@ -8,10 +8,9 @@
             <span class="branch">Lalitpur Branch</span>
         </div>
         <div class="search-bar">
-            <input type="text" placeholder="Search">
             <i class="fa fa-search"></i>
             <div class="profile-icon">
-                <img src="assets/profile-avatar.png" alt="Profile">
+                <!-- <img src="assets/profile-avatar.png" alt="Profile"> -->
             </div>
         </div>
     </div>
@@ -19,28 +18,65 @@
     <div class="bill-card">
         <h3 class="card-title">Calculate Bill</h3>
 
-        <form>
-            <label>UID</label>
-            <input type="text" placeholder="Enter UID" required>
+        <form (ngSubmit)="generateBill()">
+            <label>Meter Number</label>
+            <input type="text" placeholder="Enter Meter Number" [(ngModel)]="bill.meterNumber" name="meterNumber" required>
 
-            <div class="date-fields">
-                <div>
-                    <label>Date</label>
-                    <input type="date" required>
-                </div>
-                <div>
-                    <label>Due Date</label>
-                    <input type="date" required>
-                </div>
-            </div>
+            <label>Billing Month</label>
+            <input 
+              type="date" 
+              [(ngModel)]="bill.monthDate" 
+              name="monthDate" 
+              (change)="updateDueDate()" 
+              (click)="openDatePicker($event)" 
+              required>
+            
+            <label>Due Date</label>
+            <input type="date" [(ngModel)]="bill.dueDate" name="dueDate" readonly>
 
-            <label>Units</label>
-            <input type="text" placeholder="Enter Units" required>
+            <label>Units Consumed</label>
+            <input type="number" [(ngModel)]="bill.unitConsumed" name="unitConsumed" required>
 
-            <label>Bill Due</label>
-            <input type="text" placeholder="Enter Amount" required>
-
-            <button type="submit" class="calculate-btn">Calculate</button>
+            <button type="submit" class="calculate-btn">Generate Bill</button>
         </form>
+
+        <!-- <div *ngIf="response">
+            <h4>Response:</h4>
+            <p *ngIf="response.success; else errorTpl">Bill Generated Successfully!</p>
+            <ng-template #errorTpl>
+                <p style="color: red;">Failed: {{ response.message }}</p>
+            </ng-template>
+        </div> -->
     </div>
+
+    <div class="bill-container">
+        <h3 class="bill-title">Invoice Details</h3>
+      
+        <table class="bill-table">
+          <thead>
+            <tr>
+              <th>Invoice ID</th>
+              <th>Date</th>
+              <th>Due Date</th>
+              <th>Status</th>
+              <th>Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let bill of bills">
+              <td>{{ bill.invoiceId }}</td>
+              <td>{{ bill.createdAt | date: 'dd.MMM.yyyy' }}</td>
+              <td>{{ bill.dueDate | date: 'dd.MMM.yyyy' }}</td>
+              <td [ngClass]="getPaymentStatusClass(bill.paymentStatus)">
+                {{ bill.paymentStatus }}
+              </td>
+              <td>Rs. {{ bill.totalBillAmount }}</td>
+            </tr>
+          </tbody>
+          
+        </table>
+      </div>
+      
+
+    
 </div>

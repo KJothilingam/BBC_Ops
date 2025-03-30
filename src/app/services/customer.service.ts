@@ -59,7 +59,9 @@ export class CustomerService {
         catchError(this.handleError)
       );
     }
-
+    getCustomerById(customerId: string): Observable<any> {
+      return this.http.get(`${this.apiUrl}/${customerId}`);
+    }
 
 
 
