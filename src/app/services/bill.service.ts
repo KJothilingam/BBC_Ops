@@ -17,4 +17,9 @@ export class BillService {
   getAllBills(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/all`); // ✅ Fixed URL
   }
+
+    /** ✅ Update overdue bills */
+    updateOverdueBills(): Observable<string> {
+      return this.http.put<string>(`${this.apiUrl}/update-overdue`, {});
+    }
 }

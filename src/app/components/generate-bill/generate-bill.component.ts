@@ -74,6 +74,7 @@ export class GenerateBillComponent {
 
   ngOnInit(): void {
     this.fetchBills();
+    this.updateOverdueBills();
   }
   getPaymentStatusClass(status: string): string {
     switch (status) {
@@ -112,5 +113,17 @@ export class GenerateBillComponent {
     }
   }
   
+   /** ✅ Call backend to update overdue bills on startup */
+   updateOverdueBills() {
+    this.billService.updateOverdueBills().subscribe(
+      (response) => {
+        console.log(response);
+        this.fetchBills();
+      },
+      (error) => {
+        console.error('Error updating overdue bills:', error);
+      }
+    );
+  }
   
 }
