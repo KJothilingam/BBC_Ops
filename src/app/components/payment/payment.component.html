@@ -1,0 +1,56 @@
+<app-sidebar></app-sidebar>
+
+<div class="container">
+    <div class="flex justify-center items-center min-h-screen bg-gray-100 p-6">
+        <mat-card class="w-full max-w-lg p-8 shadow-2xl rounded-3xl bg-white border border-gray-300">
+            <h2 class="text-3xl font-extrabold mb-6 text-center text-gray-800">💳 Make a Payment</h2>
+
+            <form [formGroup]="paymentForm" (ngSubmit)="processPayment()" class="space-y-5">
+                
+                <!-- Meter Number Input -->
+                <mat-form-field class="w-full custom-field">
+                    <mat-label>Meter No.</mat-label>
+                    <input matInput formControlName="meterNumber" placeholder="Enter Meter No." (blur)="fetchBills()" />
+                </mat-form-field>
+
+                <!-- Bill ID Dropdown -->
+                <mat-form-field class="w-full custom-field">
+                    <mat-label>Bill ID</mat-label>
+                    <mat-select formControlName="billId" (selectionChange)="onBillSelect()">
+                        <mat-option *ngFor="let bill of bills" [value]="bill.billId">
+                            {{ bill.billId }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <!-- Auto-Filled Amount -->
+                <mat-form-field class="w-full custom-field">
+                    <mat-label>Amount</mat-label>
+                    <input matInput type="number" formControlName="amount" />
+                </mat-form-field>
+
+                <!-- Auto-Filled Due Date -->
+                <mat-form-field class="w-full custom-field">
+                    <mat-label>Due Date</mat-label>
+                    <input matInput type="date" formControlName="dueDate" />
+                </mat-form-field>
+
+                <!-- Payment Methods -->
+                <div class="payment-methods">
+                    <label class="text-gray-600 font-semibold">Select Payment Method:</label>
+                    <mat-radio-group formControlName="paymentMethod" class="grid grid-cols-2 gap-4 mt-2">
+                        <mat-radio-button value="CASH" class="radio-button">Cash</mat-radio-button>
+                        <mat-radio-button value="CREDIT_CARD" class="radio-button">Credit Card</mat-radio-button>
+                        <mat-radio-button value="DEBIT_CARD" class="radio-button">Debit Card</mat-radio-button>
+                        <mat-radio-button value="UPI" class="radio-button">UPI</mat-radio-button>
+                    </mat-radio-group>
+                </div>
+
+                <!-- Submit Button -->
+                <button mat-raised-button color="primary" class="submit-btn" [disabled]="isProcessing">
+                    {{ isProcessing ? 'Processing...' : 'Pay Now' }}
+                </button>
+            </form>
+        </mat-card>
+    </div>  
+</div>

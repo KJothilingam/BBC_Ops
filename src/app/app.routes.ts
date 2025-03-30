@@ -30,4 +30,8 @@ export const routes: Routes = [
         path:'manageuser',
         loadComponent :()=>import('./components/manage-user/manage-user.component').then((c)=> c.ManageUserComponent),
     },
+    {
+        path:'payment',
+        loadComponent :()=>import('./components/payment/payment.component').then((c)=> c.PaymentComponent),
+    },
 ];

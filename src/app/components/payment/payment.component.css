@@ -1,0 +1,77 @@
+
+/* Main Container */
+.container {
+    padding: 20px;
+    position: relative;
+    margin-left: 14%;
+    background: #F8FAFF;
+    min-height: 100vh;
+    max-width: 86%;
+    overflow: hidden;
+}
+
+/* Header Section */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+/* Global Styles */
+.container {
+    background: linear-gradient(to bottom, #eef2f3, #dfe9f3);
+}
+
+/* Card Styling */
+mat-card {
+    background-color: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
+    padding: 24px;
+}
+
+/* Form Fields */
+.custom-field {
+    width: 100%;
+}
+
+/* Payment Methods */
+.payment-methods {
+    padding: 10px;
+    background: #f8fafc;
+    border-radius: 8px;
+    border: 1px solid #d1d5db;
+    box-shadow: inset 0px 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Radio Buttons */
+.radio-button {
+    padding: 8px;
+    transition: transform 0.2s ease-in-out;
+}
+
+.radio-button:hover {
+    transform: scale(1.05);
+}
+
+/* Submit Button */
+.submit-btn {
+    width: 100%;
+    padding: 12px;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 8px;
+    background-color: #1e40af;
+    color: white;
+    transition: all 0.3s ease-in-out;
+}
+
+.submit-btn:hover {
+    background-color: #1e3a8a;
+    transform: scale(1.02);
+}
+
+.submit-btn:disabled {
+    background-color: #9ca3af;
+    cursor: not-allowed;
+}
