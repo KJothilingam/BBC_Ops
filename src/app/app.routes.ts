@@ -34,4 +34,8 @@ export const routes: Routes = [
         path:'payment',
         loadComponent :()=>import('./components/payment/payment.component').then((c)=> c.PaymentComponent),
     },
+    {
+        path:'paymentrecord',
+        loadComponent :()=>import('./components/payment-history-component/payment-history-component.component').then((c)=> c.PaymentHistoryComponentComponent),
+    },
 ];
