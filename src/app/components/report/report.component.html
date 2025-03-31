@@ -19,7 +19,7 @@
   <!-- Payment Details -->
   <div class="payment-card">
     <h3 class="card-title">Payment Details</h3>
-    <table>
+    <!-- <table>
       <thead>
         <tr>
           <th>Users</th>
@@ -36,7 +36,11 @@
           <td>Rs. {{ user.amount }}</td>
         </tr>
       </tbody>
-    </table>
+    </table> -->
+    <!-- Include Payment History Component -->
+  <app-payment-history-component></app-payment-history-component>
+  
+  <button class="view-more" (click)="goToPaymentPage()">View More</button>
   </div>
 
   <!-- Weekly Payments & Pending Payments -->

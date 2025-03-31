@@ -3,28 +3,30 @@ import { Chart } from 'chart.js/auto';
 import { isPlatformBrowser } from '@angular/common';
 import { SidebarComponent } from "../sidebar/sidebar.component";
 import { CommonModule } from '@angular/common';
+import { PaymentHistoryComponentComponent } from "../payment-history-component/payment-history-component.component";
+import { Router } from '@angular/router';  // ✅ Corrected Import
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-report',
   templateUrl: './report.component.html',
   styleUrls: ['./report.component.css'],
-  imports: [SidebarComponent, CommonModule]
+  standalone: true,
+  imports: [RouterModule, SidebarComponent, CommonModule, PaymentHistoryComponentComponent]
 })
 export class ReportComponent implements AfterViewInit, OnDestroy {
   private weeklyChart!: Chart;
   weeklyPaymentsData = [1000, 2000, 2500, 3000, 3500, 4000, 4200, 4500, 4800];
 
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
+  constructor(private router: Router, @Inject(PLATFORM_ID) private platformId: Object) {}
 
   ngAfterViewInit() {
-    // Check if running in the browser
     if (isPlatformBrowser(this.platformId)) {
       this.createChart();
     }
   }
 
   createChart() {
-    // Ensure this code runs only in the browser
     if (isPlatformBrowser(this.platformId)) {
       const canvas = document.getElementById('weeklyChart') as HTMLCanvasElement;
       if (!canvas) {
@@ -78,4 +80,8 @@ export class ReportComponent implements AfterViewInit, OnDestroy {
     { name: 'Lily Bloom', scno: 9821, amount: 2000, image: 'assets/user1.png' },
     { name: 'Atlas Corrigan', scno: 7032, amount: 900, image: 'assets/user2.png' }
   ];
+
+  goToPaymentPage() {
+    this.router.navigate(['/payment']);  // ✅ Fixed Navigation
+  }
 }
