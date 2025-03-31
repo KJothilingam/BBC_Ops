@@ -57,38 +57,35 @@ export class GenerateBillComponent {
     }
 }
 
-  generateBill() {
-    console.log("📤 Sending request payload:", this.bill);
+generateBill() {
+  if (this.bill.monthDate) {
+      this.bill.monthDate = new Date(this.bill.monthDate).getTime(); // ✅ Convert to timestamp
+  }
 
-    this.billService.generateBill(this.bill).subscribe(
+  console.log("📤 Sending request payload:", this.bill);
+
+  this.billService.generateBill(this.bill).subscribe(
       (response: any) => {
-        console.log("📥 Response from backend:", response);
-
-        if (response.success) {
-          this.toastr.success('✅ Bill Generated Successfully!', 'Success');
-          this.fetchBills();
-
-          // 🔥 Ensure unitConsumed is passed correctly
-          const billData = {
-            ...response.bill,
-            unitConsumed: response.bill.unitConsumed || 0 // Ensure correct data
-          };
-          
-          this.dialog.open(BillDetailsDialogComponent, { data: billData });
-        } else {
-          this.toastr.error(`⚠️ Failed: ${response.message}`, 'Error');
-        }
+          console.log("📥 Response from backend:", response);
+          if (response.success) {
+              this.toastr.success('✅ Bill Generated Successfully!', 'Success');
+              this.fetchBills();
+              this.dialog.open(BillDetailsDialogComponent, { data: response.bill });
+          } else {
+              this.toastr.error(`⚠️ Failed: ${response.message}`, 'Error');
+          }
       },
-      error => {
-        console.error("❌ Error from API:", error);
-        if (error.status === 400) {
-          this.toastr.warning('⚠️ Error: Bill already generated or invalid input.', 'Warning');
-        } else {
-          this.toastr.error(`⚠️ Error: ${error.error.message}`, 'Error');
-        }
+      (error) => {
+          console.error("❌ Error from API:", error);
+          if (error.status === 400) {
+              this.toastr.warning('⚠️ Error: Bill already generated or invalid input.', 'Warning');
+          } else {
+              this.toastr.error(`⚠️ Error: ${error.error.message}`, 'Error');
+          }
       }
-    );
+  );
 }
+
 
   openDatePicker(event: MouseEvent) {
     (event.target as HTMLInputElement).showPicker();
