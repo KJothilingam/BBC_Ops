@@ -15,6 +15,9 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatButtonModule } from '@angular/material/button';
 import { ToastrService } from 'ngx-toastr';
 
+import * as QRCode from 'qrcode';  // Fix Import
+
+
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import { AuthService } from '../../services/auth.service';
@@ -161,39 +164,85 @@ export class PaymentComponent {
   }
 
   // 🔹 Generate PDF Receipt
-  generatePDFReceipt() {
-    if (!this.paymentData || Object.keys(this.paymentData).length === 0) {
-      console.error("Payment data is missing!");
-      return;
+ 
+generatePDFReceipt() {
+  if (!this.paymentData || Object.keys(this.paymentData).length === 0) {
+    console.error("Payment data is missing!");
+    return;
+  }
+
+  const doc = new jsPDF();
+  const pageWidth = doc.internal.pageSize.getWidth();
+
+  // 🔹 Header with Company Info
+  doc.setFillColor(0, 51, 153); // Dark Blue
+  doc.rect(0, 0, pageWidth, 30, 'F');
+  doc.setTextColor(255, 255, 255);
+  doc.setFontSize(16);
+  doc.text("Electricity Bill Payment Receipt", pageWidth / 2, 15, { align: "center" });
+
+  doc.setTextColor(0, 0, 0);
+  doc.setFontSize(12);
+
+  // 🔹 Customer Details
+  doc.setFontSize(14);
+  doc.setTextColor(0, 51, 153); // Dark Blue
+  doc.text("Customer Details:", 20, 45);
+  doc.setTextColor(0, 0, 0);
+  doc.setFontSize(12);
+  doc.text(`Customer Name: ${this.paymentData.customerName ?? "N/A"}`, 20, 55);
+  doc.text(`Email: ${this.paymentData.customerEmail ?? "N/A"}`, 20, 65);
+  doc.text(`Meter Number: ${this.paymentData.meterNumber ?? "N/A"}`, 20, 75);
+  doc.text(`Billing Address: ${this.paymentData.billingAddress ?? "N/A"}`, 20, 85);
+
+  // 🔹 Invoice Details
+  doc.setFontSize(14);
+  doc.setTextColor(0, 51, 153);
+  doc.text("Invoice Details:", 20, 100);
+  doc.setFontSize(12);
+  doc.setTextColor(0, 0, 0);
+  doc.text(`Invoice ID: ${this.paymentData.invoiceId ?? "N/A"}`, 20, 110);
+  doc.text(`Unit Consumed: ${this.paymentData.unitConsumed ?? "0"} kWh`, 20, 120);
+  doc.text(`Due Date: ${this.paymentData.dueDate ? new Date(this.paymentData.dueDate).toLocaleDateString() : "N/A"}`, 20, 130);
+  doc.text(`Payment Date: ${this.paymentData.paymentDate ? new Date(this.paymentData.paymentDate).toLocaleDateString() : "N/A"}`, 20, 140);
+
+  // 🔹 Payment Breakdown
+  doc.setFontSize(14);
+  doc.setTextColor(0, 51, 153);
+  doc.text("Payment Breakdown:", 20, 155);
+  doc.setFontSize(12);
+  doc.setTextColor(0, 0, 0);
+  doc.text(`Bill Amount: ₹${this.paymentData.totalBillAmount ?? "0.00"}`, 20, 165);
+  doc.text(`Previous Due: ₹${this.paymentData.previousDue ?? "0.00"}`, 20, 175);
+  doc.text(`Late Fee: ₹${this.paymentData.lateFee ?? "0.00"}`, 20, 185);
+  doc.text(`Discount: ₹${this.paymentData.discountApplied ?? "0.00"}`, 20, 195);
+  doc.text(`GST: ₹${this.paymentData.gst ?? "0.00"}`, 20, 205);
+  doc.text(`Net Payable: ₹${this.paymentData.netPayable ?? "0.00"}`, 20, 215);
+  doc.text(`Amount Paid: ₹${this.paymentData.amountPaid ?? "0.00"}`, 20, 225);
+  doc.text(`Payment Method: ${this.paymentData.paymentMethod ?? "N/A"}`, 20, 235);
+  doc.text(`Transaction ID: ${this.paymentData.transactionId ?? "N/A"}`, 20, 245);
+
+  // 🔹 Generate QR Code
+  const qrData = `Invoice ID: ${this.paymentData.invoiceId}\nCustomer: ${this.paymentData.customerName}\nMeter No: ${this.paymentData.meterNumber}\nAmount Paid: ₹${this.paymentData.amountPaid}`;
+  
+  QRCode.toDataURL(qrData, { width: 100 }, (err, qrUrl) => {
+    if (!err) {
+      doc.addImage(qrUrl, 'PNG', pageWidth - 50, 100, 40, 40);
+      doc.text("Scan for Details", pageWidth - 50, 150);
     }
 
-    const doc = new jsPDF();
-    doc.setFontSize(14);
-    doc.text("Payment Receipt", 90, 15);
-    
-    doc.setFontSize(12);
-    doc.text(`Processed By: ${this.userName} (${this.designation})`, 20, 30);
-    doc.text(`Customer: ${this.paymentData.customerName}`, 20, 45);
-    doc.text(`Email: ${this.paymentData.customerEmail}`, 20, 55);
-    doc.text(`Meter Number: ${this.paymentData.meterNumber}`, 20, 65);
-
-    doc.text("Invoice Details:", 20, 80);
-    doc.text(`Invoice ID: ${this.paymentData.invoiceId ?? "N/A"}`, 20, 90);
-    doc.text(`Unit Consumed: ${this.paymentData.unitConsumed ?? "0"} kWh`, 20, 100);
-    doc.text(`Due Date: ${this.paymentData.dueDate ? new Date(this.paymentData.dueDate).toLocaleDateString() : "N/A"}`, 20, 110);
-    doc.text(`Payment Date: ${this.paymentData.paymentDate ? new Date(this.paymentData.paymentDate).toLocaleDateString() : "N/A"}`, 20, 120);
-
-    doc.text("Transaction Details:", 20, 135);
-    doc.text(`Bill Amount: ₹${this.paymentData.totalBillAmount ?? "0.00"}`, 20, 145);
-    doc.text(`Amount Paid: ₹${this.paymentData.amountPaid ?? "0.00"}`, 20, 155);
-    doc.text(`Payment Method: ${this.paymentData.paymentMethod}`, 20, 165);
-    doc.text(`Transaction ID: ${this.paymentData.transactionId ?? "N/A"}`, 20, 175);
-    
+    // 🔹 Footer
+    doc.setDrawColor(0);
+    doc.setFillColor(0, 51, 153);
+    doc.rect(0, doc.internal.pageSize.getHeight() - 20, pageWidth, 20, 'F');
+    doc.setTextColor(255, 255, 255);
     doc.setFontSize(10);
-    doc.text("Thank you for your payment!", 20, 190);
+    doc.text("For any queries, contact: support@electricity.com", pageWidth / 2, doc.internal.pageSize.getHeight() - 10, { align: "center" });
 
+    // 🔹 Save PDF
     doc.save(`receipt_${this.paymentData.invoiceId ?? "unknown"}.pdf`);
-  }
+  });
+}
 
   // 🔹 Toastr Configuration
   private getToastrConfig() {
