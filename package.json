@@ -23,6 +23,7 @@
     "@angular/platform-server": "^19.2.3",
     "@angular/router": "^19.2.0",
     "@angular/ssr": "^19.2.0",
+    "@stomp/stompjs": "^7.1.0",
     "bootstrap": "^5.3.3",
     "bootstrap-icons": "^1.11.3",
     "chart.js": "^4.4.8",
@@ -32,6 +33,7 @@
     "ngx-toastr": "^19.0.0",
     "qrcode": "^1.5.4",
     "rxjs": "~7.8.0",
+    "sockjs-client": "^1.6.1",
     "tslib": "^2.3.0",
     "zone.js": "~0.15.0"
   },
