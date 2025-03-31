@@ -19,8 +19,8 @@ export class BillService {
   }
 
     /** ✅ Update overdue bills */
-    updateOverdueBills(): Observable<string> {
-      return this.http.put<string>(`${this.apiUrl}/update-overdue`, {});
+    updateOverdueBills(): Observable<{ message: string }> {
+      return this.http.put<{ message: string }>(`${this.apiUrl}/update-overdue`, {});
     }
     
     getUnpaidBillsByMeter(meterNumber: string): Observable<any[]> {

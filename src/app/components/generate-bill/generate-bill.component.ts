@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ToastrService } from 'ngx-toastr'; // ✅ Import ToastrService
+import { ToastrService } from 'ngx-toastr';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SidebarComponent } from '../sidebar/sidebar.component';
@@ -19,7 +19,7 @@ export class GenerateBillComponent {
     meterNumber: '',
     monthDate: '',
     dueDate: '',
-    customer_id:'',
+    customer_id: '',
     unitConsumed: 0
   };
   filteredBills: any[] = [];
@@ -28,37 +28,59 @@ export class GenerateBillComponent {
 
   constructor(
     private billService: BillService,
-    private toastr: ToastrService, // ✅ Use Toastr instead of MatSnackBar
+    private toastr: ToastrService,
     private dialog: MatDialog
   ) {}
 
-  /** Automatically calculates due date when monthDate is selected */
+  // updateDueDate() {
+  //   if (this.bill.monthDate) {
+  //     let selectedDate = new Date(this.bill.monthDate);
+  //     selectedDate.setDate(selectedDate.getDate() + 10);
+  //     this.bill.dueDate = selectedDate.toISOString().split('T')[0];
+  //   }
+  // }
+
   updateDueDate() {
     if (this.bill.monthDate) {
-      let selectedDate = new Date(this.bill.monthDate);
-      selectedDate.setDate(selectedDate.getDate() + 10); // Add 10 days
-      this.bill.dueDate = selectedDate.toISOString().split('T')[0]; // Format as YYYY-MM-DD
+        let selectedDate: Date;
+
+        // Check if monthDate is a timestamp (number) or a date string
+        if (!isNaN(this.bill.monthDate)) {
+            selectedDate = new Date(parseInt(this.bill.monthDate)); // Convert timestamp to Date
+        } else {
+            selectedDate = new Date(this.bill.monthDate); // Already in correct format
+        }
+
+        selectedDate.setDate(selectedDate.getDate() + 10); // Add 10 days for due date
+
+        this.bill.dueDate = selectedDate.toISOString().split('T')[0]; // Convert to yyyy-MM-dd
     }
-  }
+}
 
   generateBill() {
+    console.log("📤 Sending request payload:", this.bill);
+
     this.billService.generateBill(this.bill).subscribe(
       (response: any) => {
+        console.log("📥 Response from backend:", response);
+
         if (response.success) {
-          // ✅ Show success message in Toastr
           this.toastr.success('✅ Bill Generated Successfully!', 'Success');
           this.fetchBills();
-          // ✅ Open the dialog with bill details
-          this.dialog.open(BillDetailsDialogComponent, {
-            data: response.bill
-          });
+
+          // 🔥 Ensure unitConsumed is passed correctly
+          const billData = {
+            ...response.bill,
+            unitConsumed: response.bill.unitConsumed || 0 // Ensure correct data
+          };
+          
+          this.dialog.open(BillDetailsDialogComponent, { data: billData });
         } else {
-          // ❌ Show error if bill generation failed
           this.toastr.error(`⚠️ Failed: ${response.message}`, 'Error');
         }
       },
       error => {
-        // ❌ Handle 400 Bad Request - Bill already generated or invalid data
+        console.error("❌ Error from API:", error);
         if (error.status === 400) {
           this.toastr.warning('⚠️ Error: Bill already generated or invalid input.', 'Warning');
         } else {
@@ -66,40 +88,39 @@ export class GenerateBillComponent {
         }
       }
     );
-  }
+}
 
   openDatePicker(event: MouseEvent) {
-    (event.target as HTMLInputElement).showPicker(); // Opens the date picker
+    (event.target as HTMLInputElement).showPicker();
   }
 
   ngOnInit(): void {
     this.fetchBills();
-    // this.updateOverdueBills();
+    this.updateOverdueBills();
  }
+
   getPaymentStatusClass(status: string): string {
     switch (status) {
       case 'PENDING':
-        return 'status-pending';  // Yellow
+        return 'status-pending';
       case 'PAID':
-        return 'status-paid';  // Green
+        return 'status-paid';
       case 'OVERDUE':
-        return 'status-overdue';  // Red
+        return 'status-overdue';
       default:
         return '';
     }
   }
+
   fetchBills() {
     this.billService.getAllBills().subscribe(
       (data) => {
-        // console.log("API Response:", data); 
-  
         this.bills = data.map(bill => ({
           ...bill,
           customer_id: bill.customer?.customerId || 'N/A',
-          meterNumber: bill.customer?.meterNumber || 'N/A' // ✅ Correct mapping
+          meterNumber: bill.customer?.meterNumber || 'N/A'
         }));
   
-        // console.log("Processed Data:", this.bills); 
         this.filteredBills = [...this.bills];
       },
       (error) => {
@@ -108,17 +129,15 @@ export class GenerateBillComponent {
     );
   }
   
-  
   filterBills() {
     if (!this.selectedStatus) {
-      this.filteredBills = [...this.bills]; // ✅ Ensure all records are shown when no filter is selected
+      this.filteredBills = [...this.bills];
     } else {
       this.filteredBills = this.bills.filter(bill => bill.paymentStatus === this.selectedStatus);
     }
   }
   
-   /** ✅ Call backend to update overdue bills on startup */
-   updateOverdueBills() {
+  updateOverdueBills() {
     this.billService.updateOverdueBills().subscribe(
       (response) => {
         console.log(response);
@@ -129,5 +148,4 @@ export class GenerateBillComponent {
       }
     );
   }
-  
 }
