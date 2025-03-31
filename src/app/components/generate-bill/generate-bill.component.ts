@@ -74,7 +74,11 @@ export class GenerateBillComponent {
 
   ngOnInit(): void {
     this.fetchBills();
+<<<<<<< HEAD
     // this.updateOverdueBills();
+=======
+    // this.updateOverdueBills();
+>>>>>>> cd9b82cbdfb029c14712ead41d9395346d935f7b
   }
   getPaymentStatusClass(status: string): string {
     switch (status) {

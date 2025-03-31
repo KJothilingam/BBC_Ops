@@ -22,9 +22,12 @@ export class BillService {
     updateOverdueBills(): Observable<string> {
       return this.http.put<string>(`${this.apiUrl}/update-overdue`, {});
     }
+<<<<<<< HEAD
 
     getUnpaidBillsByMeter(meterNumber: string): Observable<any[]> {
       return this.http.get<any[]>(`${this.apiUrl}/unpaid/${meterNumber}`);
     }
     
+=======
+>>>>>>> cd9b82cbdfb029c14712ead41d9395346d935f7b
 }
