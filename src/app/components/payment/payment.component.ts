@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, ChangeDetectorRef } from '@angular/core';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { PaymentService } from '../../services/payment.service';
 import { BillService } from '../../services/bill.service';
 import { PaymentRequest } from './../../Interfaces/payment.model';
@@ -13,7 +13,11 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatButtonModule } from '@angular/material/button';
-import { ToastrService } from 'ngx-toastr'; // 🔹 Import Toastr Service
+import { ToastrService } from 'ngx-toastr';
+
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-payment',
@@ -25,7 +29,7 @@ import { ToastrService } from 'ngx-toastr'; // 🔹 Import Toastr Service
     FormsModule,
     ReactiveFormsModule,
     SidebarComponent,
-    // 🔹 Include Material Modules
+    // 🔹 Angular Material Modules
     MatCardModule,
     MatFormFieldModule,
     MatInputModule,
@@ -38,12 +42,18 @@ export class PaymentComponent {
   paymentForm: FormGroup;
   isProcessing = false;
   bills: any[] = []; // Store fetched bills
+  paymentData: any = {};
+  showModal = false;
+  userName: string | null = 'N/A';
+  designation: string | null = 'N/A';
 
   constructor(
     private fb: FormBuilder, 
     private paymentService: PaymentService, 
     private billService: BillService,
-    private toastr: ToastrService // 🔹 Inject Toastr Service
+    private toastr: ToastrService,
+    private authService: AuthService, 
+    private cd: ChangeDetectorRef // 🔹 Force UI update
   ) {
     this.paymentForm = this.fb.group({
       meterNumber: ['', Validators.required],
@@ -52,34 +62,40 @@ export class PaymentComponent {
       dueDate: [{ value: '', disabled: true }],
       paymentMethod: ['', Validators.required]
     });
+
+    const userDetails = this.authService.getUserDetails();
+    this.userName = userDetails?.userName ?? 'N/A';
+    this.designation = userDetails?.designation ?? 'N/A';
   }
 
-  // 🔹 Fetch unpaid bills based on meter number
-  fetchBills() {
-    const meterNumber = this.paymentForm.get('meterNumber')?.value;
+  closeModal() {
+    this.showModal = false;
+  }
 
-    if (!meterNumber.trim()) {
+  // 🔹 Fetch unpaid bills
+  fetchBills() {
+    const meterNumber = this.paymentForm.get('meterNumber')?.value.trim();
+
+    if (!meterNumber) {
       this.toastr.warning('Please enter a meter number.', 'Warning', this.getToastrConfig());
       return;
     }
-
     this.billService.getUnpaidBillsByMeter(meterNumber).subscribe({
       next: (data) => {
         this.bills = data;
         if (data.length === 0) {
-          this.toastr.info('No bill due for this meter connection.', 'Info', this.getToastrConfig());
+          this.toastr.info('No due bills.', 'Info');
         }
       },
-      error: () => {
-        this.bills = [];
-        this.toastr.error('Error fetching bills. Please try again.', 'Error', this.getToastrConfig());
+      error: (err) => {
+        console.error('API Error:', err);
       }
     });
   }
 
   // 🔹 Auto-fill bill details when a bill is selected
   onBillSelect() {
-    const selectedBillId = this.paymentForm.get('billId')?.value;
+    const selectedBillId = parseInt(this.paymentForm.get('billId')?.value, 10);
     const selectedBill = this.bills.find(bill => bill.billId === selectedBillId);
 
     if (selectedBill) {
@@ -87,6 +103,20 @@ export class PaymentComponent {
         amount: selectedBill.totalBillAmount,
         dueDate: new Date(selectedBill.dueDate).toISOString().split('T')[0] // Format YYYY-MM-DD
       });
+
+      this.paymentData = {
+        invoiceId: selectedBill.invoiceId,
+        meterNumber: selectedBill.customer?.meterNumber ?? 'N/A',
+        totalBillAmount: selectedBill.totalBillAmount,
+        discountApplied: selectedBill.discountApplied,
+        amountPaid: selectedBill.transaction?.amountPaid ?? 0,
+        paymentMethod: selectedBill.transaction?.paymentMethod ?? 'N/A',
+        paymentDate: selectedBill.transaction ? new Date(selectedBill.transaction.paymentDate).toISOString().split('T')[0] : 'N/A',
+        customerName: selectedBill.customer?.name ?? 'Unknown',  
+        customerEmail: selectedBill.customer?.email ?? 'N/A',
+      };
+
+      this.cd.detectChanges(); // ✅ Force UI update
     }
   }
 
@@ -98,37 +128,75 @@ export class PaymentComponent {
     }
 
     this.isProcessing = true;
-    this.paymentForm.disable(); // 🔹 Disable form while processing
+    this.paymentForm.disable();
 
-    const paymentData: PaymentRequest = this.paymentForm.getRawValue(); // ✅ Ensure disabled fields are included
+    const paymentData: PaymentRequest = this.paymentForm.getRawValue();
 
     this.paymentService.processPayment(paymentData).subscribe({
-      next: () => {
+      next: (response) => {
+        this.paymentData = {
+          ...response, // ✅ Keep payment response
+          customerName: this.paymentData.customerName ?? 'N/A',
+          customerEmail: this.paymentData.customerEmail ?? 'N/A'
+        };
+
         this.toastr.success('Payment Successful!', 'Success', this.getToastrConfig());
+        this.generatePDFReceipt();
         this.resetForm();
       },
-      error: (error) => {
+      error: () => {
         this.toastr.error('Payment Failed! Try again.', 'Error', this.getToastrConfig());
-        console.error(error);
         this.isProcessing = false;
-        this.paymentForm.enable(); // 🔹 Re-enable form if payment fails
+        this.paymentForm.enable();
       }
     });
   }
 
-  // 🔹 Reset form after successful payment
+  // 🔹 Reset form after payment
   private resetForm() {
     this.isProcessing = false;
     this.paymentForm.reset();
-    this.paymentForm.enable(); // ✅ Ensure the form is re-enabled
+    this.paymentForm.enable();
     this.bills = [];
   }
 
-  // 🔹 Centralized Toastr configuration
+  // 🔹 Generate PDF Receipt
+  generatePDFReceipt() {
+    if (!this.paymentData || Object.keys(this.paymentData).length === 0) {
+      console.error("Payment data is missing!");
+      return;
+    }
+
+    const doc = new jsPDF();
+    doc.setFontSize(14);
+    doc.text("Payment Receipt", 90, 15);
+    
+    doc.setFontSize(12);
+    doc.text(`Processed By: ${this.userName} (${this.designation})`, 20, 30);
+    doc.text(`Customer: ${this.paymentData.customerName}`, 20, 45);
+    doc.text(`Email: ${this.paymentData.customerEmail}`, 20, 55);
+    doc.text(`Meter Number: ${this.paymentData.meterNumber}`, 20, 65);
+
+    doc.text("Invoice Details:", 20, 80);
+    doc.text(`Invoice ID: ${this.paymentData.invoiceId ?? "N/A"}`, 20, 90);
+    doc.text(`Unit Consumed: ${this.paymentData.unitConsumed ?? "0"} kWh`, 20, 100);
+    doc.text(`Due Date: ${this.paymentData.dueDate ? new Date(this.paymentData.dueDate).toLocaleDateString() : "N/A"}`, 20, 110);
+    doc.text(`Payment Date: ${this.paymentData.paymentDate ? new Date(this.paymentData.paymentDate).toLocaleDateString() : "N/A"}`, 20, 120);
+
+    doc.text("Transaction Details:", 20, 135);
+    doc.text(`Bill Amount: ₹${this.paymentData.totalBillAmount ?? "0.00"}`, 20, 145);
+    doc.text(`Amount Paid: ₹${this.paymentData.amountPaid ?? "0.00"}`, 20, 155);
+    doc.text(`Payment Method: ${this.paymentData.paymentMethod}`, 20, 165);
+    doc.text(`Transaction ID: ${this.paymentData.transactionId ?? "N/A"}`, 20, 175);
+    
+    doc.setFontSize(10);
+    doc.text("Thank you for your payment!", 20, 190);
+
+    doc.save(`receipt_${this.paymentData.invoiceId ?? "unknown"}.pdf`);
+  }
+
+  // 🔹 Toastr Configuration
   private getToastrConfig() {
-    return {
-      timeOut: 3000,
-      positionClass: 'toast-top-right'
-    };
+    return { timeOut: 3000, positionClass: 'toast-top-right' };
   }
 }

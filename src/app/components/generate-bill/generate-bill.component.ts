@@ -74,7 +74,7 @@ export class GenerateBillComponent {
 
   ngOnInit(): void {
     this.fetchBills();
-    this.updateOverdueBills();
+    // this.updateOverdueBills();
   }
   getPaymentStatusClass(status: string): string {
     switch (status) {
@@ -88,15 +88,19 @@ export class GenerateBillComponent {
         return '';
     }
   }
-
   fetchBills() {
     this.billService.getAllBills().subscribe(
       (data) => {
+        // console.log("API Response:", data); 
+  
         this.bills = data.map(bill => ({
           ...bill,
-          customer_id: bill.customer?.customerId || 'N/A'  // ✅ Extract customerId correctly
+          customer_id: bill.customer?.customerId || 'N/A',
+          meterNumber: bill.customer?.meterNumber || 'N/A' // ✅ Correct mapping
         }));
-        this.filteredBills = [...this.bills]; // ✅ Initialize filteredBills with all data
+  
+        // console.log("Processed Data:", this.bills); 
+        this.filteredBills = [...this.bills];
       },
       (error) => {
         console.error('Error fetching bills:', error);

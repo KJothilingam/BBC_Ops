@@ -66,7 +66,8 @@
         <table class="bill-table">
             <thead>
                 <tr>
-                    <th>Customer ID</th>  <!-- ✅ Added Customer ID Column -->
+                    <th>Customer ID</th>  
+                    <th>Meter Number</th>  <!-- ✅ Added Meter Number Column -->
                     <th>Invoice ID</th>
                     <th>Date</th>
                     <th>Due Date</th>
@@ -76,7 +77,8 @@
             </thead>
             <tbody>
                 <tr *ngFor="let bill of filteredBills">
-                    <td>{{ bill.customer_id }}</td>  <!-- ✅ Display Customer ID Correctly -->
+                    <td>{{ bill.customer_id }}</td>  
+                    <td>{{ bill.meterNumber }}</td>  <!-- ✅ Display Meter Number -->
                     <td>{{ bill.invoiceId }}</td>
                     <td>{{ bill.createdAt | date: 'dd.MMM.yyyy' }}</td>
                     <td>{{ bill.dueDate | date: 'dd.MMM.yyyy' }}</td>
@@ -86,8 +88,8 @@
                     <td>Rs. {{ bill.totalBillAmount }}</td>
                 </tr>
             </tbody>
-            
         </table>
+        
     </div>
     
 

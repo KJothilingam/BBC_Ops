@@ -53,4 +53,22 @@
             </form>
         </mat-card>
     </div>  
+    <div *ngIf="showModal" class="modal">
+        <div class="modal-content">
+          <h3>Payment Receipt</h3>
+          <p><strong>Customer Name:</strong> {{ paymentData?.customerName }}</p>
+          <p><strong>Invoice ID:</strong> {{ paymentData?.invoiceId }}</p>
+          <p><strong>Customer Meter No:</strong> {{ paymentData?.meterNumber }}</p>
+          <p><strong>Bill Amount:</strong> ₹{{ paymentData?.totalBillAmount }}</p>
+          <p><strong>Discount Applied:</strong> ₹{{ paymentData?.discountApplied }}</p>
+          <p><strong>Amount Paid:</strong> ₹{{ paymentData?.amountPaid }}</p>
+          <p><strong>Payment Method:</strong> {{ paymentData?.paymentMethod }}</p>
+          <p><strong>Payment Date:</strong> {{ paymentData?.paymentDate }}</p>
+          <button (click)="closeModal()">Close</button>
+        </div>
+      </div>
+      
+    
+    
+      
 </div>

@@ -96,13 +96,12 @@ export class LoginComponent {
   
     this.authService.verifyOtp(this.email, enteredOtp).subscribe(
       response => {
-        if (response.userId && response.userName) {
-          // ✅ Store user details in localStorage
-          localStorage.setItem('userId', response.userId);
-          localStorage.setItem('userName', response.userName);
-          
+        if (response.userId && response.userName && response.designation) {
+          // ✅ Store user details, including designation
+          this.authService.saveUserDetails(response.userId, response.userName, response.designation);
+  
           this.toastr.success(
-            `✅ OTP Verified!<br><strong>Welcome, ${response.userName}!</strong>`,
+            `✅ OTP Verified!<br><strong>Welcome, ${response.userName} (${response.designation})!</strong>`,
             "Success!",
             { timeOut: 20000, enableHtml: true }
           );
@@ -121,10 +120,13 @@ export class LoginComponent {
     );
   }
   
-  getUserDetails() {
-    const userId = localStorage.getItem('userId');
-    const userName = localStorage.getItem('userName');
   
-    console.log(`Logged in User: ${userName} (ID: ${userId})`);
+  getUserDetails() {
+    return {
+      userId: localStorage.getItem('userId'),
+      userName: localStorage.getItem('userName'),
+      designation: localStorage.getItem('designation'), // ✅ Fetch designation
+    };
   }
+  
 }  
