@@ -3,7 +3,7 @@
     <table>
       <thead>
         <tr>
-          <th>Invoice ID</th>
+          <th>Transaction ID</th>
           <th>Meter Number</th>
           <th>Unit Consumed</th>
           <th>Billing Month</th>
@@ -18,7 +18,7 @@
       </thead>
       <tbody>
         <tr *ngFor="let payment of payments">
-          <td>{{ payment.invoiceId }}</td>
+          <td>{{ payment.transactionId }}</td>  <!-- Updated -->
           <td>{{ payment.meterNumber }}</td>
           <td>{{ payment.unitConsumed }}</td>
           <td>{{ payment.billingMonth }}</td>
@@ -32,4 +32,4 @@
         </tr>
       </tbody>
     </table>
-  </div>
+</div>

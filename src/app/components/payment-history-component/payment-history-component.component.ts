@@ -19,6 +19,7 @@ export class PaymentHistoryComponentComponent implements OnInit {
     this.http.get<any[]>('http://localhost:8080/payment-records').subscribe(data => {
       this.payments = data.map(payment => ({
         ...payment,
+        transactionId: payment.transactionId, // Ensure Transaction ID is used
         paymentDateFormatted: this.convertToDate(payment.paymentDate),
         dueDateFormatted: this.convertToDate(payment.dueDate)
       }));

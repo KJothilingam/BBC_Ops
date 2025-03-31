@@ -21,6 +21,7 @@ import * as QRCode from 'qrcode';  // Fix Import
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import { AuthService } from '../../services/auth.service';
+import { PaymentHistoryComponentComponent } from "../payment-history-component/payment-history-component.component";
 
 @Component({
   selector: 'app-payment',
@@ -38,8 +39,9 @@ import { AuthService } from '../../services/auth.service';
     MatInputModule,
     MatSelectModule,
     MatRadioModule,
-    MatButtonModule
-  ]
+    MatButtonModule,
+    PaymentHistoryComponentComponent
+]
 })
 export class PaymentComponent {
   paymentForm: FormGroup;
