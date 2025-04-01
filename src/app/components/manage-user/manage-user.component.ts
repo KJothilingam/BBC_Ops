@@ -74,22 +74,68 @@ openAddModal() {
   }
   
 
+  // uploadFile() {
+  //   if (!this.selectedFile) {
+  //     this.message = "Please select a CSV file.";
+  //     return;
+  //   }
+
+  //   this.customerService.uploadCSV(this.selectedFile).subscribe({
+  //     next: (response) => {
+  //       this.message = response.message;
+  //       this.fetchCustomers();
+  //     },
+  //     error: (err) => {
+  //       this.message = err.message;
+  //     }
+  //   });
+  // }
   uploadFile() {
     if (!this.selectedFile) {
-      this.message = "Please select a CSV file.";
+      this.toastr.error("Please select a CSV file.", "Error");
       return;
     }
-
+  
     this.customerService.uploadCSV(this.selectedFile).subscribe({
       next: (response) => {
-        this.message = response.message;
-        this.fetchCustomers();
+        if (response.validRecords > 0 && response.rejectedRecords > 0) {
+          // ⚠️ Partial success: some records were rejected
+          this.toastr.warning(
+            `Partial Upload:
+            ✅ Added: ${response.validRecords}
+            ❌ Rejected: ${response.rejectedRecords}`,
+            "Warning"
+          );
+        } else if (response.validRecords > 0) {
+          // ✅ All records were successfully uploaded
+          this.toastr.success("All records added successfully!", "Success");
+        } else {
+          // ❌ No records were added
+          this.toastr.error("Failed to add all records.", "Error");
+        }
+  
+        this.fetchCustomers(); // Refresh the customer list after upload
       },
       error: (err) => {
-        this.message = err.message;
+        console.error("Upload Error:", err);
+  
+        if (err.status === 400 && err.error) {
+          const response = err.error;
+          this.toastr.error(
+            `Upload Failed:
+            ❌ Rejected: ${response.rejectedRecords}
+            Message: ${response.message}`,
+            "Error"
+          );
+        } else {
+          this.toastr.error("Failed to upload file. Please try again.", "Error");
+        }
       }
     });
   }
+  
+  
+  
 
   get filteredCustomers() {
     return this.customers.filter(customer =>
