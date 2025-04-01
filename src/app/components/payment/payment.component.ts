@@ -79,21 +79,30 @@ export class PaymentComponent {
 
   // 🔹 Fetch unpaid bills
   fetchBills() {
-    const meterNumber = this.paymentForm.get('meterNumber')?.value.trim();
+    const meterNumber = this.paymentForm.get('meterNumber')?.value?.trim();
+
+    console.log("Meter Number Entered:", meterNumber); // Debugging log
 
     if (!meterNumber) {
       this.toastr.warning('Please enter a meter number.', 'Warning', this.getToastrConfig());
       return;
     }
+
     this.billService.getUnpaidBillsByMeter(meterNumber).subscribe({
       next: (data) => {
-        this.bills = data;
-        if (data.length === 0) {
-          this.toastr.info('No due bills.', 'Info');
+        console.log("Fetched Bills:", data); // Debugging log
+
+        if (!data || data.length === 0) { // ✅ Handle null/empty array
+          this.bills = [];
+          this.toastr.info('No pending bills.', 'Info', this.getToastrConfig());
+          return;
         }
+
+        this.bills = data; // ✅ Only assign if data is valid
       },
       error: (err) => {
         console.error('API Error:', err);
+        this.toastr.error('Failed to fetch bills. Try again later.', 'Error', this.getToastrConfig());
       }
     });
   }
