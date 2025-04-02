@@ -1,0 +1,23 @@
+<div class="recent-payments-container">
+    <h4>Recent Payments</h4>
+    <table class="recent-payments-table">
+        <thead>
+            <tr>
+                <th>Meter No.</th>
+                <th>Unit Consumed</th>
+                <th>Amount Paid</th>
+                <th>Payment Method</th>
+                <th>Time</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let payment of payments">
+                <td>{{ payment.meterNumber }}</td>
+                <td>{{ payment.unitConsumed }} kWh</td>
+                <td class="amount">Rs. {{ payment.finalAmountPaid }}</td>
+                <td class="payment-method">{{ payment.paymentMethod }}</td>
+                <td class="time">{{ payment.paymentDate | date:'shortTime' }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

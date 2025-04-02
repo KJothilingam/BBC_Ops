@@ -2,7 +2,7 @@
 
 <div class="dashboard-container">
     <!-- Top Cards -->
-        <div class="top-cards">
+        <!-- <div class="top-cards">
             <div class="card">
                 <div class="icon"><i class="fas fa-users"></i></div>
                 <div class="details">
@@ -24,8 +24,33 @@
                     <h2>22</h2>
                 </div>
             </div>
+        </div> -->
+        <div class="top-cards">
+            <div class="card">
+                <div class="icon">
+                    <i class="bi bi-people-fill"></i>    <!-- <i class="fas fa-users"></i> -->
+                </div>
+                <div class="details">
+                    <h4>Total Connection</h4>
+                    <h2>{{ totalCustomers }}</h2>
+                </div>
+            </div>
+            <div class="card">
+                <div class="icon"><i class="bi bi-currency-rupee"></i></div>
+                <div class="details">
+                    <h4>Total Payments</h4>
+                    <h2>Rs. {{ totalPayments }}</h2>
+                </div>
+            </div>
+            <div class="card">
+                <div class="icon"><i class="bi bi-exclamation-triangle"></i></div>
+                <div class="details">
+                    <h4>Pending Payments</h4>
+                    <h2>{{ pendingPayments }}</h2>
+                </div>
+            </div>
         </div>
-
+        
 
     <!-- Graph & Payment Analysis -->
     <div class="middle-section">
@@ -57,7 +82,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let pending of pendingPayments">
+          <tr *ngFor="let pending of pendingPaymentss">
             <td>
               <img [src]="pending.image" class="avatar">
               {{ pending.name }}
@@ -73,28 +98,10 @@
 
     <!-- Recent Payments -->
     <div class="recent-payments">
-        <h4>Recent Payments</h4>
-        <div class="payment-list">
-            <div class="payment-item">
-                <img src="https://via.placeholder.com/40" alt="User">
-                <span>Mithlesh K. Singh</span>
-                <span class="amount">Rs. 3000</span>
-                <span class="time">30s ago</span>
-            </div>
-            <div class="payment-item">
-                <img src="https://via.placeholder.com/40" alt="User">
-                <span>Suron Maharjan</span>
-                <span class="amount">Rs. 800</span>
-                <span class="time">58s ago</span>
-            </div>
-            <div class="payment-item">
-                <img src="https://via.placeholder.com/40" alt="User">
-                <span>Sandesh Bajracharya</span>
-                <span class="amount">Rs. 5500</span>
-                <span class="time">1m ago</span>
-            </div>
-        </div>
-    </div>
+        <!-- <h4>Recent Payments</h4> -->
+        <app-recent-payments></app-recent-payments>
+       
+    </div> 
 
 
     

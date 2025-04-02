@@ -3,11 +3,13 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { SidebarComponent } from "../sidebar/sidebar.component";
 import { PaymentHistoryComponentComponent } from "../payment-history-component/payment-history-component.component";
 import { Chart } from 'chart.js';
+import { DashboardService } from '../../services/dashboard.service';
+import { RecentPaymentsComponent } from "../recent-payments/recent-payments.component";
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,  // ✅ Required for Standalone Components
-  imports: [SidebarComponent,CommonModule],
+  imports: [SidebarComponent, CommonModule, RecentPaymentsComponent],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
@@ -15,8 +17,19 @@ export class DashboardComponent implements AfterViewInit {
 
   @ViewChild('paymentGraph') paymentGraph!: ElementRef;
   @ViewChild('pieChart') pieChart!: ElementRef;
+  
+  totalCustomers: number = 0;
+  totalPayments: number = 0;
+  pendingPayments: number = 0;
 
-  constructor(@Inject(PLATFORM_ID) private platformId: any) {}
+  constructor(private dashboardService: DashboardService,@Inject(PLATFORM_ID) private platformId: any) {}
+  ngOnInit(): void {
+    this.dashboardService.getDashboardData().subscribe(data => {
+      this.totalCustomers = data.totalCustomers;
+      this.totalPayments = data.totalPayments;
+      this.pendingPayments = data.pendingPayments;
+    });
+  }
 
   async ngAfterViewInit() {
     if (isPlatformBrowser(this.platformId)) {  // ✅ Ensure it runs only in the browser
@@ -62,7 +75,7 @@ export class DashboardComponent implements AfterViewInit {
     { name: 'Suron Mahajan', address: 'Natole, Lalitpur', date: '21.Feb.2021', amount: 4000 }
   ];
   
-  pendingPayments = [
+  pendingPaymentss= [
     { name: 'Lily Bloom', scno: 9821, amount: 2000, image: 'assets/user1.png' },
     { name: 'Atlas Corrigan', scno: 7032, amount: 900, image: 'assets/user2.png' }
   ];

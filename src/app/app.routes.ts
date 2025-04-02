@@ -35,4 +35,8 @@ export const routes: Routes = [
         path:'paymentrecord',
         loadComponent :()=>import('./components/payment-history-component/payment-history-component.component').then((c)=> c.PaymentHistoryComponentComponent),
     },
+    {
+        path:'recent',
+        loadComponent :()=>import('./components/recent-payments/recent-payments.component').then((c)=> c.RecentPaymentsComponent),
+    },
 ];

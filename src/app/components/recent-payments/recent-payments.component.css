@@ -1,0 +1,68 @@
+.recent-payments-container {
+    width: 100%;
+    max-width: 700px;
+    margin: auto;
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+    border: 2px solid #007bff; /* Outer border */
+  }
+  
+  h4 {
+    color: #333;
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 15px;
+  }
+  
+  /* Table Styling with Shadow Effect */
+  .recent-payments-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* Shadow effect */
+  }
+  
+  .recent-payments-table thead {
+    background: #007bff;
+    color: white;
+  }
+  
+  .recent-payments-table th, 
+  .recent-payments-table td {
+    padding: 12px;
+    text-align: left;
+  }
+  
+  .recent-payments-table tbody tr {
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .recent-payments-table tbody tr:last-child {
+    border-bottom: none;
+  }
+  
+  .amount {
+    color: #28a745;
+    font-weight: bold;
+  }
+  
+  .payment-method {
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #ff6b6b;
+  }
+  
+  .time {
+    color: #6c757d;
+  }
+  
+  .recent-payments-table tbody tr:hover {
+    background: #f1f1f1;
+    transition: 0.3s;
+  }
+  
