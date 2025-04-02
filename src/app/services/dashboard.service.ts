@@ -43,4 +43,8 @@ export class DashboardService {
   getMonthlyPayments(): Observable<any> {
     return this.http.get<any>(`${this.charUrl}/monthly-payments`);
   }
+
+  getWeeklyPayments(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/weekly-payments`);
+  }
 }
