@@ -10,10 +10,7 @@ export const routes: Routes = [
         path:'dashboard',
         loadComponent :()=>import('./components/dashboard/dashboard.component').then((c)=> c.DashboardComponent),
     },
-    {
-        path:'report',
-        loadComponent :()=>import('./components/report/report.component').then((c)=> c.ReportComponent),
-    },
+    
     {
         path:'profile',
         loadComponent :()=>import('./components/profile/profile.component').then((c)=> c.ProfileComponent),

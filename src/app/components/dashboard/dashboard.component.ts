@@ -1,12 +1,13 @@
 import { AfterViewInit, Component, ViewChild, ElementRef, Inject, PLATFORM_ID } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { SidebarComponent } from "../sidebar/sidebar.component";
 import { PaymentHistoryComponentComponent } from "../payment-history-component/payment-history-component.component";
+import { Chart } from 'chart.js';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,  // ✅ Required for Standalone Components
-  imports: [SidebarComponent],
+  imports: [SidebarComponent,CommonModule],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
@@ -23,6 +24,7 @@ export class DashboardComponent implements AfterViewInit {
 
       this.createPaymentGraph(Chart);
       this.createPieChart(Chart);
+      this.createChart();
     }
   }
 
@@ -54,4 +56,58 @@ export class DashboardComponent implements AfterViewInit {
       }
     });
   }
+
+  paymentDetails = [
+    { name: 'Mithlesh Kumar Singh', address: 'Kritipur, Kathmandu', date: '12.Jan.2021', amount: 2500 },
+    { name: 'Suron Mahajan', address: 'Natole, Lalitpur', date: '21.Feb.2021', amount: 4000 }
+  ];
+  
+  pendingPayments = [
+    { name: 'Lily Bloom', scno: 9821, amount: 2000, image: 'assets/user1.png' },
+    { name: 'Atlas Corrigan', scno: 7032, amount: 900, image: 'assets/user2.png' }
+  ];
+  private weeklyChart!: Chart;
+  weeklyPaymentsData = [1000, 2000, 2500, 3000, 3500, 4000, 4200, 4500, 4800];
+
+  
+  
+    createChart() {
+      if (isPlatformBrowser(this.platformId)) {
+        const canvas = document.getElementById('weeklyChart') as HTMLCanvasElement;
+        if (!canvas) {
+          console.error("Canvas element not found!");
+          return;
+        }
+  
+        this.weeklyChart = new Chart(canvas.getContext('2d')!, {
+          type: 'bar',
+          data: {
+            labels: ['17', '18', '19', '20', '21', '22', '23', '24', '25'],
+            datasets: [{
+              label: 'Payments',
+              data: this.weeklyPaymentsData,
+              backgroundColor: ['#4D6EF5', '#6EC6F0', '#4D6EF5', '#6EC6F0', '#4D6EF5', '#6EC6F0', '#4D6EF5', '#6EC6F0', '#4D6EF5'],
+              borderRadius: 5
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              y: {
+                beginAtZero: true,
+                ticks: {
+                  color: "#555",
+                  font: { weight: 'bold' }
+                }
+              },
+              x: {
+                ticks: { color: "#555", font: { weight: 'bold' } }
+              }
+            }
+          }
+        });
+      }
+    }
+
 }

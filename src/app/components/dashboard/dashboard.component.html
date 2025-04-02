@@ -40,6 +40,37 @@
         </div>
     </div>
 
+    <!-- Weekly Payments & Pending Payments -->
+  <div class="extra-info">
+    <div class="weekly-payments">
+      <h3>Weekly Payments</h3>
+      <canvas id="weeklyChart"></canvas>
+    </div>
+    <div class="pending-payments">
+      <h3>Pending Payments</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Scno</th>
+            <th>Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let pending of pendingPayments">
+            <td>
+              <img [src]="pending.image" class="avatar">
+              {{ pending.name }}
+            </td>
+            <td>{{ pending.scno }}</td>
+            <td>Rs. {{ pending.amount }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+
     <!-- Recent Payments -->
     <div class="recent-payments">
         <h4>Recent Payments</h4>

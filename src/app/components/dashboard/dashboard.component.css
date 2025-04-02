@@ -166,3 +166,48 @@
     display: flex;
     flex-direction: column; /* Keeps text stacked */
 }
+
+
+
+/* Weekly Payments & Pending Payments */
+.extra-info {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.weekly-payments, .pending-payments {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    flex: 1;
+    margin: 0 10px;
+}
+
+canvas {
+    width: 100%;
+    height: 250px;
+}
+
+/* Pending Payments */
+.avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+.weekly-payments {
+    height: 300px; /* Limits the container height */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.weekly-payments canvas {
+    max-height: 250px !important; /* Ensures the chart fits within container */
+    width: 100% !important;
+}
