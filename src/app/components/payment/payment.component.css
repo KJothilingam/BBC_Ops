@@ -57,6 +57,7 @@ mat-card {
 /* Submit Button */
 .submit-btn {
     width: 100%;
+    margin-top: 20px;
     padding: 12px;
     font-size: 18px;
     font-weight: bold;

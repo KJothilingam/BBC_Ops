@@ -15,15 +15,27 @@ export class AuthService {
     return this.http.post(`${this.apiUrl}/generate-otp`, { email });
   }
 
+  // verifyOtp(email: string, otp: string): Observable<any> {
+  //   return this.http.post(`${this.apiUrl}/verify-otp`, { email, otp }).pipe(
+  //     tap((response: any) => {
+  //       if (response.success && response.user) {
+  //         this.saveUserDetails(response.user.id, response.user.name, response.user.designation);
+  //       }
+  //     })
+  //   );
+  // }
   verifyOtp(email: string, otp: string): Observable<any> {
     return this.http.post(`${this.apiUrl}/verify-otp`, { email, otp }).pipe(
       tap((response: any) => {
-        if (response.success && response.user) {
-          this.saveUserDetails(response.user.id, response.user.name, response.user.designation);
+        if (response.userId && response.userName && response.designation) {
+          this.saveUserDetails(response.userId, response.userName, response.designation);
+        } else {
+          throw new Error("Invalid response structure"); // 🚨 Log unexpected responses
         }
       })
     );
-  }
+}
+
 
   saveUserDetails(userId: string, userName: string, designation: string): void {
     localStorage.setItem('userId', userId);
