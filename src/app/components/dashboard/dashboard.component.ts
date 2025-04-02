@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, ViewChild, ElementRef, Inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { SidebarComponent } from "../sidebar/sidebar.component";
+import { PaymentHistoryComponentComponent } from "../payment-history-component/payment-history-component.component";
 
 @Component({
   selector: 'app-dashboard',

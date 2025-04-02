@@ -2,19 +2,19 @@
 .dashboard-container {
     padding: 20px;
     /* padding-left: 20%; */
-    margin-left:18%;
+    margin-left:15%;
     background: #F8FAFF;
     min-height: 100vh; /* Ensures content fills viewport */
     display: flex;
     flex-direction: column;
-    max-width: 85%;
+    max-width: 90%;
 }
 
 
 /* Top Cards */
 .top-cards {
     display: flex;
-    gap: 20px;
+    gap: 10px;
     margin-bottom: 20px;
     align-items: flex-start; /* Ensures all cards align at the top */
     justify-content: flex-start; /* Aligns the cards to the left */
@@ -22,29 +22,36 @@
 
 /* Ensure individual cards have no extra margins */
 .top-cards > * {
-    margin: 0;
-    padding: 0;
+    margin: 10;
+    padding: 20px;
 }
 
 
 .card {
     flex: 1;
     background: white;
-    padding: 20px;
+    padding: 30px;
     border-radius: 10px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 10px;
+    flex-direction: row; /* Ensures left-to-right layout */
+  
 }
 
-.card .icon {
+.icon {
     font-size: 24px;
     color: #4318FF;
     background: #EDEAFF;
-    padding: 10px;
+    margin-left: 10px;
+    padding: 15px;
     border-radius: 50%;
-    margin-left: 1.5vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 20px; /* Prevents icon from shrinking */
+    min-height: 20px;
 }
 
 .card h4 {
@@ -57,7 +64,17 @@
     font-size: 20px;
     color: #333;
 }
+.details h4 {
+    color: gray;
+    font-size: 14px;
+    margin: 0;
+}
 
+.details h2 {
+    margin: 0;
+    font-size: 20px;
+    color: #333;
+}
 /* Graph & Payment Analysis */
 .middle-section {
     display: flex;
@@ -72,6 +89,37 @@
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    height: 450px; /* Adjust the height as needed */
+    overflow: hidden; /* Ensures content does not overflow */
+}
+.graph-card {
+    height: 400px;
+}
+.pie-chart {
+    flex: 1;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    height: auto; /* Adjust dynamically based on content */
+    min-height: 400px; /* Ensures it doesn't shrink */
+    overflow: visible; /* Prevents cropping */
+    display: flex;
+    flex-direction: column; /* Ensures title stays on top */
+    align-items: center; /* Centers only the chart */
+}
+
+.pie-chart h2 {
+    text-align: left; /* Keeps title aligned left */
+    width: 100%; /* Ensures it spans full width */
+    margin-bottom: 10px; /* Adds spacing between title and chart */
+}
+
+.pie-chart canvas {
+    max-width: 100%;
+    max-height: 100%;
+    height: 300px !important; /* Forces chart to fit in the card */
+    width: 300px !important;
 }
 
 /* Recent Payments */
@@ -113,4 +161,8 @@
 .content {
     margin-left: 250px; /* Should match sidebar width */
     padding: 20px;
+}
+.details {
+    display: flex;
+    flex-direction: column; /* Keeps text stacked */
 }
