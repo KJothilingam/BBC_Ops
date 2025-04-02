@@ -1,4 +1,3 @@
-
 <div class="defaulter-bills-container">
     <h4>Overdue Bills</h4>
     <table class="defaulter-bills-table">
@@ -10,18 +9,26 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let bill of overdueBills">
-                <!-- <td>{{ bill.meterNumber }}</td> -->
+            <tr *ngFor="let bill of displayedBills">
                 <td>
                     <span class="meter-number">
                         <i class="bi bi-exclamation-diamond-fill"></i> 
                         {{ bill.meterNumber }}
                     </span>
                 </td>
-                
                 <td>{{ bill.dueDate }}</td>
                 <td class="amount">Rs. {{ bill.totalBillAmount }}</td>
             </tr>
         </tbody>
     </table>
+
+    <!-- Navigation Buttons -->
+    <div class="pagination-buttons">
+        <button (click)="previousRecords()" [disabled]="currentIndex === 0" class="prev-button">
+            Previous
+        </button>
+        <button (click)="nextRecords()" [disabled]="currentIndex + pageSize >= overdueBills.length" class="next-button">
+            Next
+        </button>
+    </div>
 </div>
