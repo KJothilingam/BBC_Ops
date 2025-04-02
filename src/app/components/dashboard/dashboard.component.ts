@@ -17,9 +17,14 @@ import { DefaulterBillsComponent } from "../defaulter-bills/defaulter-bills.comp
 })
 export class DashboardComponent implements AfterViewInit {
 
+  //graph
   @ViewChild('paymentGraph') paymentGraph!: ElementRef;
   @ViewChild('pieChart') pieChart!: ElementRef;
-  
+  paymentSummary = { pending: 0, paid: 0, overdue: 0 };
+  months: string[] = [];
+  monthlyPayments: number[] = [];
+
+  // top
   totalCustomers: number = 0;
   totalPayments: number = 0;
   pendingPayments: number = 0;
@@ -31,26 +36,41 @@ export class DashboardComponent implements AfterViewInit {
       this.totalPayments = data.totalPayments;
       this.pendingPayments = data.pendingPayments;
     });
+
+    this.dashboardService.getPaymentSummary().subscribe(summary => {
+      this.paymentSummary = summary;
+      this.createPieChart();
+    });
+    
+    this.dashboardService.getMonthlyPayments().subscribe(data => {
+      this.months = data.months;
+      this.monthlyPayments = data.amounts;
+      this.createPaymentGraph();
+    });
   }
 
   async ngAfterViewInit() {
     if (isPlatformBrowser(this.platformId)) {  // ✅ Ensure it runs only in the browser
-      const { Chart } = await import('chart.js/auto');  // ✅ Lazy-load Chart.js
-
-      this.createPaymentGraph(Chart);
-      this.createPieChart(Chart);
+      // const { Chart } = await import('chart.js/auto');  // ✅ Lazy-load Chart.js
+      // this.createPaymentGraph(Chart);
+      // this.createPieChart(Chart);
+      await import('chart.js/auto');
+      this.createPieChart();
+      this.createPaymentGraph();
       this.createChart();
     }
   }
 
-  createPaymentGraph(Chart: any) {
+  createPaymentGraph() {
+    if (!this.paymentGraph || !this.paymentGraph.nativeElement) return;
+
     new Chart(this.paymentGraph.nativeElement, {
       type: 'line',
       data: {
-        labels: ["Sep", "Oct", "Nov", "Dec", "Jan", "Feb"],
+        labels: this.months,
         datasets: [{
-          label: 'Payments',
-          data: [100000, 120000, 150000, 140000, 160000, 200000],
+          label: 'Total Payments',
+          data: this.monthlyPayments,
           borderColor: '#4318FF',
           borderWidth: 2,
           fill: false
@@ -58,19 +78,21 @@ export class DashboardComponent implements AfterViewInit {
       }
     });
   }
+  createPieChart() {
+    if (!this.pieChart || !this.pieChart.nativeElement) return;
 
-  createPieChart(Chart: any) {
     new Chart(this.pieChart.nativeElement, {
       type: 'pie',
       data: {
-        labels: ['Payments Done', 'Payments Pending'],
+        labels: ['Paid', 'Pending', 'Overdue'],
         datasets: [{
-          data: [63, 25],
-          backgroundColor: ['#4318FF', '#89CFF0']
+          data: [this.paymentSummary.paid, this.paymentSummary.pending, this.paymentSummary.overdue],
+          backgroundColor: ['#4CAF50', '#FFEB3B', '#F44336']
         }]
       }
     });
   }
+
 
   paymentDetails = [
     { name: 'Mithlesh Kumar Singh', address: 'Kritipur, Kathmandu', date: '12.Jan.2021', amount: 2500 },

@@ -25,8 +25,6 @@ export class ManageUserComponent implements OnInit {
   selectedCustomer: any = {};
   newCustomer: any = {};
   showUpdateForm: boolean = false;
-  // selectedCustomer: any = {}; // Stores customer data
-  // showUpdateForm: boolean = false;
   isUpdating: boolean = false; // Loader state
 
   constructor(private customerService: CustomerService, private toastr: ToastrService) {}
@@ -74,22 +72,6 @@ openAddModal() {
   }
   
 
-  // uploadFile() {
-  //   if (!this.selectedFile) {
-  //     this.message = "Please select a CSV file.";
-  //     return;
-  //   }
-
-  //   this.customerService.uploadCSV(this.selectedFile).subscribe({
-  //     next: (response) => {
-  //       this.message = response.message;
-  //       this.fetchCustomers();
-  //     },
-  //     error: (err) => {
-  //       this.message = err.message;
-  //     }
-  //   });
-  // }
   uploadFile() {
     if (!this.selectedFile) {
       this.toastr.error("Please select a CSV file.", "Error");
@@ -135,15 +117,16 @@ openAddModal() {
   }
   
   
-  
-
   get filteredCustomers() {
     return this.customers.filter(customer =>
-      customer.name.toLowerCase().includes(this.searchText.toLowerCase()) ||
-      customer.email.toLowerCase().includes(this.searchText.toLowerCase()) ||
-      customer.phoneNumber.includes(this.searchText)
+      (customer.name && customer.name.toLowerCase().includes(this.searchText.toLowerCase())) ||
+      (customer.email && customer.email.toLowerCase().includes(this.searchText.toLowerCase())) ||
+      (customer.phoneNumber && customer.phoneNumber.includes(this.searchText)) ||
+      (customer.meterNumber && customer.meterNumber.includes(this.searchText)) || // 🔍 Search by Meter Number
+      (customer.customerId && customer.customerId.toString().includes(this.searchText)) // 🔍 Search by Customer ID
     );
   }
+  
 
   get paginatedCustomers() {
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
