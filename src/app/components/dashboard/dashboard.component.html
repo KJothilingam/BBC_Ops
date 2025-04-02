@@ -72,8 +72,10 @@
       <canvas id="weeklyChart"></canvas>
     </div>
     <div class="pending-payments">
-      <h3>Pending Payments</h3>
-      <table>
+        <app-defaulter-bills></app-defaulter-bills>
+      <!-- <h3>Pending Payments</h3> -->
+      <!-- <app-defaulter-bills></app-defaulter-bills> -->
+      <!-- <table>
         <thead>
           <tr>
             <th>Name</th>
@@ -91,7 +93,7 @@
             <td>Rs. {{ pending.amount }}</td>
           </tr>
         </tbody>
-      </table>
+      </table> -->
     </div>
   </div>
 
@@ -100,7 +102,6 @@
     <div class="recent-payments">
         <!-- <h4>Recent Payments</h4> -->
         <app-recent-payments></app-recent-payments>
-       
     </div> 
 
 

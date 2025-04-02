@@ -1,0 +1,56 @@
+.defaulter-bills-container {
+    width: 100%;
+    max-width: 650px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background: #fff;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.defaulter-bills-container:hover {
+    transform: scale(1.02);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.defaulter-bills-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.defaulter-bills-table th, 
+.defaulter-bills-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.defaulter-bills-table th {
+    background-color: #007bff;
+    color: white;
+}
+
+.defaulter-bills-table tr:hover {
+    background-color: #f9f9f9;
+    transform: scale(1.02);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.meter-number {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: bold;
+}
+
+.meter-number i {
+    color: #ffc107; /* Yellow warning icon */
+    font-size: 1.2rem;
+}
+
+.amount {
+    font-weight: bold;
+    color: red;
+}

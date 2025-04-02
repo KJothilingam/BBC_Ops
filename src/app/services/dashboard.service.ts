@@ -30,4 +30,8 @@ export class DashboardService {
       })
     );
   }
+  private BaseUrl= 'http://localhost:8080/bills/overdue';
+  getOverdueBills(): Observable<any[]> {
+    return this.http.get<any[]>(this.BaseUrl);
+  }
 }

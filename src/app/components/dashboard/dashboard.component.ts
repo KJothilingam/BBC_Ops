@@ -5,11 +5,13 @@ import { PaymentHistoryComponentComponent } from "../payment-history-component/p
 import { Chart } from 'chart.js';
 import { DashboardService } from '../../services/dashboard.service';
 import { RecentPaymentsComponent } from "../recent-payments/recent-payments.component";
+import { DefaulterBillsComponent } from "../defaulter-bills/defaulter-bills.component";
+// import { DefaulterBillsComponent } from "../defaulter-bills/defaulter-bills.component";
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,  // ✅ Required for Standalone Components
-  imports: [SidebarComponent, CommonModule, RecentPaymentsComponent],
+  imports: [SidebarComponent, CommonModule, RecentPaymentsComponent, DefaulterBillsComponent],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })

@@ -8,61 +8,70 @@
     padding: 20px;
     text-align: center;
     border: 2px solid #007bff; /* Outer border */
-  }
-  
-  h4 {
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.recent-payments-container:hover {
+    transform: scale(1.02);
+    box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+h4 {
     color: #333;
     font-size: 20px;
     font-weight: bold;
     margin-bottom: 15px;
-  }
-  
-  /* Table Styling with Shadow Effect */
-  .recent-payments-table {
+}
+
+/* Table Styling with Shadow Effect */
+.recent-payments-table {
     width: 100%;
     border-collapse: collapse;
     background: #fff;
     border-radius: 8px;
     overflow: hidden;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* Shadow effect */
-  }
-  
-  .recent-payments-table thead {
+}
+
+.recent-payments-table thead {
     background: #007bff;
     color: white;
-  }
-  
-  .recent-payments-table th, 
-  .recent-payments-table td {
+}
+
+.recent-payments-table th, 
+.recent-payments-table td {
     padding: 12px;
     text-align: left;
-  }
-  
-  .recent-payments-table tbody tr {
+}
+
+.recent-payments-table tbody tr {
     border-bottom: 1px solid #ddd;
-  }
-  
-  .recent-payments-table tbody tr:last-child {
+}
+
+.recent-payments-table tbody tr:last-child {
     border-bottom: none;
-  }
-  
-  .amount {
+}
+
+/* Hover Effect */
+.recent-payments-table tbody tr:hover {
+    background: #f1f1f1;
+    transform: scale(1.02);
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
+}
+
+/* Styling for Important Data */
+.amount {
     color: #28a745;
     font-weight: bold;
-  }
-  
-  .payment-method {
+}
+
+.payment-method {
     font-weight: bold;
     text-transform: uppercase;
     color: #ff6b6b;
-  }
-  
-  .time {
+}
+
+.time {
     color: #6c757d;
-  }
-  
-  .recent-payments-table tbody tr:hover {
-    background: #f1f1f1;
-    transition: 0.3s;
-  }
-  
+}

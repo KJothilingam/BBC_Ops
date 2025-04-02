@@ -39,4 +39,8 @@ export const routes: Routes = [
         path:'recent',
         loadComponent :()=>import('./components/recent-payments/recent-payments.component').then((c)=> c.RecentPaymentsComponent),
     },
+    {
+        path:'default',
+        loadComponent :()=>import('./components/defaulter-bills/defaulter-bills.component').then((c)=> c.DefaulterBillsComponent),
+    },
 ];
