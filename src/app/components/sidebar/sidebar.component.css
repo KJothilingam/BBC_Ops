@@ -15,22 +15,27 @@
     top: 0;
 }
 
-
+/* Logo Section */
 /* Logo Section */
 .logo {
     text-align: center;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column; /* ✅ Text moves to the next line */
+    align-items: center;
+    gap: 5px; /* ✅ Reduce gap for a compact look */
 }
 
-.logo .bulb {
-    font-size: 30px;
-    color: #FFD700;
+.logo .bulb img {
+    width: 50px;  /* ✅ Slightly bigger logo */
+    height: 50px; /* ✅ Maintain aspect ratio */
 }
 
 .logo h1 {
-    font-size: 20px;
+    font-size: 20px; /* ✅ Adjusted for better visibility */
     font-weight: bold;
     color: #2c2c2c;
+    margin: 0;
 }
 
 
@@ -53,18 +58,23 @@
     transition: 0.3s;
 }
 
+
 .menu li i {
     width: 20px;
     text-align: center;
 }
 
-.menu li.active,
-.menu li:hover {
-    background: #4318FF;
+.menu li.active {
+    background: #4318FF;  /* ✅ Active color */
     color: white;
     border-radius: 5px;
 }
-
+/* Hover Effect (Different from Active) */
+.menu li:hover {
+    background: #7F5FFF; /* ✅ Lighter shade for hover */
+    color: white;
+    border-radius: 5px;
+}
 /* Logout Button */
 .logout {
     margin-top: 70%;  /* ✅ Moves logout button to 80% of sidebar height */
