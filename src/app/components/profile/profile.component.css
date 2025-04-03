@@ -1,94 +1,201 @@
-.container {
-    padding: 20px;
-    position: relative;
-    margin-left: 14%;
-    background: #F8FAFF;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    max-width: 86%;
-  }
-
-  .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-  }
-
-  
-  /* Profile Container */
-  .profile-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    /* min-height: calc(100vh - 100px); Adjust dynamically */
-    background-color: #f4f9ff;
-    padding: 20px;
+/* Main Container */
+.profile-container {
+  padding: 20px;
+  background: #F8FAFF;
+  min-height: 100vh;
+  max-width: 86%;
+  margin-left: 14%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-  /* Profile Card */
-  .profile-card {
-    width: 600px;
-    background: white;
-    border-radius: 15px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    text-align: center;
-  }
-  
-  /* Header with Gradient */
-  .profile-header {
-    background: linear-gradient(90deg, #4a00e0, #8e2de2);
-    padding: 20px;
-    border-radius: 15px 15px 0 0;
-    color: white;
-    position: relative;
-  }
-  
-  /* Profile Image */
-  .profile-image {
-    position: absolute;
-    top: 50%;
-    right: 20px;
-    transform: translateY(-50%);
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    overflow: hidden;
-    border: 4px solid white;
-  }
-  
-  .profile-image img {
-    width: 100%;
-    height: auto;
-  }
-  
-  /* Profile Details */
-  .profile-details {
-    padding: 20px;
-    text-align: left;
-    font-size: 16px;
-  }
-  
-  .profile-details p {
-    margin: 8px 0;
-    color: #333;
-  }
-  
-  /* Edit Button */
-  .edit-btn {
-    background: #2d69f0;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    font-size: 16px;
-    border-radius: 8px;
-    cursor: pointer;
-    margin-top: 10px;
-  }
-  
-  .edit-btn:hover {
-    background: #1d4ed8;
-  }
-  
+/* Header Section */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.profile-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+/* Profile Card */
+.profile-card {
+  width: 450px;
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Card Hover Effect */
+.profile-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Header with Gradient */
+.profile-header {
+  background: linear-gradient(90deg, #4a00e0, #8e2de2);
+  padding: 20px;
+  border-radius: 15px 15px 0 0;
+  color: white;
+  position: relative;
+}
+
+/* Profile Image */
+.profile-image {
+  position: absolute;
+  top: 70%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 4px solid white;
+  transition: transform 0.3s ease;
+}
+
+/* Image Hover Effect */
+.profile-image:hover {
+  transform: translate(-50%, -50%) scale(1.1);
+}
+
+.profile-image img {
+  width: 100%;
+  height: auto;
+}
+
+/* Profile Details */
+.profile-details {
+  padding: 20px;
+  text-align: left;
+  font-size: 16px;
+}
+
+.profile-details p {
+  margin: 10px 0;
+  color: #333;
+  transition: color 0.3s ease;
+}
+
+/* Hover Effect on Details */
+.profile-details p:hover {
+  color: #4a00e0;
+}
+
+/* Edit Button */
+.edit-btn {
+  background: #2d69f0;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+/* Button Hover */
+.edit-btn:hover {
+  background: #1d4ed8;
+  transform: scale(1.05);
+}
+
+/* Smaller Modal Dialog */
+.modal-dialog {
+  max-width: 380px;
+  transform: scale(0.9);
+  transition: transform 0.3s ease-in-out;
+}
+
+/* Ensure the modal appears smoothly */
+.modal.show .modal-dialog {
+  transform: scale(1);
+}
+
+/* Modal Content */
+.modal-content {
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  padding: 15px;
+}
+
+/* Modal Header */
+.modal-header {
+  background: linear-gradient(90deg, #4a00e0, #8e2de2);
+  color: white;
+  padding: 12px;
+  font-size: 16px;
+  border-bottom: none;
+  text-align: center;
+}
+
+/* Close Button */
+.modal-header .close {
+  background: transparent;
+  color: white;
+  font-size: 18px;
+  border: none;
+  cursor: pointer;
+}
+
+/* Modal Body */
+.modal-body {
+  padding: 15px;
+}
+
+/* Form Fields */
+.form-group {
+  margin-bottom: 10px;
+}
+
+label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+}
+
+.form-control {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: border 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-control:focus {
+  border-color: #4a00e0;
+  box-shadow: 0 0 6px rgba(74, 0, 224, 0.15);
+}
+
+/* Modal Footer */
+.modal-footer {
+  padding: 12px;
+  border-top: none;
+  text-align: right;
+}
+
+/* Buttons */
+.btn-primary, .btn-secondary {
+  font-size: 14px;
+  padding: 8px 14px;
+}
+
+.btn-primary:hover, .btn-secondary:hover {
+  transform: scale(1.05);
+}

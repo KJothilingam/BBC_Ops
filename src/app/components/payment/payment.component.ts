@@ -16,8 +16,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { ToastrService } from 'ngx-toastr';
 
 import * as QRCode from 'qrcode';  // Fix Import
-
-
+// import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
+// import autoTable from 'jspdf-autotable';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import { AuthService } from '../../services/auth.service';
@@ -134,26 +135,52 @@ export class PaymentComponent {
     }
   }
 
-  // 🔹 Process payment
+
   processPayment() {
     if (this.paymentForm.invalid) {
       this.toastr.error('Please fill in all required fields.', 'Error', this.getToastrConfig());
       return;
     }
-
+  
     this.isProcessing = true;
     this.paymentForm.disable();
-
+  
     const paymentData: PaymentRequest = this.paymentForm.getRawValue();
-
+  
+    // ✅ Directly mark cash payments as successful
+    if (paymentData.paymentMethod === 'CASH') {
+      this.paymentData = {
+        ...paymentData,
+        success: true,
+        message: 'Payment Successful!',
+        customerName: paymentData.customerName ?? 'N/A',
+        customerEmail: paymentData.customerEmail ?? 'N/A'
+      };
+  
+      this.toastr.success('Payment Successful!', 'Success', this.getToastrConfig());
+      this.generatePDFReceipt();
+      this.resetForm();
+      this.isProcessing = false;
+      this.paymentForm.enable();
+      return;
+    }
+  
+    // ✅ Proceed with API call for other payment methods
     this.paymentService.processPayment(paymentData).subscribe({
       next: (response) => {
+        if (!response.success) {
+          this.toastr.error(response.message, 'Payment Failed', this.getToastrConfig());
+          this.isProcessing = false;
+          this.paymentForm.enable();
+          return;
+        }
+  
         this.paymentData = {
-          ...response, // ✅ Keep payment response
-          customerName: this.paymentData.customerName ?? 'N/A',
-          customerEmail: this.paymentData.customerEmail ?? 'N/A'
+          ...response,
+          customerName: paymentData.customerName ?? 'N/A',
+          customerEmail: paymentData.customerEmail ?? 'N/A'
         };
-
+  
         this.toastr.success('Payment Successful!', 'Success', this.getToastrConfig());
         this.generatePDFReceipt();
         this.resetForm();
@@ -165,6 +192,8 @@ export class PaymentComponent {
       }
     });
   }
+  
+  
 
   // 🔹 Reset form after payment
   private resetForm() {
@@ -176,84 +205,118 @@ export class PaymentComponent {
 
   // 🔹 Generate PDF Receipt
  
-generatePDFReceipt() {
-  if (!this.paymentData || Object.keys(this.paymentData).length === 0) {
-    console.error("Payment data is missing!");
-    return;
-  }
-
-  const doc = new jsPDF();
-  const pageWidth = doc.internal.pageSize.getWidth();
-
-  // 🔹 Header with Company Info
-  doc.setFillColor(0, 51, 153); // Dark Blue
-  doc.rect(0, 0, pageWidth, 30, 'F');
-  doc.setTextColor(255, 255, 255);
-  doc.setFontSize(16);
-  doc.text("Electricity Bill Payment Receipt", pageWidth / 2, 15, { align: "center" });
-
-  doc.setTextColor(0, 0, 0);
-  doc.setFontSize(12);
-
-  // 🔹 Customer Details
-  doc.setFontSize(14);
-  doc.setTextColor(0, 51, 153); // Dark Blue
-  doc.text("Customer Details:", 20, 45);
-  doc.setTextColor(0, 0, 0);
-  doc.setFontSize(12);
-  doc.text(`Customer Name: ${this.paymentData.customerName ?? "N/A"}`, 20, 55);
-  doc.text(`Email: ${this.paymentData.customerEmail ?? "N/A"}`, 20, 65);
-  doc.text(`Meter Number: ${this.paymentData.meterNumber ?? "N/A"}`, 20, 75);
-  doc.text(`Billing Address: ${this.paymentData.billingAddress ?? "N/A"}`, 20, 85);
-
-  // 🔹 Invoice Details
-  doc.setFontSize(14);
-  doc.setTextColor(0, 51, 153);
-  doc.text("Invoice Details:", 20, 100);
-  doc.setFontSize(12);
-  doc.setTextColor(0, 0, 0);
-  doc.text(`Invoice ID: ${this.paymentData.invoiceId ?? "N/A"}`, 20, 110);
-  doc.text(`Unit Consumed: ${this.paymentData.unitConsumed ?? "0"} kWh`, 20, 120);
-  doc.text(`Due Date: ${this.paymentData.dueDate ? new Date(this.paymentData.dueDate).toLocaleDateString() : "N/A"}`, 20, 130);
-  doc.text(`Payment Date: ${this.paymentData.paymentDate ? new Date(this.paymentData.paymentDate).toLocaleDateString() : "N/A"}`, 20, 140);
-
-  // 🔹 Payment Breakdown
-  doc.setFontSize(14);
-  doc.setTextColor(0, 51, 153);
-  doc.text("Payment Breakdown:", 20, 155);
-  doc.setFontSize(12);
-  doc.setTextColor(0, 0, 0);
-  doc.text(`Bill Amount: ₹${this.paymentData.totalBillAmount ?? "0.00"}`, 20, 165);
-  doc.text(`Previous Due: ₹${this.paymentData.previousDue ?? "0.00"}`, 20, 175);
-  doc.text(`Late Fee: ₹${this.paymentData.lateFee ?? "0.00"}`, 20, 185);
-  doc.text(`Discount: ₹${this.paymentData.discountApplied ?? "0.00"}`, 20, 195);
-  doc.text(`GST: ₹${this.paymentData.gst ?? "0.00"}`, 20, 205);
-  doc.text(`Net Payable: ₹${this.paymentData.netPayable ?? "0.00"}`, 20, 215);
-  doc.text(`Amount Paid: ₹${this.paymentData.amountPaid ?? "0.00"}`, 20, 225);
-  doc.text(`Payment Method: ${this.paymentData.paymentMethod ?? "N/A"}`, 20, 235);
-  doc.text(`Transaction ID: ${this.paymentData.transactionId ?? "N/A"}`, 20, 245);
-
-  // 🔹 Generate QR Code
-  const qrData = `Invoice ID: ${this.paymentData.invoiceId}\nCustomer: ${this.paymentData.customerName}\nMeter No: ${this.paymentData.meterNumber}\nAmount Paid: ₹${this.paymentData.amountPaid}`;
-  
-  QRCode.toDataURL(qrData, { width: 100 }, (err, qrUrl) => {
-    if (!err) {
-      doc.addImage(qrUrl, 'PNG', pageWidth - 50, 100, 40, 40);
-      doc.text("Scan for Details", pageWidth - 50, 150);
+  generatePDFReceipt() {
+    if (!this.paymentData || Object.keys(this.paymentData).length === 0) {
+      console.error("Payment data is missing!");
+      return;
     }
-
-    // 🔹 Footer
-    doc.setDrawColor(0);
+  
+    console.log("Generating PDF with Data:", this.paymentData); // Debugging
+  
+    const doc = new jsPDF();
+    const pageWidth = doc.internal.pageSize.getWidth();
+    let y = 15; // Starting Y position
+  
+    // 🔹 **Header with Company Logo & Title**
+    const logoUrl = 'https://cdn-icons-png.flaticon.com/512/1827/1827504.png'; // Placeholder icon
     doc.setFillColor(0, 51, 153);
-    doc.rect(0, doc.internal.pageSize.getHeight() - 20, pageWidth, 20, 'F');
+    doc.rect(0, 0, pageWidth, 30, 'F');
     doc.setTextColor(255, 255, 255);
-    doc.setFontSize(10);
-    doc.text("For any queries, contact: support@electricity.com", pageWidth / 2, doc.internal.pageSize.getHeight() - 10, { align: "center" });
+    doc.setFontSize(16);
+    doc.addImage(logoUrl, 'PNG', 15, 5, 20, 20); // Logo at top left
+    doc.text("Electricity Bill Payment Receipt", pageWidth / 2, y, { align: "center" });
+  
+    doc.setTextColor(0, 0, 0);
+    doc.setFontSize(12);
+    y += 30; // Move down
+  
+    // Function to draw a table row with alternating colors
+    function drawRow(label: string, value: string, startX: number, rowY: number, rowWidth: number, rowHeight: number, isAlternate: boolean) {
+      doc.setFillColor(isAlternate ? 230 : 245, isAlternate ? 245 : 255, 255); // Light blue & white alternating colors
+      doc.rect(startX, rowY, rowWidth, rowHeight, 'F'); // Fill background
+      doc.setDrawColor(180, 180, 180);
+      doc.rect(startX, rowY, rowWidth, rowHeight);
+      doc.setTextColor(0, 0, 0);
+      doc.text(label, startX + 5, rowY + rowHeight / 2);
+      doc.text(value, startX + rowWidth / 2 + 5, rowY + rowHeight / 2);
+    }
+  
+    const tableX = 20;
+    const tableWidth = pageWidth - 40;
+    const rowHeight = 8;
+  
+    // 🔹 **Customer Details**
+    doc.setFontSize(14);
+    doc.setTextColor(0, 51, 153);
+    doc.text("Customer Details", tableX, y);
+    doc.setTextColor(0, 0, 0);
+    doc.setFontSize(12);
+    y += 8;
+  
+    const customerDetails = [
+      ["Customer Name", this.paymentData.customerName ?? "N/A"],
+      ["Email", this.paymentData.customerEmail ?? "N/A"],
+      ["Meter Number", this.paymentData.meterNumber ?? "N/A"],
+    ];
+  
+    customerDetails.forEach(([label, value], index) => {
+      drawRow(label, value, tableX, y, tableWidth, rowHeight, index % 2 !== 0);
+      y += rowHeight;
+    });
+  
+    y += 10; // Space before next section
+  
+    // 🔹 **Invoice & Payment Details**
+    doc.setFontSize(14);
+    doc.setTextColor(0, 51, 153);
+    doc.text("Invoice & Payment Details", tableX, y);
+    doc.setTextColor(0, 0, 0);
+    doc.setFontSize(12);
+    y += 8;
+  
+    const invoiceDetails = [
+      ["Invoice ID", this.paymentData.invoiceId ?? "N/A"],
+      ["Unit Consumed", `${this.paymentData.unitConsumed ?? "0"} kWh`],
+      ["Due Date", this.paymentData.dueDate ? new Date(this.paymentData.dueDate).toLocaleDateString() : "N/A"],
+      ["Payment Date", this.paymentData.paymentDate ? new Date(this.paymentData.paymentDate).toLocaleDateString() : "N/A"],
+      ["Bill Amount", `₹${this.paymentData.totalBillAmount ?? "0.00"}`],
+      ["Amount Paid", `₹${this.paymentData.amountPaid ?? "0.00"}`],
+      ["Payment Method", this.paymentData.paymentMethod ?? "N/A"],
+      ["Transaction ID", this.paymentData.transactionId ?? "N/A"],
+    ];
+  
+    invoiceDetails.forEach(([label, value], index) => {
+      drawRow(label, value, tableX, y, tableWidth, rowHeight, index % 2 !== 0);
+      y += rowHeight;
+    });
+  
+    y += 10; // Space before QR Code
+  
+    // 🔹 **Generate QR Code**
+    const qrData = `Invoice ID: ${this.paymentData.invoiceId}\nCustomer: ${this.paymentData.customerName}\nMeter No: ${this.paymentData.meterNumber}\nAmount Paid: ₹${this.paymentData.amountPaid}`;
+  
+    QRCode.toDataURL(qrData, { width: 100 }, (err, qrUrl) => {
+      if (!err) {
+        doc.addImage(qrUrl, 'PNG', pageWidth - 60, y, 40, 40);
+        doc.text("Scan for Details", pageWidth - 60, y + 45);
+      }
+  
+      // 🔹 **Footer**
+      doc.setFillColor(0, 51, 153);
+      doc.rect(0, doc.internal.pageSize.getHeight() - 20, pageWidth, 20, 'F');
+      doc.setTextColor(255, 255, 255);
+      doc.setFontSize(10);
+      doc.text("For any queries, contact: support@electricity.com", pageWidth / 2, doc.internal.pageSize.getHeight() - 12, { align: "center" });
+      doc.text("Thank you for your payment!", pageWidth / 2, doc.internal.pageSize.getHeight() - 5, { align: "center" });
+  
+      // 🔹 **Save PDF**
+      doc.save(`receipt_${this.paymentData.invoiceId ?? "unknown"}.pdf`);
+    });
+  }
+  
+  
 
-    // 🔹 Save PDF
-    doc.save(`receipt_${this.paymentData.invoiceId ?? "unknown"}.pdf`);
-  });
-}
+
 
   // 🔹 Toastr Configuration
   private getToastrConfig() {

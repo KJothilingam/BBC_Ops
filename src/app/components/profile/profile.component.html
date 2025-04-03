@@ -1,33 +1,79 @@
-<!-- <p>profile works!</p> -->
 <app-sidebar></app-sidebar>
-<div class="container">
 
-    <div class="header">
-        <h2>Manage Customers</h2>
-        <span class="branch">Lalitpur Branch</span>
+<div class="profile-container">
+  <div class="header">
+    <div>
+      <p class="breadcrumb">Pages / Profile</p>
+      <h2 class="title">Employee Profile</h2>
+      <span class="branch">Lalitpur Branch</span>
     </div>
+    <div class="search-bar">
+      <i class="fa fa-search"></i>
+      <div class="profile-icon">
+        <!-- Profile Avatar -->
+      </div>
+    </div>
+  </div>
 
-
-    <div class="profile-container">
-        <div class="profile-card">
-          <div class="profile-header">
-            <h2>Your Profile</h2>
-            <div class="profile-image">
-              <img src="../../../Assets/charlesdeluvio-kVg2DQTAK7c-unsplash.jpg" alt="Profile Picture">
-            </div>
-          </div>
-          
-          <div class="profile-details">
-            <p><strong>Admin id:</strong> 110A</p>
-            <p><strong>Name:</strong> Adela Parkson</p>
-            <p><strong>Address:</strong> Khumaltar, Lalitpur</p>
-            <p><strong>Contact No.:</strong> 9841236978</p>
-            <p><strong>Email:</strong> Adela98gmail.com</p>
-            <p><strong>Password:</strong> ********</p>
-          </div>
-      
-          <button class="edit-btn">Edit</button>
+  <div class="profile-wrapper">
+    <div class="profile-card">
+      <div class="profile-header">
+        <div class="profile-image">
+          <img src="assets/pexels-moh-adbelghaffar-771742.jpg" alt="Profile Picture">
         </div>
       </div>
+
+      <div class="profile-details" *ngIf="employee">
+        <p><strong>Employee Id:</strong> {{ employee.employee_id }}</p>
+        <p><strong>Name:</strong> {{ employee.name }}</p>
+        <p><strong>DOB:</strong> {{ employee.dob }}</p>
+        <p><strong>Email:</strong> {{ employee.email }}</p>
+        <p><strong>Contact No.:</strong> {{ employee.phone_number }}</p>
+        <p><strong>Designation:</strong> {{ employee.designation }}</p>
+      </div>
+
+      <button class="edit-btn btn btn-primary" (click)="openEditModal()">Edit</button>
+
+      <!-- Bootstrap Modal for Editing Employee Details -->
+<div class="modal fade" [ngClass]="{'show d-block': showModal}" *ngIf="showModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
       
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h5 class="modal-title">Edit Profile</h5>
+        <button type="button" class="close" (click)="closeEditModal()">&times;</button>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="modal-body">
+        <form #editForm="ngForm">
+          
+          <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" class="form-control" [(ngModel)]="editedEmployee.email" name="email" required>
+          </div>
+
+          <div class="form-group">
+            <label for="phone">Phone Number:</label>
+            <input type="text" id="phone" class="form-control" [(ngModel)]="editedEmployee.phone_number" name="phone" required>
+          </div>
+
+        </form>
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeEditModal()">Cancel</button>
+        <button type="button" class="btn btn-primary" (click)="updateEmployee()">Save Changes</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+<!-- End of Modal -->
+
+      <!-- End of Modal -->
+    </div>
+  </div>
 </div>

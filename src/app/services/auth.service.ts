@@ -15,15 +15,6 @@ export class AuthService {
     return this.http.post(`${this.apiUrl}/generate-otp`, { email });
   }
 
-  // verifyOtp(email: string, otp: string): Observable<any> {
-  //   return this.http.post(`${this.apiUrl}/verify-otp`, { email, otp }).pipe(
-  //     tap((response: any) => {
-  //       if (response.success && response.user) {
-  //         this.saveUserDetails(response.user.id, response.user.name, response.user.designation);
-  //       }
-  //     })
-  //   );
-  // }
   verifyOtp(email: string, otp: string): Observable<any> {
     return this.http.post(`${this.apiUrl}/verify-otp`, { email, otp }).pipe(
       tap((response: any) => {
@@ -34,6 +25,12 @@ export class AuthService {
         }
       })
     );
+}
+getEmployeeDetails(userId: string): Observable<any> {
+  return this.http.get(`${this.apiUrl}/data/${userId}`);
+}
+updateEmployeeDetails(employee: any): Observable<any> {
+  return this.http.put(`${this.apiUrl}/${employee.employee_id}`, employee);
 }
 
 
