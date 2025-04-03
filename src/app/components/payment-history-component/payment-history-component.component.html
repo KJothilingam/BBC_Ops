@@ -9,7 +9,7 @@
           <th>Billing Month</th>
           <th>Due Date</th>
           <th>Total Bill Amount</th>
-          <th>Amount Paid</th>
+          <!-- <th>Amount Paid</th> -->
           <th>Discount Applied</th>
           <th>Final Amount Paid</th>
           <th>Payment Method</th>
@@ -24,7 +24,7 @@
           <td>{{ payment.billingMonth }}</td>
           <td>{{ payment.dueDateFormatted }}</td>
           <td class="total-amount">₹{{ payment.totalBillAmount | number: '1.2-2' }}</td>
-          <td>₹{{ payment.amountPaid | number: '1.2-2' }}</td>
+          <!-- <td>₹{{ payment.amountPaid | number: '1.2-2' }}</td> -->
           <td class="discount">₹{{ payment.discountApplied | number: '1.2-2' }}</td>
           <td class="final-amount">₹{{ payment.finalAmountPaid | number: '1.2-2' }}</td>
           <td>{{ payment.paymentMethod }}</td>

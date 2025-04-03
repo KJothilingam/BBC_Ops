@@ -34,13 +34,16 @@ updateEmployeeDetails(employee: any): Observable<any> {
 }
 
 
-  saveUserDetails(userId: string, userName: string, designation: string): void {
+saveUserDetails(userId: string, userName: string, designation: string): void {
+  if (typeof localStorage !== 'undefined') {
     localStorage.setItem('userId', userId);
     localStorage.setItem('userName', userName);
     localStorage.setItem('designation', designation);
   }
+}
 
-  getUserDetails(): { userId: string; userName: string; designation: string } | null {
+getUserDetails(): { userId: string; userName: string; designation: string } | null {
+  if (typeof localStorage !== 'undefined') {
     const userId = localStorage.getItem('userId');
     const userName = localStorage.getItem('userName');
     const designation = localStorage.getItem('designation');
@@ -48,12 +51,16 @@ updateEmployeeDetails(employee: any): Observable<any> {
     if (userId && userName && designation) {
       return { userId, userName, designation };
     }
-    return null;
   }
+  return null;
+}
 
-  logout(): void {
+
+logout(): void {
+  if (typeof localStorage !== 'undefined') {
     localStorage.removeItem('userId');
     localStorage.removeItem('userName');
     localStorage.removeItem('designation');
   }
+}
 }

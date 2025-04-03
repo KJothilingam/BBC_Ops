@@ -7,11 +7,15 @@ import { PaymentRequest, PaymentResponse } from '../Interfaces/payment.model';
   providedIn: 'root'
 })
 export class PaymentService {
-  private apiUrl = 'http://localhost:8080/payments/process';
 
   constructor(private http: HttpClient) {}
+
+  private apiUrl = 'http://localhost:8080/payments/customer/process'; // Update to the correct API
+
 
   processPayment(paymentData: PaymentRequest): Observable<PaymentResponse> {
     return this.http.post<PaymentResponse>(this.apiUrl, paymentData);
   }
+
+  
 }
