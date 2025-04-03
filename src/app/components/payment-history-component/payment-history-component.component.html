@@ -1,35 +1,39 @@
 <div class="payment-container">
-    <h2>Payment Details</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>Transaction ID</th>
-          <th>Meter Number</th>
-          <th>Unit Consumed</th>
-          <th>Billing Month</th>
-          <th>Due Date</th>
-          <th>Total Bill Amount</th>
-          <!-- <th>Amount Paid</th> -->
-          <th>Discount Applied</th>
-          <th>Final Amount Paid</th>
-          <th>Payment Method</th>
-          <th>Payment Date</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let payment of payments">
-          <td>{{ payment.transactionId }}</td>  <!-- Updated -->
-          <td>{{ payment.meterNumber }}</td>
-          <td>{{ payment.unitConsumed }}</td>
-          <td>{{ payment.billingMonth }}</td>
-          <td>{{ payment.dueDateFormatted }}</td>
-          <td class="total-amount">₹{{ payment.totalBillAmount | number: '1.2-2' }}</td>
-          <!-- <td>₹{{ payment.amountPaid | number: '1.2-2' }}</td> -->
-          <td class="discount">₹{{ payment.discountApplied | number: '1.2-2' }}</td>
-          <td class="final-amount">₹{{ payment.finalAmountPaid | number: '1.2-2' }}</td>
-          <td>{{ payment.paymentMethod }}</td>
-          <td>{{ payment.paymentDateFormatted }}</td>
-        </tr>
-      </tbody>
-    </table>
+  <h2>Payment Details</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Transaction ID</th>
+        <th>Meter Number</th>
+        <th>Unit Consumed</th>
+        <th>Billing Month</th>
+        <th>Due Date</th>
+        <th>Total Bill Amount</th>
+        <th>Discount Applied</th>
+        <th>Final Amount Paid</th>
+        <th>Payment Method</th>
+        <th>Payment Date</th>
+        <th>Actions</th> <!-- PDF Button Column -->
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let payment of payments">
+        <td>{{ payment.transactionId }}</td>
+        <td>{{ payment.meterNumber }}</td>
+        <td>{{ payment.unitConsumed }}</td>
+        <td>{{ payment.billingMonth }}</td>
+        <td>{{ payment.dueDateFormatted }}</td>
+        <td class="total-amount">₹{{ payment.totalBillAmount | number: '1.2-2' }}</td>
+        <td class="discount">₹{{ payment.discountApplied | number: '1.2-2' }}</td>
+        <td class="final-amount">₹{{ payment.finalAmountPaid | number: '1.2-2' }}</td>
+        <td>{{ payment.paymentMethod }}</td>
+        <td>{{ payment.paymentDateFormatted }}</td>
+        <td>
+          <button class="pdf-btn" (click)="generatePDF(payment.transactionId)">
+            <i class="bi bi-file-earmark-pdf-fill"></i>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>

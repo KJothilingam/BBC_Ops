@@ -67,3 +67,28 @@ th {
         padding: 8px;
     }
 }
+/* PDF Button */
+.pdf-btn {
+  background-color: #dc3545; /* Red Button */
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.3s, transform 0.2s;
+}
+
+/* PDF Button Hover */
+.pdf-btn:hover {
+  background-color: #b02a37; /* Darker Red */
+  transform: scale(1.1);
+}
+
+/* Icon inside Button */
+.pdf-btn i {
+  font-size: 20px;
+}
