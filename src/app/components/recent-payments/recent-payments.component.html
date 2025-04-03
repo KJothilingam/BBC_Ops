@@ -12,7 +12,7 @@
         </thead>
         <tbody>
             <tr *ngFor="let payment of payments">
-                <td>{{ payment.meterNumber }}</td>
+                <td><strong>{{ payment.meterNumber }}</strong></td>
                 <td>{{ payment.unitConsumed }} kWh</td>
                 <td class="amount">Rs. {{ payment.finalAmountPaid }}</td>
                 <td class="payment-method">{{ payment.paymentMethod }}</td>

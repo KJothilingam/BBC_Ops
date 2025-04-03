@@ -23,8 +23,14 @@ export class PaymentHistoryComponentComponent implements OnInit {
         paymentDateFormatted: this.convertToDate(payment.paymentDate),
         dueDateFormatted: this.convertToDate(payment.dueDate)
       }));
+  
+      // Sort payments in descending order based on paymentDate
+      this.payments.sort((a, b) => new Date(b.paymentDate).getTime() - new Date(a.paymentDate).getTime());
+
+      
     });
   }
+ 
 
   private convertToDate(dateValue: any): string {
     if (!dateValue) return 'N/A'; 

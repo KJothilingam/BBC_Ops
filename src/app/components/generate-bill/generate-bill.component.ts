@@ -109,6 +109,22 @@ generateBill() {
     }
   }
 
+  // fetchBills() {
+  //   this.billService.getAllBills().subscribe(
+  //     (data) => {
+  //       this.bills = data.map(bill => ({
+  //         ...bill,
+  //         customer_id: bill.customer?.customerId || 'N/A',
+  //         meterNumber: bill.customer?.meterNumber || 'N/A'
+  //       }));
+  
+  //       this.filteredBills = [...this.bills];
+  //     },
+  //     (error) => {
+  //       console.error('Error fetching bills:', error);
+  //     }
+  //   );
+  // }
   fetchBills() {
     this.billService.getAllBills().subscribe(
       (data) => {
@@ -118,6 +134,9 @@ generateBill() {
           meterNumber: bill.customer?.meterNumber || 'N/A'
         }));
   
+        // Sort bills in descending order based on createdAt date
+        this.bills.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+  
         this.filteredBills = [...this.bills];
       },
       (error) => {
@@ -125,6 +144,7 @@ generateBill() {
       }
     );
   }
+  
   
   filterBills() {
     if (!this.selectedStatus) {

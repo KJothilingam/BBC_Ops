@@ -160,6 +160,7 @@ export class PaymentComponent {
   
           this.toastr.success('Payment Successful!', 'Success', this.getToastrConfig());
           this.generatePDFReceipt(); // ✅ Generate PDF only if success
+          // PaymentHistoryComponentComponent.refreshTrigger.next();
           this.resetForm();
         } else {
           // 🛑 Handle failed payment properly

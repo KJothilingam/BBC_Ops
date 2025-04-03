@@ -1,69 +1,83 @@
+/* Cloudy Background */
+body {
+    background: linear-gradient(to bottom, #f5f7fa, #c3cfe2); /* Soft cloud colors */
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Glassmorphism Effect for the Container */
 .recent-payments-container {
-    width: 100%;
-    max-width: 700px;
+    width: 90%;
+    max-width: 750px;
     margin: auto;
-    background: #ffffff;
-    border-radius: 10px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
     padding: 20px;
     text-align: center;
-    border: 2px solid #007bff; /* Outer border */
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
     transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 }
 
+/* Hover Effect */
 .recent-payments-container:hover {
-    transform: scale(1.02);
-    box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.2);
+    transform: scale(1.05);
+    box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.3);
 }
 
+/* Title Styling */
 h4 {
     color: #333;
-    font-size: 20px;
+    font-size: 22px;
     font-weight: bold;
     margin-bottom: 15px;
 }
 
-/* Table Styling with Shadow Effect */
+/* Table Styling */
 .recent-payments-table {
     width: 100%;
     border-collapse: collapse;
-    background: #fff;
-    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 10px;
     overflow: hidden;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* Shadow effect */
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
 }
 
+/* Table Header */
 .recent-payments-table thead {
     background: #007bff;
     color: white;
 }
 
+/* Table Cells */
 .recent-payments-table th, 
 .recent-payments-table td {
-    padding: 12px;
+    padding: 14px;
     text-align: left;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
-.recent-payments-table tbody tr {
-    border-bottom: 1px solid #ddd;
-}
-
+/* Last Row Border Removal */
 .recent-payments-table tbody tr:last-child {
     border-bottom: none;
 }
 
-/* Hover Effect */
-.recent-payments-table tbody tr:hover {
-    background: #f1f1f1;
-    transform: scale(1.02);
-    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+/* Hover Effect on Table Rows */
+.recent-payments-table tbody tr {
     transition: all 0.3s ease-in-out;
 }
 
-/* Styling for Important Data */
+.recent-payments-table tbody tr:hover {
+    background: rgba(0, 123, 255, 0.1);
+    transform: scale(1.02);
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Column Styling */
 .amount {
     color: #28a745;
     font-weight: bold;
+    font-size: 16px;
 }
 
 .payment-method {
