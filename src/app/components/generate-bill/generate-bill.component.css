@@ -197,3 +197,22 @@ input {
     border: 1px solid #ccc;
     border-radius: 4px;
 }
+.pdf-btn {
+    background-color: #ff0000;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+}
+
+.pdf-btn i {
+    margin-right: 5px;
+    font-size: 18px;
+}
+
+.pdf-btn:hover {
+    background-color: #cc0000;
+}

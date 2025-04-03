@@ -26,5 +26,9 @@ export class BillService {
     getUnpaidBillsByMeter(meterNumber: string): Observable<any[]> {
       return this.http.get<any[]>(`${this.apiUrl}/unpaid/${meterNumber}`);
     }
+
+    getBillDetails(invoiceId: string): Observable<any> {
+      return this.http.get(`${this.apiUrl}/${invoiceId}`);
+    }
     
 }

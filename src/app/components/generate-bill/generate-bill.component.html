@@ -67,18 +67,19 @@
             <thead>
                 <tr>
                     <th>Customer ID</th>  
-                    <th>Meter Number</th>  <!-- ✅ Added Meter Number Column -->
+                    <th>Meter Number</th>  
                     <th>Invoice ID</th>
                     <th>Date</th>
                     <th>Due Date</th>
                     <th>Status</th>
                     <th>Amount</th>
+                    <th>Action</th>  <!-- ✅ Added Action Column -->
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let bill of filteredBills">
                     <td>{{ bill.customer_id }}</td>  
-                    <td>{{ bill.meterNumber }}</td>  <!-- ✅ Display Meter Number -->
+                    <td>{{ bill.meterNumber }}</td>  
                     <td>{{ bill.invoiceId }}</td>
                     <td>{{ bill.createdAt | date: 'dd.MMM.yyyy' }}</td>
                     <td>{{ bill.dueDate | date: 'dd.MMM.yyyy' }}</td>
@@ -86,9 +87,16 @@
                         {{ bill.paymentStatus }}
                     </td>
                     <td>Rs. {{ bill.totalBillAmount }}</td>
+                    <td>
+                        <button (click)="generatePDFInvoice(bill)" class="pdf-btn">
+                            <i class="bi bi-filetype-pdf"></i> 
+                        </button>
+                    </td>
                 </tr>
             </tbody>
         </table>
+        
+        
         
     </div>
     
