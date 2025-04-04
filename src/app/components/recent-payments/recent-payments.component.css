@@ -75,7 +75,7 @@ h4 {
 
 /* Column Styling */
 .amount {
-    color: #28a745;
+    color: rgb(0, 216, 0);
     font-weight: bold;
     font-size: 16px;
 }
@@ -83,7 +83,7 @@ h4 {
 .payment-method {
     font-weight: bold;
     text-transform: uppercase;
-    color: #ff6b6b;
+    color: red;
 }
 
 .time {
