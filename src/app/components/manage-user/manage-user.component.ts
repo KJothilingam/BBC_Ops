@@ -4,7 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { SidebarComponent } from "../sidebar/sidebar.component";
 import { CustomerService } from '../../services/customer.service';
 import { ToastrService } from 'ngx-toastr';
-
+import * as XLSX from 'xlsx';
+import { saveAs } from 'file-saver';
 @Component({
   selector: 'app-manage-user',
   standalone: true,
@@ -72,6 +73,50 @@ openAddModal() {
   }
   
 
+  // uploadFile() {
+  //   if (!this.selectedFile) {
+  //     this.toastr.error("Please select a CSV file.", "Error");
+  //     return;
+  //   }
+  
+  //   this.customerService.uploadCSV(this.selectedFile).subscribe({
+  //     next: (response) => {
+  //       if (response.validRecords > 0 && response.rejectedRecords > 0) {
+  //         // ⚠️ Partial success: some records were rejected
+  //         this.toastr.warning(
+  //           `Partial Upload:
+  //           ✅ Added: ${response.validRecords}
+  //           ❌ Rejected: ${response.rejectedRecords}`,
+  //           "Warning"
+  //         );
+  //       } else if (response.validRecords > 0) {
+  //         // ✅ All records were successfully uploaded
+  //         this.toastr.success("All records added successfully!", "Success");
+  //       } else {
+  //         // ❌ No records were added
+  //         this.toastr.error("Failed to add all records.", "Error");
+  //       }
+  
+  //       this.fetchCustomers(); // Refresh the customer list after upload
+  //     },
+  //     error: (err) => {
+  //       console.error("Upload Error:", err);
+  
+  //       if (err.status === 400 && err.error) {
+  //         const response = err.error;
+  //         this.toastr.error(
+  //           `Upload Failed:
+  //           ❌ Rejected: ${response.rejectedRecords}
+  //           Message: ${response.message}`,
+  //           "Error"
+  //         );
+  //       } else {
+  //         this.toastr.error("Failed to upload file. Please try again.", "Error");
+  //       }
+  //     }
+  //   });
+  // }
+
   uploadFile() {
     if (!this.selectedFile) {
       this.toastr.error("Please select a CSV file.", "Error");
@@ -88,6 +133,10 @@ openAddModal() {
             ❌ Rejected: ${response.rejectedRecords}`,
             "Warning"
           );
+  
+          if (response.errors && response.errors.length > 0) {
+            this.generateExcel(response.errors);
+          }
         } else if (response.validRecords > 0) {
           // ✅ All records were successfully uploaded
           this.toastr.success("All records added successfully!", "Success");
@@ -100,20 +149,20 @@ openAddModal() {
       },
       error: (err) => {
         console.error("Upload Error:", err);
-  
-        if (err.status === 400 && err.error) {
-          const response = err.error;
-          this.toastr.error(
-            `Upload Failed:
-            ❌ Rejected: ${response.rejectedRecords}
-            Message: ${response.message}`,
-            "Error"
-          );
-        } else {
-          this.toastr.error("Failed to upload file. Please try again.", "Error");
-        }
+        this.toastr.error("Failed to upload file. Please try again.", "Error");
       }
     });
+  }
+
+  generateExcel(errors: string[]) {
+    const worksheet = XLSX.utils.json_to_sheet(errors.map(error => ({ "Skipped Record": error })));
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "SkippedRecords");
+  
+    const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+    const data = new Blob([excelBuffer], { type: 'application/octet-stream' });
+  
+    saveAs(data, "Skipped_Records.xlsx");
   }
   
   
