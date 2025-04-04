@@ -32,16 +32,31 @@
   background: white;
   padding: 15px;
   border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 table {
   width: 100%;
   border-collapse: collapse;
+  border-radius: 10px;
+  overflow: hidden;
 }
 
 th, td {
-  padding: 10px;
+  padding: 12px;
   border-bottom: 1px solid #ddd;
+  text-align: center;
+}
+
+th {
+  background: #4318ff;
+  color: white;
+  font-weight: 600;
+}
+
+tbody tr:hover {
+  background-color: #f2f2f2;
+  transition: 0.3s;
 }
 
 /* Search box styles */

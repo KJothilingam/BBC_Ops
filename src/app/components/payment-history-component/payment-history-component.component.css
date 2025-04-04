@@ -1,73 +1,92 @@
+/* 🔹 Main Container Styling */
+.container {
+  padding: 20px;
+  position: relative;
+  margin-left: 14%;
+  background: linear-gradient(to bottom, #eef2f3, #dfe9f3);
+  min-height: 100vh;
+  max-width: 86%;
+  overflow: hidden;
+}
+
+/* 🔹 Payment Card */
 .payment-container {
-    width: 100%;  /* Increase the width */
-    /* max-width: 1100px; Allow more content inside */
-    margin: 20px auto;
-    padding: 25px; /* More padding for better spacing */
-    border: 2px solid #673ab7;
-    border-radius: 12px;
-    box-shadow: 3px 3px 12px rgba(0, 0, 0, 0.15);
-    background: #fff;
+  width: 98%; /* Increased width */
+  max-width: 1200px; /* More space */
+  margin: 20px auto;
+  padding: 30px;
+  border: 2px solid #673ab7;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  background: #fff;
+  overflow-x: auto; /* Prevents content overflow */
+  transition: transform 0.3s ease-in-out;
 }
 
-  
-  h2 {
-    color: #673ab7;
-    text-align: center;
-  }
-  
-  table {
-    width: 100%;
-    table-layout: fixed; /* Ensures columns adjust evenly */
-    border-collapse: collapse;
-    margin-top: 15px;
+/* 🔹 Hover Effect on Card */
+
+
+/* 🔹 Title */
+h2 {
+  color: #673ab7;
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  text-transform: uppercase;
 }
 
-th, td {
-    padding: 10px; /* More spacing for better readability */
-    border-bottom: 1px solid #ddd;
-    text-align: center;
-    word-wrap: break-word; /* Prevents content from overflowing */
+/* 🔹 Table Styling */
+table {
+  width: 100%;
+  table-layout: auto; /* Allow columns to adjust automatically */
+  border-collapse: collapse;
+  margin-top: 15px;
+  background: #fafafa;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
+/* 🔹 Table Header */
 th {
-    background-color: #f4f4f4;
-    font-weight: bold;
+  background-color: #673ab7;
+  color: white;
+  font-weight: bold;
+  padding: 12px;
+  text-align: center;
 }
 
-  tr:hover {
-    background-color: #f1f1f1;
-  }
-
-  .discount {
-    color: orange; /* Yellowish */
-    font-weight: bold;
-  }
-  
-  .final-amount {
-    color: green;
-    font-weight: bold;
-  }
-  
-  .total-amount {
-    color: red;
-    font-weight: bold;
-  }
-  
-  @media (max-width: 768px) {
-    .payment-container {
-        width: 95%;
-        padding: 10px;
-    }
-
-    table {
-        font-size: 14px;
-    }
-
-    th, td {
-        padding: 8px;
-    }
+/* 🔹 Table Cells */
+th, td {
+  padding: 12px;
+  border-bottom: 1px solid #ddd;
+  text-align: center;
+  font-size: 16px;
+  word-wrap: break-word;
+  white-space: normal;
 }
-/* PDF Button */
+
+/* 🔹 Hover Effect on Rows */
+tr:hover {
+  background-color: #f1f1f1;
+  transition: background 0.3s;
+}
+
+/* 🔹 Amount Styling */
+.total-amount {
+  color: red;
+  font-weight: bold;
+}
+
+.discount {
+  color: orange;
+  font-weight: bold;
+}
+
+.final-amount {
+  color: green;
+  font-weight: bold;
+}
+
+/* 🔹 PDF Button */
 .pdf-btn {
   background-color: #dc3545; /* Red Button */
   color: white;
@@ -82,13 +101,33 @@ th {
   transition: background 0.3s, transform 0.2s;
 }
 
-/* PDF Button Hover */
+/* 🔹 PDF Button Hover */
 .pdf-btn:hover {
   background-color: #b02a37; /* Darker Red */
   transform: scale(1.1);
 }
 
-/* Icon inside Button */
+/* 🔹 Icon inside Button */
 .pdf-btn i {
   font-size: 20px;
+}
+
+/* 🔹 Mobile Responsive Adjustments */
+@media (max-width: 768px) {
+  .payment-container {
+      width: 100%;
+      padding: 15px;
+      overflow-x: auto; /* Enables horizontal scroll */
+  }
+
+  table {
+      display: block;
+      overflow-x: auto;
+      white-space: nowrap; /* Prevent text wrapping */
+  }
+
+  th, td {
+      padding: 10px;
+      font-size: 14px;
+  }
 }

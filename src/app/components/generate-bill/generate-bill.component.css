@@ -132,25 +132,41 @@ input {
 }
 
 
+/* 🔹 Bill Container (Fixes Overlap) */
 .bill-container {
-    border: 2px solid purple;
-    padding: 20px;
-    border-radius: 8px;
-    width: 90%;
-    margin: auto;
+    border: 2px solid #673ab7;
+    padding: 25px;
+    border-radius: 12px;
+    width: 98%;
+    max-width: 1100px;
+    margin: 30px auto;
     background-color: #fff;
-    margin-top: 30px; /* Increase spacing if needed */
-}
-  
-  .bill-title {
-    font-size: 20px;
-    font-weight: bold;
-    margin-bottom: 10px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+    min-height: 200px;  /* ✅ Allows dynamic expansion */
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
   }
   
-  .bill-table {
+  
+  /* 🔹 Bill Title */
+.bill-title {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #673ab7;
+    text-transform: uppercase;
+    text-align: center;
+  }
+  
+  /* 🔹 Table */
+.bill-table {
     width: 100%;
     border-collapse: collapse;
+    background: #fafafa;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    table-layout: auto; /* ✅ Adjusts column widths dynamically */
   }
   
   .bill-table th, .bill-table td {
@@ -159,13 +175,32 @@ input {
     text-align: left;
   }
   
-  .bill-table th {
+  /* 🔹 Table Header */
+.bill-table th {
+    background-color: #673ab7;
+    color: white;
     font-weight: bold;
+    padding: 14px;
+    text-align: center;
+    font-size: 16px;
+  }
+
+  /* 🔹 Table Cells */
+.bill-table th, .bill-table td {
+    padding: 14px;
+    border-bottom: 1px solid #ddd;
+    text-align: center;
+    font-size: 16px;
+    white-space: normal; /* ✅ Ensures text wraps */
+    word-wrap: break-word;
+  }
+  /* 🔹 Hover Effect on Rows */
+.bill-table tr:hover {
+    background-color: #f0f0f0;
+    transition: background 0.3s ease-in-out;
   }
   
-  .bill-table tr:hover {
-    background-color: #f5f5f5;
-  }
+
   /* Payment Status Styling */
 .status-pending {
     color: #d4a100; /* Yellow */
@@ -181,22 +216,34 @@ input {
     color: #d40000; /* Red */
     font-weight: bold;
   }
-  .filter-container {
+ /* 🔹 Filter Dropdown */
+.filter-container {
     margin-bottom: 15px;
     display: flex;
     align-items: center;
-    gap: 10px;
-}
-
-.filter-container label {
+    justify-content: center;
+    gap: 12px;
+  }
+  
+  .filter-container label {
     font-weight: bold;
-}
-
-.filter-container select {
-    padding: 5px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
+    color: #333;
+  }
+  
+  .filter-container select {
+    padding: 8px 12px;
+    border: 2px solid #ccc;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  /* 🔹 Dropdown Hover */
+  .filter-container select:hover {
+    border-color: #673ab7;
+  }
+  
 .pdf-btn {
     background-color: #ff0000;
     color: white;
