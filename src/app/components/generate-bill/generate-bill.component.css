@@ -263,3 +263,18 @@ input {
 .pdf-btn:hover {
     background-color: #cc0000;
 }
+.action-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.edit-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 16px;
+}

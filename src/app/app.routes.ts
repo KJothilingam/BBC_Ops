@@ -79,4 +79,12 @@ export const routes: Routes = [
       ),
     canActivate: [AuthGuard], // ✅ Protected route
   },
+  {
+    path: 'updatebill',
+    loadComponent: () =>
+      import('./components/update-bill/update-bill.component').then(
+        (c) => c.UpdateBillComponent
+      ),
+    canActivate: [AuthGuard], // ✅ Protected route
+  },
 ];

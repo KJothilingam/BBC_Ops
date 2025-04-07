@@ -8,6 +8,7 @@ import { BillDetailsDialogComponent } from '../bill-details-dialog/bill-details-
 import { BillService } from '../../services/bill.service';
 import jsPDF from 'jspdf';
 import * as QRCode from 'qrcode';
+import { UpdateBillComponent } from '../update-bill/update-bill.component';
 
 @Component({
   selector: 'app-generate-bill',
@@ -34,13 +35,6 @@ export class GenerateBillComponent {
     private dialog: MatDialog
   ) {}
 
-  // updateDueDate() {
-  //   if (this.bill.monthDate) {
-  //     let selectedDate = new Date(this.bill.monthDate);
-  //     selectedDate.setDate(selectedDate.getDate() + 10);
-  //     this.bill.dueDate = selectedDate.toISOString().split('T')[0];
-  //   }
-  // }
 
   updateDueDate() {
     if (this.bill.monthDate) {
@@ -111,23 +105,6 @@ generateBill() {
     }
   }
 
-  // fetchBills() {
-  //   this.billService.getAllBills().subscribe(
-  //     (data) => {
-  //       this.bills = data.map(bill => ({
-  //         ...bill,
-  //         customer_id: bill.customer?.customerId || 'N/A',
-  //         meterNumber: bill.customer?.meterNumber || 'N/A'
-  //       }));
-  
-  //       this.filteredBills = [...this.bills];
-  //     },
-  //     (error) => {
-  //       console.error('Error fetching bills:', error);
-  //     }
-  //   );
-  // }
-  
   
   fetchBills() {
     this.billService.getAllBills().subscribe(
@@ -282,4 +259,18 @@ generateBill() {
       }
     );
   }
+
+openUpdateBillDialog(billId: number) {
+  const dialogRef = this.dialog.open(UpdateBillComponent, {
+    width: '600px', // optional: set width
+    data: { billId } // ✅ pass billId to the update component
+  });
+
+  dialogRef.afterClosed().subscribe(result => {
+    if (result === 'updated') {
+      this.fetchBills(); // refresh list
+    }
+  });
+}
+  
 }

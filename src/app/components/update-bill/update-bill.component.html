@@ -1,0 +1,70 @@
+<h2 class="text-center mb-4">Update Bill</h2>
+
+<form [formGroup]="billForm" (ngSubmit)="onSubmit()">
+  <div class="row">
+    <div class="col-md-6 mb-3">
+      <label>Bill ID</label>
+      <input type="text" class="form-control" formControlName="billId" readonly />
+    </div>
+
+    <div class="col-md-6 mb-3">
+      <label>Customer ID</label>
+      <input type="text" class="form-control" formControlName="customerId"  readonly/>
+    </div>
+
+    <div class="col-md-6 mb-3">
+        <label>Meter Number</label>
+        <input type="text" class="form-control" formControlName="meterNumber" readonly />
+      </div>
+      
+
+    <div class="col-md-6 mb-3">
+      <label>Invoice ID</label>
+      <input type="text" class="form-control" formControlName="invoiceId" readonly />
+    </div>
+
+    <div class="col-md-6 mb-3">
+      <label>Month Date</label>
+      <input type="date" class="form-control" formControlName="monthDate" />
+    </div>
+
+    <div class="col-md-6 mb-3">
+      <label>Payment Status</label>
+      <select class="form-control" formControlName="paymentStatus">
+        <option value="Paid">Paid</option>
+        <option value="Unpaid">Unpaid</option>
+        <option value="Pending">Pending</option>
+      </select>
+    </div>
+
+    <div class="col-md-6 mb-3">
+      <label>Total Bill Amount</label>
+      <input type="number" class="form-control" formControlName="totalBillAmount" />
+    </div>
+
+    <div class="col-md-6 mb-3">
+      <label>Discount Applied</label>
+      <input type="number" class="form-control" formControlName="discountApplied" />
+    </div>
+
+    <div class="col-md-6 mb-3">
+      <label>Created At</label>
+      <input type="date" class="form-control" formControlName="createdAt" />
+    </div>
+
+    <div class="col-md-6 mb-3">
+      <label>Due Date</label>
+      <input type="date" class="form-control" formControlName="dueDate" />
+    </div>
+
+    <div class="col-md-6 mb-3">
+      <label>Unit Consumed</label>
+      <input type="number" class="form-control" formControlName="unitConsumed" />
+    </div>
+  </div>
+
+  <div class="text-end mt-4">
+    <button type="submit" class="btn btn-success me-2">Update</button>
+    <button type="button" class="btn btn-secondary" (click)="cancel()">Cancel</button>
+  </div>
+</form>

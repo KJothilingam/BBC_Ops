@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { Bill } from '../Interfaces/bill';
 
 @Injectable({
   providedIn: 'root'
@@ -29,6 +30,15 @@ export class BillService {
 
     getBillDetails(invoiceId: string): Observable<any> {
       return this.http.get(`${this.apiUrl}/${invoiceId}`);
+    }
+    
+    updateBill(bill: Bill): Observable<Bill> {
+      return this.http.put<Bill>(`${this.apiUrl}/${bill.billId}`, bill);
+    }
+
+   
+    getBillById(billId: number): Observable<Bill> {
+      return this.http.get<Bill>(`${this.apiUrl}/id/${billId}`);
     }
     
 }

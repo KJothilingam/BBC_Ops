@@ -1,0 +1,25 @@
+
+  form {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+  }
+  
+  label {
+    font-weight: 500;
+    margin-bottom: 5px;
+  }
+  
+  input, select {
+    border-radius: 6px !important;
+  }
+  
+  button {
+    min-width: 100px;
+  }
+  
+  .mat-dialog-container {
+    overflow: visible !important;
+    max-height: 90vh !important;
+  }
+  

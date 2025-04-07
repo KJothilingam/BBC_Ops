@@ -83,10 +83,22 @@
                     </td>
                     <td>Rs. {{ bill.totalBillAmount }}</td>
                     <td>
-                        <button (click)="generatePDFInvoice(bill)" class="pdf-btn">
+                        <div class="action-buttons">
+                          <button (click)="generatePDFInvoice(bill)" class="pdf-btn">
                             <i class="bi bi-filetype-pdf"></i> 
-                        </button>
-                    </td>
+                          </button>
+                          <span class="separator"></span>
+                          <!-- <button class="btn btn-warning edit-btn">
+                            <i class="bi bi-pencil-square"></i>
+                          </button> -->
+                          <button class="btn btn-warning edit-btn" (click)="openUpdateBillDialog(bill.billId)">
+                            <i class="bi bi-pencil-square"></i>
+                          </button>
+                          
+                          
+                        </div>
+                      </td>
+                      
                 </tr>
             </tbody>
         </table>
