@@ -1,0 +1,127 @@
+.report-table-container {
+  background: #fff;
+  padding: 30px;
+  margin: 40px auto;
+  max-width: 86%;
+  margin-left: 14%;
+  border-radius: 12px;
+  box-shadow: 0px 8px 18px rgba(0, 0, 0, 0.1);
+  min-height: 100vh;
+}
+
+.text-purple {
+  color: #6a1b9a;
+}
+
+/* Table and Container Shadow */
+.table-responsive {
+  box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.08);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+table {
+  font-size: 15px;
+  width: 100%;
+  border-collapse: collapse;
+}
+
+/* Table header */
+thead.custom-table-header {
+  background-color: #5e2e99;
+  color: white;
+  font-weight: bold;
+  font-size: 15px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+thead th {
+  padding: 14px 12px;
+  border: none !important;
+}
+
+/* Table cells */
+.table td, .table th {
+  vertical-align: middle;
+  border: none;
+  padding: 12px 10px;
+}
+
+/* Row hover */
+.table tbody tr {
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.table tbody tr:hover {
+  background-color: #f1f1ff;
+  transform: scale(1.01);
+  cursor: pointer;
+}
+
+/* Disabled dropdown style */
+select:disabled {
+  background-color: #f0f0f0;
+  color: #495057;
+  font-weight: bold;
+}
+
+/* Colored dropdowns based on status */
+.status-in-process {
+  background-color: #fff8e1; /* light yellow */
+  color: #f9a825; /* deep yellow */
+  font-weight: bold;
+}
+
+.status-completed {
+  background-color: #e8f5e9; /* light green */
+  color: #2e7d32; /* green */
+  font-weight: bold;
+}
+
+.status-declined {
+  background-color: #ffebee; /* light red */
+  color: #c62828; /* red */
+  font-weight: bold;
+}
+/* Common base for select */
+select.form-select-sm {
+  font-weight: bold;
+}
+
+/* IN_PROCESS – Yellow */
+.status-in-process {
+  background-color: #fff8e1 !important;
+  color: #f9a825 !important;
+  border: 1px solid #f9a825 !important;
+}
+
+/* COMPLETED – Green */
+.status-completed {
+  background-color: #e8f5e9 !important;
+  color: #2e7d32 !important;
+  border: 1px solid #2e7d32 !important;
+}
+
+/* DECLINED – Red */
+.status-declined {
+  background-color: #ffebee !important;
+  color: #c62828 !important;
+  border: 1px solid #c62828 !important;
+}
+
+/* Ensure styles apply even when disabled */
+select[disabled].status-in-process {
+  background-color: #fff8e1 !important;
+  color: #f9a825 !important;
+}
+
+select[disabled].status-completed {
+  background-color: #e8f5e9 !important;
+  color: #2e7d32 !important;
+}
+
+select[disabled].status-declined {
+  background-color: #ffebee !important;
+  color: #c62828 !important;
+}

@@ -87,4 +87,12 @@ export const routes: Routes = [
       ),
     canActivate: [AuthGuard], // ✅ Protected route
   },
+  {
+    path: 'report',
+    loadComponent: () =>
+      import('./components/report/report.component').then(
+        (c) => c.ReportComponent
+      ),
+    canActivate: [AuthGuard], // ✅ Protected route
+  },
 ];

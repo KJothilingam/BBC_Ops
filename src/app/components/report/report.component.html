@@ -1,0 +1,58 @@
+<app-sidebar></app-sidebar>
+
+<div class="report-table-container">
+  <h2 class="text-center fw-bold mb-4 text-purple">REPORT DETAILS</h2>
+
+  <div *ngIf="reportList.length === 0" class="alert alert-info text-center">
+    No report requests available.
+  </div>
+
+  <div *ngIf="reportList.length > 0" class="table-responsive">
+    <table class="table table-bordered text-center">
+      <thead class="custom-table-header">
+        <tr>
+          <th>Request ID</th>
+          <th>Customer ID</th>
+          <th>Request Type</th>
+          <th>Bill ID</th>
+          <th>New Value</th>
+          <th>Extend Days</th>
+          <th>Details</th>
+          <th>Status</th>
+          <th>Request Date</th>
+        </tr>
+      </thead>
+      
+      <tbody>
+        <tr *ngFor="let req of reportList">
+          <td>{{ req.requestId }}</td>
+          <td>{{ req.customerId }}</td>
+          <td>{{ req.requestType || '-' }}</td>
+          <td>{{ req.billId || '-' }}</td>
+          <td>{{ req.newValue || '-' }}</td>
+          <td>{{ req.extendDays || '-' }}</td>
+          <td>{{ req.details || '-' }}</td>
+          <td>
+                    <select
+          [(ngModel)]="req.status"
+          (change)="updateStatus(req)"
+          class="form-select form-select-sm"
+          [ngClass]="{
+            'status-in-process': req.status === 'IN_PROCESS',
+            'status-completed': req.status === 'COMPLETED',
+            'status-declined': req.status === 'DECLINED'
+          }"
+          [disabled]="req.status === 'COMPLETED' || req.status === 'DECLINED'"
+        >
+          <option value="IN_PROCESS">IN_PROCESS</option>
+          <option value="COMPLETED">COMPLETED</option>
+          <option value="DECLINED">DECLINED</option>
+        </select>
+
+          </td>
+          <td>{{ req.requestDate ? (req.requestDate | date: 'dd.MMM.yyyy') : '-' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
