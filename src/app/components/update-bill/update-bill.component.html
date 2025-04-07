@@ -9,14 +9,13 @@
 
     <div class="col-md-6 mb-3">
       <label>Customer ID</label>
-      <input type="text" class="form-control" formControlName="customerId"  readonly/>
+      <input type="text" class="form-control" formControlName="customerId" readonly />
     </div>
 
     <div class="col-md-6 mb-3">
-        <label>Meter Number</label>
-        <input type="text" class="form-control" formControlName="meterNumber" readonly />
-      </div>
-      
+      <label>Meter Number</label>
+      <input type="text" class="form-control" formControlName="meterNumber" readonly />
+    </div>
 
     <div class="col-md-6 mb-3">
       <label>Invoice ID</label>
@@ -24,22 +23,24 @@
     </div>
 
     <div class="col-md-6 mb-3">
-      <label>Month Date</label>
+      <label>BILL Date</label>
       <input type="date" class="form-control" formControlName="monthDate" />
     </div>
 
+    
     <div class="col-md-6 mb-3">
-      <label>Payment Status</label>
-      <select class="form-control" formControlName="paymentStatus">
-        <option value="Paid">Paid</option>
-        <option value="Unpaid">Unpaid</option>
-        <option value="Pending">Pending</option>
-      </select>
-    </div>
+        <label>Payment Status</label>
+        <select class="form-control" formControlName="paymentStatus">
+          <option value="PAID">PAID</option>
+          <option value="OVERDUE">OVERDUE</option>
+          <option value="PENDING">PENDING</option>
+        </select>
+      </div>
+      
 
     <div class="col-md-6 mb-3">
       <label>Total Bill Amount</label>
-      <input type="number" class="form-control" formControlName="totalBillAmount" />
+      <input type="number" class="form-control" formControlName="totalBillAmount" readonly />
     </div>
 
     <div class="col-md-6 mb-3">
@@ -47,10 +48,8 @@
       <input type="number" class="form-control" formControlName="discountApplied" />
     </div>
 
-    <div class="col-md-6 mb-3">
-      <label>Created At</label>
-      <input type="date" class="form-control" formControlName="createdAt" />
-    </div>
+    
+
 
     <div class="col-md-6 mb-3">
       <label>Due Date</label>
@@ -65,6 +64,7 @@
 
   <div class="text-end mt-4">
     <button type="submit" class="btn btn-success me-2">Update</button>
-    <button type="button" class="btn btn-secondary" (click)="cancel()">Cancel</button>
+    <button type="button" class="btn btn-secondary me-2" (click)="cancel()">Cancel</button>
+    <button type="button" class="btn btn-warning" (click)="resetForm()">Reset</button>
   </div>
 </form>
