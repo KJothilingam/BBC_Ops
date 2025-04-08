@@ -2,8 +2,8 @@ export interface PaymentRequest {
   billId: number;
   amount: number;
   paymentMethod: string;
-  customerName?: string; // Added (optional)
-  customerEmail?: string; // Added (optional)
+  customerName?: string; 
+  customerEmail?: string; 
 }
 
 export interface PaymentResponse {
@@ -15,6 +15,6 @@ export interface PaymentResponse {
   transactionStatus: string;
   paymentStatus: string;
   paymentMethod: string;
-  success: boolean; // Added
-  message: string; // Added
+  success: boolean; 
+  message: string; 
 }

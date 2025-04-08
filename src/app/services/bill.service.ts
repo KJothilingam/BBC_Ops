@@ -7,7 +7,7 @@ import { Bill } from '../Interfaces/bill';
   providedIn: 'root'
 })
 export class BillService {
-  private apiUrl = 'http://localhost:8080/bills'; // ✅ Corrected base URL
+  private apiUrl = 'http://localhost:8080/bills'; 
 
   constructor(private http: HttpClient) {}
 
@@ -16,10 +16,10 @@ export class BillService {
   }
 
   getAllBills(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/all`); // ✅ Fixed URL
+    return this.http.get<any[]>(`${this.apiUrl}/all`); 
   }
 
-    /** ✅ Update overdue bills */
+    /**  Update overdue bills */
     updateOverdueBills(): Observable<{ message: string }> {
       return this.http.put<{ message: string }>(`${this.apiUrl}/update-overdue`, {});
     }

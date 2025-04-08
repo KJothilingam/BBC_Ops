@@ -39,12 +39,12 @@ export class LoginComponent {
     }
   }
   autoFillOtp(otp: string) {
-    const otpArray = otp.split(''); // Convert OTP string into array of digits
-    const inputs = this.otpInputs.toArray(); // Get all input fields
+    const otpArray = otp.split(''); 
+    const inputs = this.otpInputs.toArray(); 
     
     otpArray.forEach((digit, index) => {
       if (inputs[index]) {
-        inputs[index].nativeElement.value = digit; // Auto-fill input box
+        inputs[index].nativeElement.value = digit;
       }
     });
   
@@ -64,7 +64,7 @@ export class LoginComponent {
     this.authService.generateOtp(this.email).subscribe(
       response => {
         if (response.otp) {
-          this.storedOtp = response.otp; // Store OTP for auto-fill
+          this.storedOtp = response.otp; 
   
           this.toastr.success(
             `✅ OTP Sent Successfully! <br><strong style="font-size: 18px;">Your OTP: ${response.otp}</strong>`, 
@@ -97,7 +97,7 @@ export class LoginComponent {
     this.authService.verifyOtp(this.email, enteredOtp).subscribe(
       response => {
         if (response.userId && response.userName && response.designation) {
-          // ✅ Store user details, including designation
+          //  Store user details, including designation
           this.authService.saveUserDetails(response.userId, response.userName, response.designation);
   
           this.toastr.success(
@@ -125,7 +125,7 @@ export class LoginComponent {
     return {
       userId: localStorage.getItem('userId'),
       userName: localStorage.getItem('userName'),
-      designation: localStorage.getItem('designation'), // ✅ Fetch designation
+      designation: localStorage.getItem('designation'), 
     };
   }
   

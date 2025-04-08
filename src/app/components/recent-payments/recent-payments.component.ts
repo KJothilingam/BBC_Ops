@@ -1,7 +1,6 @@
 import { Component, OnInit, NgZone } from '@angular/core';
 import { DashboardService } from '../../services/dashboard.service';
 import { CommonModule } from '@angular/common';
-import { interval } from 'rxjs';
 
 @Component({
   selector: 'app-recent-payments',
@@ -15,7 +14,7 @@ export class RecentPaymentsComponent implements OnInit {
   constructor(private dashboardService: DashboardService, private ngZone: NgZone) {}
 
   ngOnInit(): void {
-    this.loadPayments();  // Only load once
+    this.loadPayments();  
   }
   
 
@@ -25,7 +24,7 @@ export class RecentPaymentsComponent implements OnInit {
         console.log("Payments fetched:", data);
         this.payments = data.map(payment => ({
           ...payment,
-          paymentDate: new Date(payment.paymentDate) // Convert timestamp to Date
+          paymentDate: new Date(payment.paymentDate) 
         }));
       },
       error: (error) => {

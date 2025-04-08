@@ -7,11 +7,10 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class PaymentHistoryService {
-  private apiUrl = 'http://localhost:8080'; // Backend API URL
+  private apiUrl = 'http://localhost:8080'; 
 
   constructor(private http: HttpClient) {}
 
-  // Get payment record by transactionId
   getPaymentDetails(transactionId: string): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/payment-records/${transactionId}`);
   }

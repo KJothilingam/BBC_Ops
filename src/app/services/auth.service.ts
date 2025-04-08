@@ -8,7 +8,7 @@ import { isPlatformBrowser } from '@angular/common';
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:8080/employees'; // ✅ Backend API URL
+  private apiUrl = 'http://localhost:8080/employees'; 
 
   constructor(private http: HttpClient, @Inject(PLATFORM_ID) private platformId: any) {}
 
@@ -22,7 +22,7 @@ export class AuthService {
         if (response.userId && response.userName && response.designation) {
           this.saveUserDetails(response.userId, response.userName, response.designation);
         } else {
-          throw new Error("Invalid response structure"); // 🚨 Log unexpected responses
+          throw new Error("Invalid response structure"); 
         }
       })
     );
@@ -37,7 +37,7 @@ export class AuthService {
   }
 
   saveUserDetails(userId: string, userName: string, designation: string): void {
-    if (isPlatformBrowser(this.platformId)) { // ✅ Ensure it's running in a browser
+    if (isPlatformBrowser(this.platformId)) { 
       localStorage.setItem('userId', userId);
       localStorage.setItem('userName', userName);
       localStorage.setItem('designation', designation);
@@ -45,7 +45,7 @@ export class AuthService {
   }
 
   getUserDetails(): { userId: string; userName: string; designation: string } | null {
-    if (isPlatformBrowser(this.platformId)) { // ✅ Check before accessing localStorage
+    if (isPlatformBrowser(this.platformId)) { 
       const userId = localStorage.getItem('userId');
       const userName = localStorage.getItem('userName');
       const designation = localStorage.getItem('designation');
@@ -58,7 +58,7 @@ export class AuthService {
   }
 
   logout(): void {
-    if (isPlatformBrowser(this.platformId)) { // ✅ Prevent SSR errors
+    if (isPlatformBrowser(this.platformId)) { 
       localStorage.removeItem('userId');
       localStorage.removeItem('userName');
       localStorage.removeItem('designation');

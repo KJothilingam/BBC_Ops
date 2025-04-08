@@ -34,7 +34,7 @@ export class ProfileComponent implements OnInit {
 
   openEditModal() {
     this.showModal = true;
-    this.editedEmployee = { ...this.employee }; // Clone current employee details
+    this.editedEmployee = { ...this.employee }; 
   }
 
   closeEditModal() {

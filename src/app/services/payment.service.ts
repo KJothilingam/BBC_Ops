@@ -10,7 +10,7 @@ export class PaymentService {
 
   constructor(private http: HttpClient) {}
 
-  private apiUrl = 'http://localhost:8080/payments/customer/process'; // Update to the correct API
+  private apiUrl = 'http://localhost:8080/payments/customer/process'; 
 
 
   processPayment(paymentData: PaymentRequest): Observable<PaymentResponse> {

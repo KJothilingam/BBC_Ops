@@ -23,7 +23,7 @@ export class DashboardService {
 
   getLatestPayments(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/latest-payments`).pipe(
-      timeout(5000),  // Fails if API takes more than 5s
+      timeout(5000),  
       catchError(error => {
         console.error("API Timeout or Error:", error);
         return throwError(() => new Error("Failed to fetch latest payments"));

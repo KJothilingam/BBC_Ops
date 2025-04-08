@@ -1,4 +1,4 @@
-// bill.ts
+
 export interface Customer {
     customerId: number;
     name: string;
@@ -14,7 +14,7 @@ export interface Customer {
   
   export interface Bill {
     billId: number;
-    customer: Customer; // ✅ Instead of just customerId
+    customer: Customer;
     invoiceId: string;
     monthDate: number;
     paymentStatus: string;

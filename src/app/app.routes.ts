@@ -13,7 +13,7 @@ export const routes: Routes = [
       import('./components/dashboard/dashboard.component').then(
         (c) => c.DashboardComponent
       ),
-    canActivate: [AuthGuard], // ✅ Protected route
+    canActivate: [AuthGuard], 
   },
   {
     path: 'profile',
@@ -21,7 +21,7 @@ export const routes: Routes = [
       import('./components/profile/profile.component').then(
         (c) => c.ProfileComponent
       ),
-    canActivate: [AuthGuard], // ✅ Protected route
+    canActivate: [AuthGuard], 
   },
   {
     path: 'adduser',
@@ -29,7 +29,7 @@ export const routes: Routes = [
       import('./components/add-user/add-user.component').then(
         (c) => c.AddUserComponent
       ),
-    canActivate: [AuthGuard], // ✅ Protected route
+    canActivate: [AuthGuard], 
   },
   {
     path: 'generatebill',
@@ -37,7 +37,7 @@ export const routes: Routes = [
       import('./components/generate-bill/generate-bill.component').then(
         (c) => c.GenerateBillComponent
       ),
-    canActivate: [AuthGuard], // ✅ Protected route
+    canActivate: [AuthGuard], 
   },
   {
     path: 'manageuser',
@@ -45,7 +45,7 @@ export const routes: Routes = [
       import('./components/manage-user/manage-user.component').then(
         (c) => c.ManageUserComponent
       ),
-    canActivate: [AuthGuard], // ✅ Protected route
+    canActivate: [AuthGuard], 
   },
   {
     path: 'payment',
@@ -53,7 +53,7 @@ export const routes: Routes = [
       import('./components/payment/payment.component').then(
         (c) => c.PaymentComponent
       ),
-    canActivate: [AuthGuard], // ✅ Protected route
+    canActivate: [AuthGuard], 
   },
   {
     path: 'paymentrecord',
@@ -61,7 +61,7 @@ export const routes: Routes = [
       import('./components/payment-history-component/payment-history-component.component').then(
         (c) => c.PaymentHistoryComponentComponent
       ),
-    canActivate: [AuthGuard], // ✅ Protected route
+    canActivate: [AuthGuard], 
   },
   {
     path: 'recent',
@@ -69,7 +69,7 @@ export const routes: Routes = [
       import('./components/recent-payments/recent-payments.component').then(
         (c) => c.RecentPaymentsComponent
       ),
-    canActivate: [AuthGuard], // ✅ Protected route
+    canActivate: [AuthGuard], 
   },
   {
     path: 'default',
@@ -77,7 +77,7 @@ export const routes: Routes = [
       import('./components/defaulter-bills/defaulter-bills.component').then(
         (c) => c.DefaulterBillsComponent
       ),
-    canActivate: [AuthGuard], // ✅ Protected route
+    canActivate: [AuthGuard],
   },
   {
     path: 'updatebill',
@@ -85,7 +85,7 @@ export const routes: Routes = [
       import('./components/update-bill/update-bill.component').then(
         (c) => c.UpdateBillComponent
       ),
-    canActivate: [AuthGuard], // ✅ Protected route
+    canActivate: [AuthGuard], 
   },
   {
     path: 'report',
@@ -93,6 +93,6 @@ export const routes: Routes = [
       import('./components/report/report.component').then(
         (c) => c.ReportComponent
       ),
-    canActivate: [AuthGuard], // ✅ Protected route
+    canActivate: [AuthGuard], 
   },
 ];

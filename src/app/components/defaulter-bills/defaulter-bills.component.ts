@@ -10,10 +10,10 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./defaulter-bills.component.css']
 })
 export class DefaulterBillsComponent implements OnInit {
-  overdueBills: any[] = []; // Stores all bills
-  displayedBills: any[] = []; // Stores currently displayed 3 bills
-  currentIndex: number = 0; // Tracks current pagination index
-  pageSize: number = 3; // Number of records per page
+  overdueBills: any[] = []; 
+  displayedBills: any[] = []; 
+  currentIndex: number = 0; 
+  pageSize: number = 3; 
 
   constructor(private dashboardService: DashboardService) {}
 
@@ -31,7 +31,7 @@ export class DefaulterBillsComponent implements OnInit {
             dueDate: new Date(bill.dueDate).toISOString().split('T')[0],
             totalBillAmount: bill.totalBillAmount
           }));
-          this.updateDisplayedBills(); // Load initial 3 records
+          this.updateDisplayedBills(); 
         } else {
           console.error("🚨 Unexpected response format:", data);
         }

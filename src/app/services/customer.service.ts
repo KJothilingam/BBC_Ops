@@ -6,7 +6,7 @@ import { catchError, Observable, tap, throwError } from 'rxjs';
   providedIn: 'root'
 })
 export class CustomerService {
-  private apiUrl = 'http://localhost:8080/customers'; // Updated base URL
+  private apiUrl = 'http://localhost:8080/customers'; 
 
   constructor(private http: HttpClient) {}
 
@@ -21,7 +21,7 @@ export class CustomerService {
   }
 
   fetchCustomers(): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/list`) // Endpoint to fetch customers
+    return this.http.get<any>(`${this.apiUrl}/list`) 
       .pipe(
         catchError(this.handleError)
       );
@@ -45,7 +45,7 @@ export class CustomerService {
   updateCustomer(customerId: number, customerData: any): Observable<any> {
     return this.http.put<any>(`${this.apiUrl}/${customerId}`, customerData)
       .pipe(
-        tap(response => console.log("API Response:", response)), // Debugging log
+        tap(response => console.log("API Response:", response)),
         catchError(error => {
           console.error("API Update Error:", error);
           return throwError(() => new Error('Failed to update customer.'));

@@ -1,7 +1,6 @@
 import { CommonModule, formatDate } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-// import { PaymentHistoryService } from './payment-history.service';  // Import the service
 import { jsPDF } from 'jspdf';
 import { PaymentHistoryService } from '../../services/payment-history.service';
 
@@ -26,7 +25,6 @@ export class PaymentHistoryComponentComponent implements OnInit {
         dueDateFormatted: this.convertToDate(payment.dueDate)
       }));
   
-      // Sort payments in descending order based on paymentDate
       this.payments.sort((a, b) => new Date(b.paymentDate).getTime() - new Date(a.paymentDate).getTime());
     });
   }
@@ -60,8 +58,8 @@ export class PaymentHistoryComponentComponent implements OnInit {
     let y = 15;
 
     // **Company Logo & Header**
-    const logoUrl = 'https://cdn-icons-png.flaticon.com/512/1827/1827504.png';  // Add your logo URL
-    doc.setFillColor(0, 102, 204);  // Header color (Dark Blue)
+    const logoUrl = 'https://cdn-icons-png.flaticon.com/512/1827/1827504.png';  
+    doc.setFillColor(0, 102, 204);  
     doc.rect(0, 0, pageWidth, 30, 'F');
     doc.setTextColor(255, 255, 255);
     doc.setFontSize(18);
@@ -80,9 +78,9 @@ export class PaymentHistoryComponentComponent implements OnInit {
       const labelX = rowX + 5;
       const valueX = rowX + rowWidth / 2 + 5;
 
-      doc.setFillColor(r, g, b);  // Background color
+      doc.setFillColor(r, g, b);  
       doc.rect(rowX, rowY, rowWidth, rowHeight, 'F');
-      doc.setDrawColor(180, 180, 180);  // Border color
+      doc.setDrawColor(180, 180, 180);  
       doc.rect(rowX, rowY, rowWidth, rowHeight);
 
       doc.setTextColor(0, 0, 0);
@@ -99,7 +97,7 @@ export class PaymentHistoryComponentComponent implements OnInit {
     doc.setFontSize(12);
     y += 10;
 
-    drawRow("Transaction ID", payment.transactionId ?? "N/A", y, true, 220, 220, 250);  // Light Blue
+    drawRow("Transaction ID", payment.transactionId ?? "N/A", y, true, 220, 220, 250);  
     y += 12;
     drawRow("Meter Number", payment.meterNumber ?? "N/A", y, false, 250, 250, 250);
     y += 12;
@@ -111,9 +109,9 @@ export class PaymentHistoryComponentComponent implements OnInit {
     y += 12;
 
     // Billing Details Section
-    drawRow("Total Bill Amount", `₹${payment.totalBillAmount}`, y, true, 255, 235, 205);  // Light Yellow
+    drawRow("Total Bill Amount", `₹${payment.totalBillAmount}`, y, true, 255, 235, 205);  
     y += 12;
-    drawRow("Discount Applied", `₹${payment.discountApplied}`, y, false, 240, 248, 255);  // Light Cyan
+    drawRow("Discount Applied", `₹${payment.discountApplied}`, y, false, 240, 248, 255);  
     y += 12;
     drawRow("Final Amount Paid", `₹${payment.finalAmountPaid}`, y, false, 255, 250, 250);
     y += 12;

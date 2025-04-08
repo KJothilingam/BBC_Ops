@@ -1,8 +1,8 @@
-/* You can add global styles to this file, and also import other style files */
-@import 'ngx-toastr/toastr';/* ✅ Ensure Toastr styles are loaded */
+
+@import 'ngx-toastr/toastr';
 
 .toast-container {
-  z-index: 99999 !important; /* ✅ Ensure Toastr is on top */
+  z-index: 99999 !important; 
   position: fixed !important;
 }
 
@@ -12,21 +12,21 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 /* Success Snackbar */
 .success-snackbar {
-  background-color: #4caf50 !important; /* Green */
+  background-color: #4caf50 !important;
   color: white !important;
   font-weight: bold;
 }
 
 /* Error Snackbar */
 .error-snackbar {
-  background-color: #f44336 !important; /* Red */
+  background-color: #f44336 !important; 
   color: white !important;
   font-weight: bold;
 }
 
 /* Warning Snackbar */
 .warning-snackbar {
-  background-color: #ff9800 !important; /* Orange */
+  background-color: #ff9800 !important; 
   color: white !important;
   font-weight: bold;
 }

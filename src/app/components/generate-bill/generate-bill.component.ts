@@ -7,7 +7,6 @@ import { SidebarComponent } from '../sidebar/sidebar.component';
 import { BillDetailsDialogComponent } from '../bill-details-dialog/bill-details-dialog.component';
 import { BillService } from '../../services/bill.service';
 import jsPDF from 'jspdf';
-import * as QRCode from 'qrcode';
 import { UpdateBillComponent } from '../update-bill/update-bill.component';
 
 @Component({
@@ -55,7 +54,7 @@ export class GenerateBillComponent {
 
 generateBill() {
   if (this.bill.monthDate) {
-      this.bill.monthDate = new Date(this.bill.monthDate).getTime(); // ✅ Convert to timestamp
+      this.bill.monthDate = new Date(this.bill.monthDate).getTime(); 
   }
 
   console.log("📤 Sending request payload:", this.bill);
@@ -115,7 +114,6 @@ generateBill() {
           meterNumber: bill.customer?.meterNumber || 'N/A'
         }));
   
-        // Sort bills in descending order based on createdAt date
         this.bills.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
   
         this.filteredBills = [...this.bills];
@@ -147,8 +145,8 @@ generateBill() {
     let y = 15;
 
     // 🔹 **Company Logo & Header**
-    const logoUrl = 'https://cdn-icons-png.flaticon.com/512/1827/1827504.png'; // Change this to your logo
-    doc.setFillColor(0, 102, 204); // Dark Blue Header
+    const logoUrl = 'https://cdn-icons-png.flaticon.com/512/1827/1827504.png'; 
+    doc.setFillColor(0, 102, 204); 
     doc.rect(0, 0, pageWidth, 30, 'F');
     doc.setTextColor(255, 255, 255);
     doc.setFontSize(18);
@@ -167,9 +165,9 @@ generateBill() {
         const labelX = rowX + 5;
         const valueX = rowX + rowWidth / 2 + 5;
 
-        doc.setFillColor(r, g, b);  // Background color
+        doc.setFillColor(r, g, b); 
         doc.rect(rowX, rowY, rowWidth, rowHeight, 'F');
-        doc.setDrawColor(180, 180, 180); // Border
+        doc.setDrawColor(180, 180, 180); 
         doc.rect(rowX, rowY, rowWidth, rowHeight);
 
         doc.setTextColor(0, 0, 0);
@@ -186,7 +184,7 @@ generateBill() {
     doc.setFontSize(12);
     y += 10;
 
-    drawRow("Invoice ID", bill.invoiceId ?? "N/A", y, true, 220, 220, 250); // Light Blue
+    drawRow("Invoice ID", bill.invoiceId ?? "N/A", y, true, 220, 220, 250); 
     y += 12;
     drawRow("Issue Date", new Date(bill.createdAt).toLocaleDateString() ?? "N/A", y, false, 250, 250, 250);
     y += 12;
@@ -194,11 +192,11 @@ generateBill() {
     y += 12;
 
     // 🔹 **Payment Status with Background Highlight**
-    let statusColor: number[] = [255, 193, 7]; // Default Yellow (PENDING)
+    let statusColor: number[] = [255, 193, 7]; 
     if (bill.paymentStatus === "PAID") {
-        statusColor = [40, 167, 69]; // Green
+        statusColor = [40, 167, 69]; 
     } else if (bill.paymentStatus === "OVERDUE") {
-        statusColor = [220, 53, 69]; // Red
+        statusColor = [220, 53, 69]; 
     }
 
     drawRow("Payment Status", bill.paymentStatus ?? "N/A", y, true, statusColor[0], statusColor[1], statusColor[2]);
@@ -212,7 +210,7 @@ generateBill() {
     doc.setFontSize(12);
     y += 10;
 
-    drawRow("Customer Name", bill.customer.name ?? "N/A", y, true, 240, 248, 255); // Light Cyan
+    drawRow("Customer Name", bill.customer.name ?? "N/A", y, true, 240, 248, 255); 
     y += 12;
     drawRow("Address", bill.customer.address ?? "N/A", y, false, 255, 250, 250);
     y += 12;
@@ -231,7 +229,7 @@ generateBill() {
 
     drawRow("Units Consumed", `${bill.unitConsumed} kWh`, y, false, 224, 255, 255);
     y += 12;
-    drawRow("Amount", `₹${bill.totalBillAmount}`, y, true, 255, 235, 205); // Light Yellow
+    drawRow("Amount", `₹${bill.totalBillAmount}`, y, true, 255, 235, 205); 
     y += 20;
 
     // 🔹 **Footer**
@@ -262,13 +260,13 @@ generateBill() {
 
 openUpdateBillDialog(billId: number) {
   const dialogRef = this.dialog.open(UpdateBillComponent, {
-    width: '600px', // optional: set width
-    data: { billId } // ✅ pass billId to the update component
+    width: '600px',
+    data: { billId } 
   });
 
   dialogRef.afterClosed().subscribe(result => {
     if (result === 'updated') {
-      this.fetchBills(); // refresh list
+      this.fetchBills(); 
     }
   });
 }

@@ -12,7 +12,7 @@ export class SidebarComponent {
   constructor(private authService: AuthService, private router: Router) {}
 
   logout(): void {
-    this.authService.logout();  // ✅ Clear localStorage
-    window.location.href = 'http://localhost:4200/';  // ✅ Redirect to home
+    this.authService.logout();  
+    window.location.href = 'http://localhost:4200/';  
   }
 }

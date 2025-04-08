@@ -26,7 +26,7 @@ export class ManageUserComponent implements OnInit {
   selectedCustomer: any = {};
   newCustomer: any = {};
   showUpdateForm: boolean = false;
-  isUpdating: boolean = false; // Loader state
+  isUpdating: boolean = false; 
 
   constructor(private customerService: CustomerService, private toastr: ToastrService) {}
 
@@ -43,7 +43,7 @@ export class ManageUserComponent implements OnInit {
     });
   }
   openUpdateModal(customer: any) {
-    this.selectedCustomer = { ...customer }; // Clone customer data to prevent direct modification
+    this.selectedCustomer = { ...customer }; 
 }
 openAddModal() {
   this.newCustomer = {};
@@ -64,7 +64,7 @@ openAddModal() {
       if (fileType !== 'csv') {
         this.toastr.error('Only CSV files are allowed!', 'Invalid File Type');
         this.selectedFile = null;
-        event.target.value = ''; // Reset file input
+        event.target.value = ''; 
         return;
       }
   
@@ -100,7 +100,7 @@ openAddModal() {
           this.toastr.error("Failed to add all records.", "Error");
         }
   
-        this.fetchCustomers(); // Refresh the customer list after upload
+        this.fetchCustomers();
       },
       error: (err) => {
         console.error("Upload Error:", err);
@@ -126,8 +126,8 @@ openAddModal() {
       (customer.name && customer.name.toLowerCase().includes(this.searchText.toLowerCase())) ||
       (customer.email && customer.email.toLowerCase().includes(this.searchText.toLowerCase())) ||
       (customer.phoneNumber && customer.phoneNumber.includes(this.searchText)) ||
-      (customer.meterNumber && customer.meterNumber.includes(this.searchText)) || // 🔍 Search by Meter Number
-      (customer.customerId && customer.customerId.toString().includes(this.searchText)) // 🔍 Search by Customer ID
+      (customer.meterNumber && customer.meterNumber.includes(this.searchText)) || 
+      (customer.customerId && customer.customerId.toString().includes(this.searchText)) 
     );
   }
   
@@ -178,8 +178,8 @@ openAddModal() {
     this.customerService.addCustomer(this.newCustomer).subscribe({
       next: (response) => {
         this.toastr.success('Customer added successfully!', 'Success');
-        this.fetchCustomers(); // Refresh customer list
-        this.newCustomer = {}; // Reset form
+        this.fetchCustomers(); 
+        this.newCustomer = {}; 
       },
       error: (err) => {
         this.toastr.error('Failed to add customer.', 'Error');
@@ -205,25 +205,25 @@ openAddModal() {
       return;
     }
   
-    this.isUpdating = true; // Show loader
+    this.isUpdating = true; 
   
     this.customerService.updateCustomer(this.selectedCustomer.customerId, this.selectedCustomer)
       .subscribe({
         next: (response) => {
-          console.log("Update Response:", response); // Debugging log
+          console.log("Update Response:", response); 
   
-          if (response && response.status) { // ✅ Handle success case
+          if (response && response.status) { 
             this.toastr.success('Customer updated successfully!', 'Success');
   
-            // Update local UI list
+           
             const index = this.customers.findIndex(c => c.customerId === this.selectedCustomer.customerId);
             if (index !== -1 && response.customer) {
               this.customers[index] = { ...response.customer };
             }
   
-            this.customers = [...this.customers]; // Force UI refresh
+            this.customers = [...this.customers]; 
   
-            // ✅ Close modal explicitly
+            //  Close modal explicitly
             this.showUpdateForm = false;
             this.selectedCustomer = {};  
           } else {
@@ -236,7 +236,7 @@ openAddModal() {
           this.toastr.error('Something went wrong. Please try again.', 'Update Failed');
         }
       }).add(() => {
-        this.isUpdating = false; // Hide loader in all cases
+        this.isUpdating = false; 
       });
   }
   
