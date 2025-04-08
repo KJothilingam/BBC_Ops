@@ -21,10 +21,13 @@ export class ReportComponent {
 
   loadReports(): void {
     this.reportService.getAllReports().subscribe({
-      next: (data) => this.reportList = data,
+      next: (data) => {
+        this.reportList = data.sort((a, b) => b.requestId - a.requestId);
+      },
       error: (err) => console.error('Error fetching reports:', err)
     });
   }
+  
   updateStatus(request: ReportRequest): void {
     this.reportService.updateReportStatus(request.requestId, request.status).subscribe({
       next: () => {
