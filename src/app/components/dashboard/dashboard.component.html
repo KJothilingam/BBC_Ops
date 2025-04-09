@@ -42,7 +42,7 @@
     <div class="middle-section">
         <div class="graph-card">
             <h4>Total Payments</h4>
-            <h2>Rs. {{ totalPayments }}</h2>
+            <h2>Rs. {{ totalPayments | number:'1.2-2'}}</h2>
             <canvas #paymentGraph></canvas>  
         </div>
         <div class="pie-chart">

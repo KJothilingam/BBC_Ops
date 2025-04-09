@@ -81,10 +81,13 @@
                           <button (click)="generatePDFInvoice(bill)" class="pdf-btn">
                             <i class="bi bi-filetype-pdf"></i> 
                           </button>
+
                           <span class="separator"></span>
                         
-                          <button class="btn btn-warning edit-btn" (click)="openUpdateBillDialog(bill.billId)">
-                            <i class="bi bi-pencil-square"></i>
+                          <button class="btn btn-warning edit-btn" (click)="openUpdateBillDialog(bill.billId)" [disabled]="bill?.paymentStatus==='PAID'">
+
+                            <i class="bi bi-pencil-square" *ngIf="bill?.paymentStatus!=='PAID'"></i>
+                            <i class="bi bi-ban " *ngIf="bill?.paymentStatus==='PAID'"></i>
                           </button>
                           
                           
