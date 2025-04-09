@@ -105,16 +105,21 @@ export class PaymentHistoryComponentComponent implements OnInit {
     y += 12;
     drawRow("Billing Month", payment.billingMonth ?? "N/A", y, false, 250, 250, 250);
     y += 12;
-    drawRow("Due Date", payment.dueDateFormatted ?? "N/A", y, false, 250, 250, 250);
+    // drawRow("Due Date", payment.duedate ?? "N/A", y, false, 250, 250, 250);
+    drawRow("Due Date", this.convertToDate(payment.dueDate), y, false, 250, 250, 250);
+
+
     y += 12;
 
     // Billing Details Section
-    drawRow("Total Bill Amount", `₹${payment.totalBillAmount}`, y, true, 255, 235, 205);  
-    y += 12;
-    drawRow("Discount Applied", `₹${payment.discountApplied}`, y, false, 240, 248, 255);  
-    y += 12;
-    drawRow("Final Amount Paid", `₹${payment.finalAmountPaid}`, y, false, 255, 250, 250);
-    y += 12;
+  drawRow("Total Bill Amount", `Rs. ${payment.totalBillAmount}`, y, true, 255, 235, 205);  
+  y += 12;
+  drawRow("Discount Applied", `Rs. ${payment.discountApplied}`, y, false, 240, 248, 255);  
+  y += 12;
+  drawRow("Final Amount Paid", `Rs. ${payment.finalAmountPaid}`, y, false, 255, 250, 250);
+  y += 12;
+
+    
 
     // Footer
     doc.setFillColor(0, 102, 204);

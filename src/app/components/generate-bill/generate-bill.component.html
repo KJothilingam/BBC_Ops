@@ -35,13 +35,7 @@
             <button type="submit" class="calculate-btn">Generate Bill</button>
         </form>
 
-        <!-- <div *ngIf="response">
-            <h4>Response:</h4>
-            <p *ngIf="response.success; else errorTpl">Bill Generated Successfully!</p>
-            <ng-template #errorTpl>
-                <p style="color: red;">Failed: {{ response.message }}</p>
-            </ng-template>
-        </div> -->
+       
     </div>
 
     <div class="bill-container">
@@ -68,7 +62,7 @@
                     <th>Due Date</th>
                     <th>Status</th>
                     <th>Amount</th>
-                    <th>Action</th>  <!-- ✅ Added Action Column -->
+                    <th>Action</th>  
                 </tr>
             </thead>
             <tbody>
@@ -88,9 +82,7 @@
                             <i class="bi bi-filetype-pdf"></i> 
                           </button>
                           <span class="separator"></span>
-                          <!-- <button class="btn btn-warning edit-btn">
-                            <i class="bi bi-pencil-square"></i>
-                          </button> -->
+                        
                           <button class="btn btn-warning edit-btn" (click)="openUpdateBillDialog(bill.billId)">
                             <i class="bi bi-pencil-square"></i>
                           </button>
