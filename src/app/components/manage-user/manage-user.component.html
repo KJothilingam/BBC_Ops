@@ -20,11 +20,17 @@
         <button class="add-user" (click)="openAddModal()" data-bs-toggle="modal" data-bs-target="#updateAddModal">
             Add Customer
         </button>
-        <!-- <button class="add-user" (click)="addCustomer()">Add Customer</button> -->
+        <button class="btn btn-warning m-2" (click)="downloadAllCustomersPDF()">
+            <i class="bi bi-download"></i> Download PDF
+          </button>
+          
+          
         <button class="add-user" data-bs-toggle="modal" data-bs-target="#bulkUploadModal">
             BulkFile Upload
         </button>
     </div>
+   
+      
 
     <!-- Bulk Upload Modal -->
     <div class="modal fade" id="bulkUploadModal" tabindex="-1" aria-labelledby="bulkUploadModalLabel" aria-hidden="true">
@@ -143,7 +149,8 @@
                     <th>Meter No.</th>
                     <th>Phone Number</th>
                     <th>Address</th>
-                    <th>Unit Consumption</th>
+                    <!-- <th>Unit Consumption</th> -->
+                    <th>Connection Type</th>
                     <th>Bill Due Date</th>
                     <th>Action</th>
                 </tr>
@@ -155,7 +162,8 @@
                     <td>{{ customer.meterNumber }}</td>
                     <td>{{ customer.phoneNumber }}</td>
                     <td>{{ customer.address }}</td>
-                    <td>{{ customer.unitConsumption }}</td>
+                    <td>{{ customer.connectionType }}</td>
+                    <!-- <td>{{ customer.unitConsumption }}</td> -->
                     <td>{{ customer.billDueDate | date: 'yyyy-MM-dd' }}</td>
                     <td>
 

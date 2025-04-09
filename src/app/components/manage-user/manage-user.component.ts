@@ -6,6 +6,7 @@ import { CustomerService } from '../../services/customer.service';
 import { ToastrService } from 'ngx-toastr';
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
+import jsPDF from 'jspdf';
 @Component({
   selector: 'app-manage-user',
   standalone: true,
@@ -245,4 +246,77 @@ openAddModal() {
   get totalPages() {
     return Math.ceil(this.filteredCustomers.length / this.itemsPerPage);
   }
+
+
+ 
+  downloadAllCustomersPDF(): void {
+    const doc = new jsPDF('l', 'mm', 'a4'); // Landscape mode
+    const margin = 10;
+    const lineHeight = 10;
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const pageHeight = doc.internal.pageSize.getHeight();
+    let y = 20;
+  
+    const headers = ['ID', 'Name', 'Email', 'Phone Number', 'Address', 'Connection Type'];
+    const colWidths = [15, 40, 60, 40, 70, 40]; // Adjust widths if needed
+  
+    // Draw title and column headers
+    const drawHeader = (): number => {
+      // Title
+      doc.setFontSize(14);
+      doc.setTextColor(0, 0, 128); // Dark Blue
+      doc.setFont('helvetica', 'bold');
+      doc.text('Electricity Board - Customer Report', pageWidth / 2, 10, { align: 'center' });
+  
+      // Table Headers (no background fill, just black bold text)
+      let x = margin;
+      let startY = 20;
+      doc.setFontSize(10);
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(0, 0, 0); // Black header text
+  
+      headers.forEach((header, i) => {
+        doc.rect(x, startY, colWidths[i], lineHeight); // Border only
+        doc.text(header, x + 2, startY + 7);
+        x += colWidths[i];
+      });
+  
+      doc.setFont('helvetica', 'normal');
+      doc.setTextColor(0, 0, 0); // Data rows also in black
+  
+      return startY + lineHeight;
+    };
+  
+    y = drawHeader(); // Draw first page header
+  
+    // Add data rows
+    this.customers.forEach((c: any) => {
+      if (y + lineHeight > pageHeight - 10) {
+        doc.addPage();
+        y = drawHeader(); // Add header again on new page
+      }
+  
+      let x = margin;
+      const row = [
+        String(c.customerId || ''),
+        c.name || '',
+        c.email || '',
+        c.phoneNumber || '',
+        c.address || '',
+        c.connectionType || ''
+      ];
+  
+      row.forEach((data, j) => {
+        doc.rect(x, y, colWidths[j], lineHeight);
+        doc.text(data.substring(0, 40), x + 2, y + 7);
+        x += colWidths[j];
+      });
+  
+      y += lineHeight;
+    });
+  
+    doc.save('Customer_Report.pdf');
+  }
+  
+  
 }
