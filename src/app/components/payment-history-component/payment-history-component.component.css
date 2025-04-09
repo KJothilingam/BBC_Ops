@@ -131,3 +131,28 @@ tr:hover {
       font-size: 14px;
   }
 }
+.download-all-container {
+  text-align: right;
+  margin-bottom: 15px;
+}
+
+.download-all-btn {
+  background-color: #28a745; /* Green */
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.download-all-btn:hover {
+  background-color: #218838; /* Darker Green */
+  transform: scale(1.05);
+}
+
+.download-all-btn i {
+  margin-right: 5px;
+}

@@ -278,3 +278,27 @@ input {
   border-radius: 5px;
   font-size: 16px;
 }
+.btn-download-pdf {
+  background-color: #673ab7;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-download-pdf i {
+  font-size: 18px;
+}
+
+.btn-download-pdf:hover {
+  background-color: #512eac;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
