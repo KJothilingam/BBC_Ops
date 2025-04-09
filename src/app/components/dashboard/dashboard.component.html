@@ -1,53 +1,39 @@
 <app-sidebar></app-sidebar>
 
 <div class="dashboard-container">
-    <!-- Top Cards -->
-        <!-- <div class="top-cards">
-            <div class="card">
-                <div class="icon"><i class="fas fa-users"></i></div>
-                <div class="details">
-                    <h4>Total Connection</h4>
-                    <h2>45</h2>
-                </div>
-            </div>
-            <div class="card">
-                <div class="icon"><i class="fas fa-dollar-sign"></i></div>
-                <div class="details">
-                    <h4>Total Payments</h4>
-                    <h2>Rs. 200,000</h2>
-                </div>
-            </div>
-            <div class="card">
-                <div class="icon"><i class="fas fa-user-check"></i></div>
-                <div class="details">
-                    <h4>Pending Payments</h4>
-                    <h2>22</h2>
-                </div>
-            </div>
-        </div> -->
+    
         <div class="top-cards">
             <div class="card">
                 <div class="icon">
-                    <i class="bi bi-people-fill"></i>    <!-- <i class="fas fa-users"></i> -->
+                    <i class="bi bi-people-fill"></i>    
                 </div>
-                <div class="details">
-                    <h4>Total Connection</h4>
-                    <h2>{{ totalCustomers }}</h2>
-                </div>
+               
+                <a [routerLink]="['/manageuser']" style="text-decoration: none; color: inherit;">
+                    <div class="details">
+                      <h4>Total Connection</h4>
+                      <h2>{{ totalCustomers }}</h2>
+                    </div>
+                  </a>
+                  
             </div>
             <div class="card">
                 <div class="icon"><i class="bi bi-currency-rupee"></i></div>
-                <div class="details">
-                    <h4>Total Payments</h4>
-                    <h2>Rs. {{ totalPayments }}</h2>
-                </div>
+                <a [routerLink]="['/payment']" style="text-decoration: none; color: inherit;">
+                    <div class="details">
+                      <h4>Total Payments</h4>
+                      <h2>Rs. {{ totalPayments | number:'1.2-2' }}</h2>
+                    </div>
+                  </a>                  
             </div>
             <div class="card">
                 <div class="icon"><i class="bi bi-exclamation-triangle"></i></div>
-                <div class="details">
-                    <h4>Pending Payments</h4>
-                    <h2>{{ pendingPayments }}</h2>
-                </div>
+                <a [routerLink]="['/generatebill']" style="text-decoration: none; color: inherit;">
+                    <div class="details">
+                      <h4>Pending Payments</h4>
+                      <h2>{{ pendingPayments }}</h2>
+                    </div>
+                  </a>
+                  
             </div>
         </div>
         
@@ -57,20 +43,16 @@
         <div class="graph-card">
             <h4>Total Payments</h4>
             <h2>Rs. {{ totalPayments }}</h2>
-            <canvas #paymentGraph></canvas>  <!-- ✅ Use Angular Template Reference -->
+            <canvas #paymentGraph></canvas>  
         </div>
         <div class="pie-chart">
             <h4>Payment Analysis</h4>
-            <canvas #pieChart></canvas>  <!-- ✅ Use Angular Template Reference -->
+            <canvas #pieChart></canvas>  
         </div>
     </div>
 
     <!-- Weekly Payments & Pending Payments -->
   <div class="extra-info">
-    <!-- <div class="weekly-payments">
-      <h3>Weekly Payments</h3>
-      <canvas id="weeklyChart"></canvas>
-    </div> -->
     <div class="weekly-payments">
         <h3>Weekly Payments</h3>
         <canvas #weeklyChart></canvas>
@@ -84,7 +66,6 @@
 
     <!-- Recent Payments -->
     <div class="recent-payments">
-        <!-- <h4>Recent Payments</h4> -->
         <app-recent-payments></app-recent-payments>
     </div> 
 

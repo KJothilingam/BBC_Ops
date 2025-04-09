@@ -5,11 +5,12 @@ import { Chart } from 'chart.js';
 import { DashboardService } from '../../services/dashboard.service';
 import { RecentPaymentsComponent } from "../recent-payments/recent-payments.component";
 import { DefaulterBillsComponent } from "../defaulter-bills/defaulter-bills.component";
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,  
-  imports: [SidebarComponent, CommonModule, RecentPaymentsComponent, DefaulterBillsComponent],
+  imports: [RouterLink,SidebarComponent, CommonModule, RecentPaymentsComponent, DefaulterBillsComponent],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
@@ -94,7 +95,7 @@ export class DashboardComponent implements AfterViewInit {
   createPieChart() {
     if (!this.pieChart || !this.pieChart.nativeElement) return;
   
-    if (this.pieChartInstance) this.pieChartInstance.destroy(); // ✅ Destroy old chart
+    if (this.pieChartInstance) this.pieChartInstance.destroy(); 
   
     this.pieChartInstance = new Chart(this.pieChart.nativeElement, {
       type: 'pie',
@@ -127,14 +128,14 @@ export class DashboardComponent implements AfterViewInit {
           label: 'Total Payments per Week',
           data: this.weeklyPaymentsData,
           backgroundColor: [
-            '#1F487E', // Dark Blue
+            '#1F487E', 
             '#2D6A94',
             '#4C9FAD',
             '#2D6A94',
-            '#B6E3E9'  // Lightest Blue
+            '#B6E3E9'  
           ],
           borderRadius: 5,
-          maxBarThickness: 60, // Adjust bar width
+          maxBarThickness: 60, 
         }]
       },
       options: {
@@ -143,16 +144,16 @@ export class DashboardComponent implements AfterViewInit {
         scales: {
           y: {
             beginAtZero: true,
-            grid: { drawOnChartArea: false, color: "rgba(0, 0, 0, 0.1)" }, // Fixed issue here
+            grid: { drawOnChartArea: false, color: "rgba(0, 0, 0, 0.1)" },
             ticks: { color: "#555", font: { weight: 'bold' } }
           },
           x: {
-            grid: { display: false }, // Hide x-axis grid lines
+            grid: { display: false }, 
             ticks: { color: "#555", font: { weight: 'bold' } }
           }
         },
         plugins: {
-          legend: { display: false } // Hide legend for cleaner look
+          legend: { display: false } 
         }
       }
     });

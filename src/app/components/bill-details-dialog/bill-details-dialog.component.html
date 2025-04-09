@@ -3,7 +3,7 @@
   <p><strong>Invoice ID:</strong> {{ bill.invoiceId }}</p>
   <p><strong>Customer Name:</strong> {{ bill.customer.name }}</p>
   <p><strong>Meter Number:</strong> {{ bill.customer.meterNumber }}</p>
-  <p><strong>Unit Consumed:</strong> {{ bill.unitConsumed }}</p> <!-- ✅ Corrected -->
+  <p><strong>Unit Consumed:</strong> {{ bill.unitConsumed }}</p> 
   <p><strong>Total Amount:</strong> ₹{{ bill.totalBillAmount }}</p>
   <p><strong>Due Date:</strong> {{ bill.dueDate | date }}</p>
 
