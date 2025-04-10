@@ -81,7 +81,7 @@
                     <th>Action</th>  
                 </tr>
             </thead>
-            <tbody>
+            <tbody *ngIf="filteredBills.length > 0; else noBills">
                 <tr *ngFor="let bill of filteredBills">
                     <td>{{ bill.billId }}</td>
                     <td>{{ bill.customer_id }}</td>  
@@ -113,6 +113,14 @@
                       
                 </tr>
             </tbody>
+        <!-- 🔻 Displayed if no bills found -->
+        <ng-template #noBills>
+            <tr>
+            <td colspan="9" style="text-align:center; padding: 20px; color: #888; font-weight: 600;">
+                No bill found
+            </td>
+            </tr>
+        </ng-template>
         </table>
         
         

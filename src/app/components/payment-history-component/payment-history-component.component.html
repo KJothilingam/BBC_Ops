@@ -44,7 +44,7 @@
         <th>Actions</th> 
       </tr>
     </thead>
-    <tbody>
+    <tbody *ngIf="filteredPayments.length > 0; else noPayments">
       <!-- <tr *ngFor="let payment of payments"> -->
         <tr *ngFor="let payment of filteredPayments">
         <td>{{ payment.transactionId }}</td>
@@ -64,5 +64,12 @@
         </td>
       </tr>
     </tbody>
+    <ng-template #noPayments>
+      <tr>
+        <td colspan="11" style="text-align: center; padding: 20px; color: #888; font-weight: 600;">
+          No payment found
+        </td>
+      </tr>
+    </ng-template>
   </table>
 </div>
