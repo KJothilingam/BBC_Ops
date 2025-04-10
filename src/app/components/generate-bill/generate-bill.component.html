@@ -5,9 +5,7 @@
         <div>
             <p class="breadcrumb">Invoice / Generate Bill</p>
             <h2 class="title">Generate Bill</h2>
-            <!-- <span class="branch">Lalitpur Branch</span> -->
         </div>
-        
     </div>
 
     <div class="bill-card">
@@ -44,6 +42,14 @@
       
         <!-- Filter + Download Button -->
             <div class="filter-container">
+                <!-- 🔍 Search Input -->
+                <input 
+                type="text" 
+                placeholder="Search by Bill ID, Customer ID or Meter Number"
+                [(ngModel)]="searchTerm"
+                (input)="searchBills()"
+                class="search-input"
+                />
                 <label for="statusFilter">Filter by Status:</label>
                 <select id="statusFilter" [(ngModel)]="selectedStatus" (change)="filterBills()">
                     <option value="">All</option>
@@ -53,11 +59,11 @@
                     <option value="EXCEPTION">Exception</option>
                 </select>
 
-    <!-- Moved inside the same row -->
-    <button (click)="downloadPdf()" class="btn-download-pdf">
-        <i class="bi bi-file-earmark-arrow-down-fill"></i>
-        Download
-    </button>
+                <!-- Moved inside the same row -->
+                <button (click)="downloadPdf()" class="btn-download-pdf">
+                    <i class="bi bi-file-earmark-arrow-down-fill"></i>
+                    Download
+                </button>
 </div>
 
     
