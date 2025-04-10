@@ -1,9 +1,31 @@
 <div class="payment-container">
   <h2>Payment Details</h2>
+  <!-- <div class="filters">
+    <input type="text" placeholder="Search Transaction ID or Meter Number" [(ngModel)]="searchTerm" (input)="filterPayments()" />
+  
+    <select [(ngModel)]="selectedPaymentMethod" (change)="filterPayments()">
+      <option value="">All Payment Methods</option>
+      <option *ngFor="let method of paymentMethods" [value]="method">{{ method }}</option>
+    </select>
+  </div>
+  
   <div class="download-all-container">
     <button class="download-all-btn" (click)="generateAllPDFs()">
       <i class="bi bi-download"></i> Download 
     </button>
+  </div> -->
+  <div class="filters-container">
+    <div class="filters">
+      <input type="text" placeholder="Search Transaction ID or Meter Number" [(ngModel)]="searchTerm" (input)="filterPayments()" />
+      <select [(ngModel)]="selectedPaymentMethod" (change)="filterPayments()">
+        <option value="">All Payment Methods</option>
+        <option *ngFor="let method of paymentMethods" [value]="method">{{ method }}</option>
+      </select>
+    </div>
+    <button class="download-all-btn" (click)="generateAllPDFs()">
+      <i class="bi bi-download"></i> Download 
+    </button>
+    
   </div>
   
   <table>
@@ -23,7 +45,8 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let payment of payments">
+      <!-- <tr *ngFor="let payment of payments"> -->
+        <tr *ngFor="let payment of filteredPayments">
         <td>{{ payment.transactionId }}</td>
         <td>{{ payment.meterNumber }}</td>
         <td>{{ payment.unitConsumed }}</td>

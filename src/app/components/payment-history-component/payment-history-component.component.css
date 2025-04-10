@@ -156,3 +156,38 @@ tr:hover {
 .download-all-btn i {
   margin-right: 5px;
 }
+.filters {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  gap: 10px;
+}
+
+.filters input,
+.filters select {
+  padding: 6px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+/* 🔹 Combined Filters and Download Button */
+.filters-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 15px;
+}
+
+/* 🔹 Filters still stay in line */
+.filters {
+  display: flex;
+  gap: 10px;
+}
+
+/* Optional: make elements same height */
+.filters input,
+.filters select,
+.download-all-btn {
+  height: 38px;
+}

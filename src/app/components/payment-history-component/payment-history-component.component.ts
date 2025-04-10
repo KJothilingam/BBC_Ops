@@ -4,16 +4,23 @@ import { Component, OnInit } from '@angular/core';
 import { jsPDF } from 'jspdf';
 import { PaymentHistoryService } from '../../services/payment-history.service';
 import autoTable from 'jspdf-autotable';
+import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-payment-history-component',
   standalone: true,
-  imports: [CommonModule],
+  imports: [FormsModule,CommonModule],
   templateUrl: './payment-history-component.component.html',
   styleUrls: ['./payment-history-component.component.css']
 })
 export class PaymentHistoryComponentComponent implements OnInit {
   payments: any[] = [];
+  // payments: any[] = [];
+  filteredPayments: any[] = [];
+  searchTerm: string = '';
+  selectedPaymentMethod: string = '';
+  paymentMethods: string[] = ['CASH', 'CREDIT_CARD', 'DEBIT_CARD', 'UPI', 'WALLET'];
 
+  // constructor(private http: HttpClient, private paymentService: PaymentHistoryService) {}
   constructor(private http: HttpClient, private paymentService: PaymentHistoryService) {}
 
   ngOnInit() {
@@ -26,6 +33,21 @@ export class PaymentHistoryComponentComponent implements OnInit {
       }));
   
       this.payments.sort((a, b) => new Date(b.paymentDate).getTime() - new Date(a.paymentDate).getTime());
+      this.filteredPayments = [...this.payments];
+    });
+  }
+  filterPayments() {
+    const search = this.searchTerm.toLowerCase();
+
+    this.filteredPayments = this.payments.filter(payment => {
+      const matchesSearch =
+        payment.transactionId?.toLowerCase().includes(search) ||
+        payment.meterNumber?.toLowerCase().includes(search);
+
+      const matchesMethod =
+        !this.selectedPaymentMethod || payment.paymentMethod === this.selectedPaymentMethod;
+
+      return matchesSearch && matchesMethod;
     });
   }
 
@@ -133,21 +155,86 @@ export class PaymentHistoryComponentComponent implements OnInit {
   }
 
 
+  // generateAllPDFs() {
+  //   const doc = new jsPDF();
+  //   const pageWidth = doc.internal.pageSize.getWidth();
+  
+  //   // Smaller title font
+  //   doc.setFontSize(14);
+  //   doc.setTextColor(40, 40, 40);
+  //   doc.text('All Payment Records', pageWidth / 2, 12, { align: 'center' });
+  
+  //   const headers = [
+  //     ['Transaction ID', 'Meter Number', 'Unit Consumed', 'Billing Month', 'Due Date',
+  //      'Total Amount', 'Discount', 'Final Amount', 'Method', 'Date']
+  //   ];
+  
+  //   const data = this.payments.map((p: any) => [
+  //     p.transactionId,
+  //     p.meterNumber,
+  //     p.unitConsumed,
+  //     p.billingMonth,
+  //     this.convertToDate(p.dueDate),
+  //     `Rs.${parseFloat(p.totalBillAmount).toFixed(2)}`,
+  //     `Rs.${parseFloat(p.discountApplied).toFixed(2)}`,
+  //     `Rs.${parseFloat(p.finalAmountPaid).toFixed(2)}`,
+  //     p.paymentMethod,
+  //     this.convertToDate(p.paymentDate)
+  //   ]);
+  
+  //   autoTable(doc, {
+  //     head: headers,
+  //     body: data,
+  //     startY: 18,
+  //     theme: 'striped',
+  //     headStyles: {
+  //       fillColor: [22, 160, 133],
+  //       textColor: 255,
+  //       fontSize: 7
+  //     },
+  //     bodyStyles: {
+  //       textColor: 50,
+  //       fontSize: 6
+  //     },
+  //     styles: {
+  //       fontSize: 6,
+  //       cellPadding: 1,
+  //       halign: 'center',
+  //       overflow: 'linebreak'
+  //     },
+  //     columnStyles: {
+  //       0: { cellWidth: 'auto' },
+  //       1: { cellWidth: 'auto' },
+  //       2: { cellWidth: 'auto' },
+  //       3: { cellWidth: 'auto' },
+  //       4: { cellWidth: 'auto' },
+  //       5: { cellWidth: 'auto' },
+  //       6: { cellWidth: 'auto' },
+  //       7: { cellWidth: 'auto' },
+  //       8: { cellWidth: 'auto' },
+  //       9: { cellWidth: 'auto' },
+  //     },
+  //     margin: { top: 15 }
+  //   });
+  
+  //   doc.save('All_Payments.pdf');
+  // }
   generateAllPDFs() {
     const doc = new jsPDF();
     const pageWidth = doc.internal.pageSize.getWidth();
   
-    // Smaller title font
+    // Title
     doc.setFontSize(14);
     doc.setTextColor(40, 40, 40);
-    doc.text('All Payment Records', pageWidth / 2, 12, { align: 'center' });
+    doc.text('Filtered Payment Records', pageWidth / 2, 12, { align: 'center' });
   
     const headers = [
       ['Transaction ID', 'Meter Number', 'Unit Consumed', 'Billing Month', 'Due Date',
        'Total Amount', 'Discount', 'Final Amount', 'Method', 'Date']
     ];
   
-    const data = this.payments.map((p: any) => [
+    // 🔹 Use filteredPayments here
+    const data = this.filteredPayments.map((p: any) => [
       p.transactionId,
       p.meterNumber,
       p.unitConsumed,
@@ -195,7 +282,7 @@ export class PaymentHistoryComponentComponent implements OnInit {
       margin: { top: 15 }
     });
   
-    doc.save('All_Payments.pdf');
+    doc.save('Filtered_Payments.pdf');
   }
   
   
