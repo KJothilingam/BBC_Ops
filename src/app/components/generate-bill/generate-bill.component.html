@@ -50,6 +50,7 @@
                     <option value="PENDING">Pending</option>
                     <option value="PAID">Paid</option>
                     <option value="OVERDUE">Overdue</option>
+                    <option value="EXCEPTION">Exception</option>
                 </select>
 
     <!-- Moved inside the same row -->
@@ -63,6 +64,7 @@
         <table class="bill-table">
             <thead>
                 <tr>
+                    <th>Bill ID</th> 
                     <th>Customer ID</th>  
                     <th>Meter Number</th>  
                     <th>Invoice ID</th>
@@ -75,6 +77,7 @@
             </thead>
             <tbody>
                 <tr *ngFor="let bill of filteredBills">
+                    <td>{{ bill.billId }}</td>
                     <td>{{ bill.customer_id }}</td>  
                     <td>{{ bill.meterNumber }}</td>  
                     <td>{{ bill.invoiceId }}</td>
