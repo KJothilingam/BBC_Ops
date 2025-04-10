@@ -41,6 +41,7 @@ export class AuthService {
       localStorage.setItem('userId', userId);
       localStorage.setItem('userName', userName);
       localStorage.setItem('designation', designation);
+      
     }
   }
 
@@ -49,7 +50,7 @@ export class AuthService {
       const userId = localStorage.getItem('userId');
       const userName = localStorage.getItem('userName');
       const designation = localStorage.getItem('designation');
-
+      
       if (userId && userName && designation) {
         return { userId, userName, designation };
       }
@@ -58,10 +59,37 @@ export class AuthService {
   }
 
   logout(): void {
-    if (isPlatformBrowser(this.platformId)) { 
+    if (isPlatformBrowser(this.platformId)) {
+      const userId = localStorage.getItem('userId');
+  
+      if (userId) {
+        // 1. Fetch employee details to get email
+        this.getEmployeeDetails(userId).subscribe({
+          next: (res) => {
+            const email = res.email;
+            if (email) {
+              // 2. Call logout API with email
+              this.http.post(`${this.apiUrl}/logout`, { email }).subscribe({
+                next: () => {
+                  console.log("Logout successful and logged");
+                },
+                error: (err) => {
+                  console.error("Logout API error", err);
+                }
+              });
+            }
+          },
+          error: (err) => {
+            console.error("Failed to fetch employee details", err);
+          }
+        });
+      }
+  
+      // 3. Clear local storage anyway
       localStorage.removeItem('userId');
       localStorage.removeItem('userName');
       localStorage.removeItem('designation');
     }
   }
+  
 }
