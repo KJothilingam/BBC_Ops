@@ -7,6 +7,7 @@ import { ToastrService } from 'ngx-toastr';
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
 import jsPDF from 'jspdf';
+import { AuthService } from '../../services/auth.service';
 @Component({
   selector: 'app-manage-user',
   standalone: true,
@@ -29,7 +30,7 @@ export class ManageUserComponent implements OnInit {
   showUpdateForm: boolean = false;
   isUpdating: boolean = false; 
 
-  constructor(private customerService: CustomerService, private toastr: ToastrService) {}
+  constructor(private authService: AuthService,private customerService: CustomerService, private toastr: ToastrService) {}
 
   ngOnInit() {
     this.fetchCustomers();
@@ -82,23 +83,29 @@ openAddModal() {
     this.customerService.uploadCSV(this.selectedFile).subscribe({
       next: (response) => {
         if (response.validRecords > 0 && response.rejectedRecords > 0) {
-          // ⚠️ Partial success: some records were rejected
+          //  Partial success: some records were rejected
           this.toastr.warning(
             `Partial Upload:
-            ✅ Added: ${response.validRecords}
-            ❌ Rejected: ${response.rejectedRecords}`,
+             Added: ${response.validRecords}
+             Rejected: ${response.rejectedRecords}`,
             "Warning"
           );
   
           if (response.errors && response.errors.length > 0) {
             this.generateExcel(response.errors);
           }
+          const logMessage = `Bulk File Partial Updated: Valid- ${response.validRecords},Invalid-${response.rejectedRecords}`;
+          this.authService.logAction(logMessage); 
         } else if (response.validRecords > 0) {
-          // ✅ All records were successfully uploaded
+          //  All records were successfully uploaded
           this.toastr.success("All records added successfully!", "Success");
+          const logMessage = `All records added successfully!!: Total Number of Record- ${response.validRecords}`;
+          this.authService.logAction(logMessage);
         } else {
-          // ❌ No records were added
+          //  No records were added
           this.toastr.error("Failed to add all records.", "Error");
+          const logMessage = `Failed to add all records.`;
+          this.authService.logAction(logMessage);
         }
   
         this.fetchCustomers();
@@ -163,6 +170,8 @@ openAddModal() {
       next: (response) => {
         if (response?.status) {
           this.toastr.success(`${customer.name} deleted successfully!`, "Success");
+          const logMessage = `${customer.name} deleted !`;
+          this.authService.logAction(logMessage); 
           this.customers = this.customers.filter(c => c.customerId !== customer.customerId);
         } else {
           this.toastr.error("Customer not found or already deleted.", "Error");
@@ -179,6 +188,8 @@ openAddModal() {
     this.customerService.addCustomer(this.newCustomer).subscribe({
       next: (response) => {
         this.toastr.success('Customer added successfully!', 'Success');
+        const logMessage = `Customer Added ! - Customer ID: ${this.newCustomer.customerId}`;
+        this.authService.logAction(logMessage); 
         this.fetchCustomers(); 
         this.newCustomer = {}; 
       },
@@ -201,6 +212,7 @@ openAddModal() {
   }
 
   updateCustomer() {
+
     if (!this.selectedCustomer || !this.selectedCustomer.customerId) {
       this.toastr.error('Invalid customer data. Please select a valid customer.', 'Update Failed');
       return;
@@ -216,7 +228,8 @@ openAddModal() {
           if (response && response.status) { 
             this.toastr.success('Customer updated successfully!', 'Success');
   
-           
+            const logMessage = `Customer updated ! - Customer ID: ${this.selectedCustomer.customerId}`;
+             this.authService.logAction(logMessage); 
             const index = this.customers.findIndex(c => c.customerId === this.selectedCustomer.customerId);
             if (index !== -1 && response.customer) {
               this.customers[index] = { ...response.customer };
@@ -250,6 +263,8 @@ openAddModal() {
 
  
   downloadAllCustomersPDF(): void {
+    const logMessage = `Downloaded All User Data`;
+    this.authService.logAction(logMessage);
     const doc = new jsPDF('l', 'mm', 'a4'); // Landscape mode
     const margin = 10;
     const lineHeight = 10;

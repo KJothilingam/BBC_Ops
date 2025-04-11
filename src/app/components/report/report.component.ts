@@ -3,6 +3,7 @@ import { ReportRequest, ReportService } from '../../services/report.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SidebarComponent } from "../sidebar/sidebar.component";
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-report',
@@ -13,7 +14,7 @@ import { SidebarComponent } from "../sidebar/sidebar.component";
 export class ReportComponent {
   reportList: ReportRequest[] = [];
 
-  constructor(private reportService: ReportService) {}
+  constructor(private authService: AuthService,private reportService: ReportService) {}
 
   ngOnInit(): void {
     this.loadReports();
@@ -32,6 +33,8 @@ export class ReportComponent {
     this.reportService.updateReportStatus(request.requestId, request.status).subscribe({
       next: () => {
         console.log('Status updated successfully');
+        const logMessage = `Status updated : Request ID: ${request.requestId} ,Request Status: ${request.status}`;
+        this.authService.logAction(logMessage);
       },
       error: (err) => {
         console.error('Error updating status:', err);

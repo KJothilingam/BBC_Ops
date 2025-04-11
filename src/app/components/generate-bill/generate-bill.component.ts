@@ -10,6 +10,7 @@ import jsPDF from 'jspdf';
 import { UpdateBillComponent } from '../update-bill/update-bill.component';
 
 import autoTable from 'jspdf-autotable';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-generate-bill',
@@ -33,7 +34,8 @@ export class GenerateBillComponent {
   constructor(
     private billService: BillService,
     private toastr: ToastrService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private authService: AuthService
   ) {}
 
 
@@ -65,19 +67,22 @@ generateBill() {
       (response: any) => {
           console.log("📥 Response from backend:", response);
           if (response.success) {
-              this.toastr.success('✅ Bill Generated Successfully!', 'Success');
+              this.toastr.success(' Bill Generated Successfully!', 'Success');
               this.fetchBills();
               this.dialog.open(BillDetailsDialogComponent, { data: response.bill });
+
+          const logMessage = `Invoice generated successfully - Bill ID: ${response.bill?.billId}`;
+          this.authService.logAction(logMessage);
           } else {
-              this.toastr.error(`⚠️ Failed: ${response.message}`, 'Error');
+              this.toastr.error(` Failed: ${response.message}`, 'Error');
           }
       },
       (error) => {
-          console.error("❌ Error from API:", error);
+          console.error(" Error from API:", error);
           if (error.status === 400) {
-              this.toastr.warning('⚠️ Error: Bill already generated or invalid input.', 'Warning');
+              this.toastr.warning(' Error: Bill already generated or invalid input.', 'Warning');
           } else {
-              this.toastr.error(`⚠️ Error: ${error.error.message}`, 'Error');
+              this.toastr.error(` Error: ${error.error.message}`, 'Error');
           }
       }
   );
@@ -136,13 +141,14 @@ generateBill() {
       this.filteredBills = this.bills.filter(bill => bill.paymentStatus === this.selectedStatus);
     }
   }
+
   generatePDFInvoice(bill: any) {
     if (!bill) {
-        console.error("⚠️ Error: Invoice data is missing!");
+        console.error(" Error: Invoice data is missing!");
         return;
     }
 
-    console.log("📝 Generating PDF for:", bill);
+    console.log(" Generating PDF for:", bill);
 
     const doc = new jsPDF();
     const pageWidth = doc.internal.pageSize.getWidth();
@@ -245,13 +251,10 @@ generateBill() {
     doc.setFontSize(10);
     doc.text("Thank you for your payment!", pageWidth / 2, doc.internal.pageSize.getHeight() - 10, { align: "center" });
 
-    // ✅ **Save the PDF**
+    //  **Save the PDF**
     doc.save(`Invoice_${bill.invoiceId}.pdf`);
 }
 
-
-
-  
   updateOverdueBills() {
     this.billService.updateOverdueBills().subscribe(
       (response) => {
@@ -310,7 +313,7 @@ downloadPdf(): void {
   doc.save('invoice-records.pdf');
 }
 
-searchTerm: string = '';  // 🌟 Holds the search input
+searchTerm: string = '';  //  Holds the search input
 
 searchBills() {
   const term = this.searchTerm.toLowerCase().trim();

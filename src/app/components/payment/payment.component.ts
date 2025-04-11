@@ -151,6 +151,8 @@ export class PaymentComponent {
           };
   
           this.toastr.success('Payment Successful!', 'Success', this.getToastrConfig());
+          const logMessage = `Payment Successful!: Amount: ${response.amountPaid} ,Bill ID: ${paymentData.billId}`;
+          this.authService.logAction(logMessage);
           this.generatePDFReceipt(); //  Generate PDF only if success
           this.resetForm();
         } else {

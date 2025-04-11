@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } 
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BillService } from '../../services/bill.service';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-update-bill',
@@ -20,6 +21,7 @@ export class UpdateBillComponent implements OnInit {
     private fb: FormBuilder,
     private billService: BillService,
     private dialogRef: MatDialogRef<UpdateBillComponent>,
+    private authService: AuthService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
 
@@ -70,6 +72,8 @@ export class UpdateBillComponent implements OnInit {
       this.billService.updateBill(updatedBill).subscribe(response => {
         console.log('Updated successfully:', response);
         this.dialogRef.close('updated');
+        const logMessage = `Updated Bill  - Bill ID: ${updatedBill?.billId}`;
+        this.authService.logAction(logMessage);
       });
     }
   }

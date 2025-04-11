@@ -57,7 +57,45 @@ export class AuthService {
     }
     return null;
   }
-
+    logAction(message: string): void {
+      const userDetails = this.getUserDetails();
+      if (!userDetails || !userDetails.userId) {
+        console.error("User not logged in or user details missing");
+        return;
+      }
+    
+      // 1. Get full employee details using userId
+      this.getEmployeeDetails(userDetails.userId).subscribe({
+        next: (employee) => {
+          // Map to match Java's camelCase fields
+          const mappedEmployee = {
+            employeeId: employee.employee_id,
+            name: employee.name,
+            email: employee.email,
+            phoneNumber: employee.phone_number,
+            dob: employee.dob,
+            gender: employee.gender,
+            designation: employee.designation
+          };
+      
+          const auditPayload = {
+            employee: mappedEmployee,
+            message: message
+          };
+      
+          console.log("📤 Audit payload to backend:", auditPayload);
+      
+          this.http.post('http://localhost:8080/audit/log', auditPayload).subscribe({
+            next: () => console.log("Action logged successfully"),
+            error: (err) => console.error("Failed to log action", err)
+          });
+        },
+        error: (err) => {
+          console.error("Failed to fetch employee details for logging", err);
+        }
+      });
+    }      
+  
   logout(): void {
     if (isPlatformBrowser(this.platformId)) {
       const userId = localStorage.getItem('userId');
