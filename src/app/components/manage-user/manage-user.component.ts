@@ -27,6 +27,7 @@ export class ManageUserComponent implements OnInit {
   showModal: boolean = false;
   selectedCustomer: any = {};
   newCustomer: any = {};
+  
   showUpdateForm: boolean = false;
   isUpdating: boolean = false; 
 
@@ -48,7 +49,16 @@ export class ManageUserComponent implements OnInit {
     this.selectedCustomer = { ...customer }; 
 }
 openAddModal() {
-  this.newCustomer = {};
+  this.newCustomer = {
+    name: '',
+    email: '',
+    phoneNumber: '',
+    address: '',
+    unitConsumption: 0,
+    meterNumber: '',
+    connectionType: 'DOMESTIC'
+  };
+  
 }
 
 
