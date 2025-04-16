@@ -14,7 +14,7 @@
             <tr *ngFor="let payment of payments">
                 <td><strong>{{ payment.meterNumber }}</strong></td>
                 <td>{{ payment.unitConsumed }} kWh</td>
-                <td class="amount">Rs. {{ payment.finalAmountPaid }}</td>
+                <td class="amount">Rs. {{ payment.finalAmountPaid | number:'1.2-2' }}</td>
                 <td class="payment-method">{{ payment.paymentMethod }}</td>
                 <td class="time">{{ payment.paymentDate | date:'shortTime' }}</td>
             </tr>
