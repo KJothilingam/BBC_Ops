@@ -6,6 +6,9 @@ import { SidebarComponent } from "../sidebar/sidebar.component";
 import { AuthService } from '../../services/auth.service';
 import { CustomerService } from '../../services/customer.service';
 import { ToastrService } from 'ngx-toastr';
+import { AuditService } from '../../services/audit.service';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
 
 @Component({
   selector: 'app-report',
@@ -16,11 +19,16 @@ import { ToastrService } from 'ngx-toastr';
 export class ReportComponent {
   reportList: ReportRequest[] = [];
 
-  constructor(private toastr: ToastrService ,private authService: AuthService,private reportService: ReportService,private customerService: CustomerService) {}
+  constructor(private auditService: AuditService,private toastr: ToastrService ,private authService: AuthService,private reportService: ReportService,private customerService: CustomerService) {}
 
   ngOnInit(): void {
     this.loadReports();
+  
+    setInterval(() => {
+      this.loadReports();
+    }, 5000); 
   }
+  
 
   loadReports(): void {
     this.reportService.getAllReports().subscribe({
@@ -31,19 +39,6 @@ export class ReportComponent {
     });
   }
   
-  // updateStatus(request: ReportRequest): void {
-  //   this.reportService.updateReportStatus(request.requestId, request.status).subscribe({
-  //     next: () => {
-  //       console.log('Status updated successfully');
-  //       const logMessage = `Status updated : Request ID: ${request.requestId} ,Request Status: ${request.status}`;
-  //       this.authService.logAction(logMessage);
-  //     },
-  //     error: (err) => {
-  //       console.error('Error updating status:', err);
-  //       alert('Failed to update status');
-  //     }
-  //   });
-  // }
 
   updateStatus(request: ReportRequest): void {
     if (request.status !== 'COMPLETED') {
@@ -118,6 +113,51 @@ export class ReportComponent {
         console.error('Error updating status:', err);
         this.toastr.error('Failed to update status');
       }
+    });
+  }
+  
+  downloadPDF() {
+    this.auditService.getAuditLogs().subscribe((logs: any[]) => {
+      const doc = new jsPDF();
+  
+      doc.setFontSize(18);
+      doc.text('Employee Audit Logs', 14, 22);
+      doc.setFontSize(11);
+      doc.text(`Generated on: ${new Date().toLocaleString()}`, 14, 30);
+  
+      const columns = ['ID', 'Employee ID', 'Name', 'Designation', 'Action', 'Timestamp'];
+      const rows = logs.map(log => [
+        log.id,
+        log.employeeId ?? 'N/A',
+        log.name,
+        log.designation,
+        log.actionMessage,
+        new Date(log.timestamp).toLocaleString()
+      ]);
+  
+      autoTable(doc, {
+        head: [columns],
+        body: rows,
+        startY: 40,
+        theme: 'grid',
+        styles: {
+          fontSize: 10,
+          cellPadding: 3
+        },
+        headStyles: {
+          fillColor: [41, 128, 185],
+          textColor: 255,
+          halign: 'center'
+        },
+        didDrawPage: (data) => {
+          const pageHeight = doc.internal.pageSize.height;
+          doc.setFontSize(10);
+          doc.setTextColor(100);
+          doc.text(`Page ${doc.getNumberOfPages()}`, data.settings.margin.left, pageHeight - 10);
+        }
+      });
+  
+      doc.save('Employee_Audit_Logs.pdf');
     });
   }
   
