@@ -2,11 +2,22 @@ import { Routes } from '@angular/router';
 import { AuthGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
+  // {
+  //   path: '',
+  //   loadComponent: () =>
+  //     import('./components/login/login.component').then((c) => c.LoginComponent),
+  // },
   {
     path: '',
     loadComponent: () =>
+      import('./components/startup-redirect/startup-redirect.component').then((c) => c.StartupRedirectComponent),
+  },
+  {
+    path: 'login',
+    loadComponent: () =>
       import('./components/login/login.component').then((c) => c.LoginComponent),
   },
+  
   {
     path: 'dashboard',
     loadComponent: () =>
