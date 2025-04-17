@@ -180,16 +180,22 @@
                         </div>
                     </td>
                 </tr>
+                <tr *ngFor="let customer of paginatedCustomers">
+                    <!-- your td content -->
+                  </tr>
+                  <tr *ngIf="filteredCustomers.length === 0">
+                    <td colspan="7" class="text-center text-danger">No results found</td>
+                  </tr>
             </tbody>
         </table>
     </div>
-    <div class="pagination">
+    <div class="pagination" *ngIf="filteredCustomers.length > 0">
         <button class="add-user" (click)="prevPage()" [disabled]="currentPage === 1">Previous</button>
         <h6>
-            <span> Page {{ currentPage }} of {{ totalPages }} </span>
+          <span> Page {{ currentPage }} of {{ totalPages }} </span>
         </h6>
         <button class="add-user" (click)="nextPage()" [disabled]="currentPage === totalPages">Next</button>
-    </div>
-    
+      </div>
+      
 
 </div>
