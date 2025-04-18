@@ -61,11 +61,11 @@ generateBill() {
       this.bill.monthDate = new Date(this.bill.monthDate).getTime(); 
   }
 
-  console.log("📤 Sending request payload:", this.bill);
+  console.log(" Sending request payload:", this.bill);
 
   this.billService.generateBill(this.bill).subscribe(
       (response: any) => {
-          console.log("📥 Response from backend:", response);
+          console.log(" Response from backend:", response);
           if (response.success) {
               this.toastr.success(' Bill Generated Successfully!', 'Success');
               this.fetchBills();
@@ -167,7 +167,7 @@ generateBill() {
     doc.setFontSize(12);
     y += 35;
 
-    // 🔹 **Function to Draw a Table Row**
+    //  **Function to Draw a Table Row**
     function drawRow(label: string, value: string, rowY: number, isBold: boolean = false, r: number = 240, g: number = 240, b: number = 240) {
         const rowX = 20;
         const rowWidth = pageWidth - 40;
@@ -186,7 +186,7 @@ generateBill() {
         doc.text(value, valueX, rowY + rowHeight / 2 + 2);
     }
 
-    // 🔹 **Invoice Details Section**
+    //  **Invoice Details Section**
     doc.setFontSize(14);
     doc.setTextColor(0, 102, 204);
     doc.text("Invoice Details", 20, y);
@@ -201,7 +201,7 @@ generateBill() {
     drawRow("Due Date", new Date(bill.dueDate).toLocaleDateString() ?? "N/A", y, false, 250, 250, 250);
     y += 12;
 
-    // 🔹 **Payment Status with Background Highlight**
+    //  **Payment Status with Background Highlight**
     let statusColor: number[] = [255, 193, 7]; 
     if (bill.paymentStatus === "PAID") {
         statusColor = [40, 167, 69]; 
@@ -212,7 +212,7 @@ generateBill() {
     drawRow("Payment Status", bill.paymentStatus ?? "N/A", y, true, statusColor[0], statusColor[1], statusColor[2]);
     y += 20;
 
-    // 🔹 **Customer Details Section**
+    //  **Customer Details Section**
     doc.setFontSize(14);
     doc.setTextColor(0, 102, 204);
     doc.text("Customer Details", 20, y);
@@ -229,7 +229,7 @@ generateBill() {
     drawRow("Email", bill.customer.email ?? "N/A", y, false, 255, 250, 250);
     y += 20;
 
-    // 🔹 **Billing Details Section**
+    //  **Billing Details Section**
     doc.setFontSize(14);
     doc.setTextColor(0, 102, 204);
     doc.text("Billing Details", 20, y);
@@ -244,7 +244,7 @@ generateBill() {
 
     y += 20;
 
-    // 🔹 **Footer**
+    //  **Footer**
     doc.setFillColor(0, 102, 204);
     doc.rect(0, doc.internal.pageSize.getHeight() - 20, pageWidth, 20, 'F');
     doc.setTextColor(255, 255, 255);

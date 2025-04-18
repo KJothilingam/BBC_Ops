@@ -16,7 +16,7 @@ import { AuthService } from '../../services/auth.service';
   styleUrls: ['./manage-user.component.css']
 })
 export class ManageUserComponent implements OnInit {
-  searchText: string = '';
+  // searchText: string = '';
   selectedFile: File | null = null;
   message: string = '';
   showBulkUpload: boolean = false;
@@ -32,6 +32,15 @@ export class ManageUserComponent implements OnInit {
   isUpdating: boolean = false; 
 
   constructor(private authService: AuthService,private customerService: CustomerService, private toastr: ToastrService) {}
+
+  private _searchText: string = '';
+  get searchText(): string {
+    return this._searchText;
+  }
+  set searchText(value: string) {
+    this._searchText = value;
+    this.currentPage = 1; 
+  }
 
   ngOnInit() {
     this.fetchCustomers();

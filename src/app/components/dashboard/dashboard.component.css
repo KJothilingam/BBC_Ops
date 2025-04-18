@@ -1,7 +1,6 @@
 /* General Styles */
 .dashboard-container {
     padding: 20px;
-    /* padding-left: 20%; */
     margin-left:15%;
     background: #F8FAFF;
     min-height: 100vh; /* Ensures content fills viewport */

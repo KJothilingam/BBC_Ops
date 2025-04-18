@@ -16,7 +16,7 @@ export class AppComponent {
   ngOnInit() {
     window.addEventListener('storage', (event) => {
       if (event.key === 'jwtToken' && event.newValue === null) {
-        this.authService.logout(); // Optional extra cleanup
+        this.authService.logout(); 
         this.router.navigate(['/login']);
       }
     });

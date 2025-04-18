@@ -143,14 +143,14 @@ input {
     background-color: #fff;
     box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease-in-out;
-    min-height: 200px;  /* ✅ Allows dynamic expansion */
+    min-height: 200px;  /*  Allows dynamic expansion */
     display: flex;
     flex-direction: column;
     overflow: hidden;
   }
   
   
-  /* 🔹 Bill Title */
+  /*  Bill Title */
 .bill-title {
     font-size: 22px;
     font-weight: bold;
@@ -160,13 +160,13 @@ input {
     text-align: center;
   }
   
-  /* 🔹 Table */
+  /*  Table */
 .bill-table {
     width: 100%;
     border-collapse: collapse;
     background: #fafafa;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    table-layout: auto; /* ✅ Adjusts column widths dynamically */
+    table-layout: auto; /*  Adjusts column widths dynamically */
   }
   
   .bill-table th, .bill-table td {
@@ -175,7 +175,7 @@ input {
     text-align: left;
   }
   
-  /* 🔹 Table Header */
+  /*  Table Header */
 .bill-table th {
     background-color: #673ab7;
     color: white;
@@ -185,16 +185,16 @@ input {
     font-size: 16px;
   }
 
-  /* 🔹 Table Cells */
+  /*  Table Cells */
 .bill-table th, .bill-table td {
     padding: 14px;
     border-bottom: 1px solid #ddd;
     text-align: center;
     font-size: 16px;
-    white-space: normal; /* ✅ Ensures text wraps */
+    white-space: normal; /*  Ensures text wraps */
     word-wrap: break-word;
   }
-  /* 🔹 Hover Effect on Rows */
+  /*  Hover Effect on Rows */
 .bill-table tr:hover {
     background-color: #f0f0f0;
     transition: background 0.3s ease-in-out;
@@ -221,7 +221,7 @@ input {
     color: #d40000; /* Red */
     font-weight: bold;
   }
- /* 🔹 Filter Dropdown */
+ /*  Filter Dropdown */
 .filter-container {
     margin-bottom: 15px;
     display: flex;
@@ -244,7 +244,7 @@ input {
     transition: all 0.3s ease;
   }
   
-  /* 🔹 Dropdown Hover */
+  /*  Dropdown Hover */
   .filter-container select:hover {
     border-color: #673ab7;
   }
@@ -313,7 +313,7 @@ input {
   border-radius: 6px;
   border: 2px solid #ccc;
   font-size: 15px;
-  width: 280px;   /* 👈 Adjust width as needed */
+  width: 280px;   /* Adjust width as needed */
   max-width: 100%;
   flex-shrink: 0;
 }

@@ -70,7 +70,7 @@ export class PaymentComponent {
     this.showModal = false;
   }
 
-  // 🔹 Fetch unpaid bills
+  //  Fetch unpaid bills
   fetchBills() {
     const meterNumber = this.paymentForm.get('meterNumber')?.value?.trim();
 
@@ -172,7 +172,7 @@ export class PaymentComponent {
   
   
 
-  // 🔹 Reset form after payment
+  //  Reset form after payment
   private resetForm() {
     this.isProcessing = false;
     this.paymentForm.reset();
@@ -206,7 +206,7 @@ export class PaymentComponent {
     doc.setFontSize(12);
     y += 35;
   
-    // 🔹 Row Function
+    //  Row Function
     function drawRow(label: string, value: string, rowY: number, isBold: boolean = false, highlight: boolean = false) {
       const rowX = 20;
       const rowWidth = pageWidth - 40;
@@ -230,7 +230,7 @@ export class PaymentComponent {
       doc.text(value, valueX, rowY + rowHeight / 2 + 2);
     }
   
-    // 🔹 Customer Details
+    //  Customer Details
     doc.setFontSize(14);
     doc.setTextColor(0, 51, 153);
     doc.text("Customer Details", 20, y);
@@ -245,7 +245,7 @@ export class PaymentComponent {
     drawRow("Meter Number", this.paymentData.meterNumber ?? "N/A", y);
     y += 20;
   
-    // 🔹 Invoice & Payment Details
+    //  Invoice & Payment Details
     doc.setFontSize(14);
     doc.setTextColor(0, 51, 153);
     doc.text("Invoice & Payment Details", 20, y);
@@ -286,7 +286,7 @@ export class PaymentComponent {
     const totalDiscount = earlyPaymentDiscount + onlinePaymentDiscount;
     const finalAmountPaid = totalAmount - totalDiscount;
   
-    // ✅ Show Discounts
+    // Show Discounts
     drawRow("Early Payment Discount (5%)", `Rs.${earlyPaymentDiscount.toFixed(2)}`, y);
     y += 12;
   

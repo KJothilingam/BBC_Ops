@@ -57,7 +57,7 @@ export class LoginComponent {
 
   generateOtp() {
     if (!this.email) {
-      this.toastr.warning("⚠️ Please enter your email", "Warning!", { timeOut: 10000 });
+      this.toastr.warning(" Please enter your email", "Warning!", { timeOut: 10000 });
       return;
     }
   
@@ -67,7 +67,7 @@ export class LoginComponent {
           this.storedOtp = response.otp; 
   
           this.toastr.success(
-            `✅ OTP Sent Successfully! <br><strong style="font-size: 18px;">Your OTP: ${response.otp}</strong>`, 
+            ` OTP Sent Successfully! <br><strong style="font-size: 18px;">Your OTP: ${response.otp}</strong>`, 
             "Success!", 
             { timeOut: 10000, enableHtml: true }
           );
@@ -75,11 +75,11 @@ export class LoginComponent {
           // Auto-fill OTP in input boxes
           setTimeout(() => this.autoFillOtp(response.otp), 500); 
         } else {
-          this.toastr.success("✅ OTP Sent Successfully!", "Success!", { timeOut: 10000 });
+          this.toastr.success(" OTP Sent Successfully!", "Success!", { timeOut: 10000 });
         }
       },
       error => {
-        let errorMessage = error.error?.message || "❌ Something went wrong!";
+        let errorMessage = error.error?.message || " Something went wrong!";
         this.toastr.error(errorMessage, "Error!", { timeOut: 10000 });
       }
     );
@@ -90,7 +90,7 @@ export class LoginComponent {
     const enteredOtp = this.otpInputs.map(input => input.nativeElement.value).join('');
   
     if (enteredOtp.length !== 6) {
-      this.toastr.warning("⚠️ Enter complete 6-digit OTP", "Warning!", { timeOut: 10000 });
+      this.toastr.warning(" Enter complete 6-digit OTP", "Warning!", { timeOut: 10000 });
       return;
     }
   
@@ -101,21 +101,21 @@ export class LoginComponent {
           this.authService.saveUserDetails(response.userId, response.userName, response.designation);
   
           this.toastr.success(
-            `✅ OTP Verified!<br><strong>Welcome, ${response.userName} (${response.designation})!</strong>`,
+            ` OTP Verified!<br><strong>Welcome, ${response.userName} (${response.designation})!</strong>`,
             "Success!",
             { timeOut: 20000, enableHtml: true }
           );
   
-          // ✅ Log User Details
+          //  Log User Details
           this.getUserDetails();
   
           this.router.navigate(['/dashboard']);
         } else {
-          this.toastr.error("❌ Invalid Response from Server", "Error!", { timeOut: 10000 });
+          this.toastr.error(" Invalid Response from Server", "Error!", { timeOut: 10000 });
         }
       },
       error => {
-        this.toastr.error(error.error.message || "❌ Invalid OTP", "Error!", { timeOut: 10000 });
+        this.toastr.error(error.error.message || " Invalid OTP", "Error!", { timeOut: 10000 });
       }
     );
   }

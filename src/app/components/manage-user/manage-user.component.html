@@ -73,9 +73,6 @@
                 <label>Unit Consumption:</label>
                 <input type="number" [(ngModel)]="selectedCustomer.unitConsumption" class="form-control"/>
 
-                <!-- <label>Bill Due Date:</label>
-                <input type="date" [(ngModel)]="selectedCustomer.billDueDate" class="form-control"/> -->
-
                 <label>Meter Number:</label>
                 <input type="text" [(ngModel)]="selectedCustomer.meterNumber" class="form-control"/>
 
@@ -115,10 +112,7 @@
 
                 <label>Unit Consumption:</label>
                 <input type="number" [(ngModel)]="newCustomer.unitConsumption" class="form-control"/>
-                
-                <!-- <label>Bill Due Date:</label>
-                <input type="date" [(ngModel)]="newCustomer.billDueDate" class="form-control"/> -->
-
+             
                 <label>Meter Number:</label>
                 <input type="text" [(ngModel)]="newCustomer.meterNumber" class="form-control"/>
 
@@ -148,9 +142,7 @@
                     <th>Meter No.</th>
                     <th>Phone Number</th>
                     <th>Address</th>
-                    <!-- <th>Unit Consumption</th> -->
                     <th>Connection Type</th>
-                    <!-- <th>Bill Due Date</th> -->
                     <th>Action</th>
                 </tr>
             </thead>
@@ -162,8 +154,6 @@
                     <td>{{ customer.phoneNumber }}</td>
                     <td>{{ customer.address }}</td>
                     <td>{{ customer.connectionType }}</td>
-                    <!-- <td>{{ customer.unitConsumption }}</td> -->
-                    <!-- <td>{{ customer.billDueDate | date: 'yyyy-MM-dd' }}</td> -->
                     <td>
 
                         

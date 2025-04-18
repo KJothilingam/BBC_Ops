@@ -14,13 +14,11 @@ import { FormsModule } from '@angular/forms';
 })
 export class PaymentHistoryComponentComponent implements OnInit {
   payments: any[] = [];
-  // payments: any[] = [];
   filteredPayments: any[] = [];
   searchTerm: string = '';
   selectedPaymentMethod: string = '';
   paymentMethods: string[] = ['CASH', 'CREDIT_CARD', 'DEBIT_CARD', 'UPI', 'WALLET'];
 
-  // constructor(private http: HttpClient, private paymentService: PaymentHistoryService) {}
   constructor(private http: HttpClient, private paymentService: PaymentHistoryService) {}
 
   ngOnInit() {
@@ -127,7 +125,6 @@ export class PaymentHistoryComponentComponent implements OnInit {
     y += 12;
     drawRow("Billing Month", payment.billingMonth ?? "N/A", y, false, 250, 250, 250);
     y += 12;
-    // drawRow("Due Date", payment.duedate ?? "N/A", y, false, 250, 250, 250);
     drawRow("Due Date", this.convertToDate(payment.dueDate), y, false, 250, 250, 250);
 
 
@@ -155,70 +152,6 @@ export class PaymentHistoryComponentComponent implements OnInit {
   }
 
 
-  // generateAllPDFs() {
-  //   const doc = new jsPDF();
-  //   const pageWidth = doc.internal.pageSize.getWidth();
-  
-  //   // Smaller title font
-  //   doc.setFontSize(14);
-  //   doc.setTextColor(40, 40, 40);
-  //   doc.text('All Payment Records', pageWidth / 2, 12, { align: 'center' });
-  
-  //   const headers = [
-  //     ['Transaction ID', 'Meter Number', 'Unit Consumed', 'Billing Month', 'Due Date',
-  //      'Total Amount', 'Discount', 'Final Amount', 'Method', 'Date']
-  //   ];
-  
-  //   const data = this.payments.map((p: any) => [
-  //     p.transactionId,
-  //     p.meterNumber,
-  //     p.unitConsumed,
-  //     p.billingMonth,
-  //     this.convertToDate(p.dueDate),
-  //     `Rs.${parseFloat(p.totalBillAmount).toFixed(2)}`,
-  //     `Rs.${parseFloat(p.discountApplied).toFixed(2)}`,
-  //     `Rs.${parseFloat(p.finalAmountPaid).toFixed(2)}`,
-  //     p.paymentMethod,
-  //     this.convertToDate(p.paymentDate)
-  //   ]);
-  
-  //   autoTable(doc, {
-  //     head: headers,
-  //     body: data,
-  //     startY: 18,
-  //     theme: 'striped',
-  //     headStyles: {
-  //       fillColor: [22, 160, 133],
-  //       textColor: 255,
-  //       fontSize: 7
-  //     },
-  //     bodyStyles: {
-  //       textColor: 50,
-  //       fontSize: 6
-  //     },
-  //     styles: {
-  //       fontSize: 6,
-  //       cellPadding: 1,
-  //       halign: 'center',
-  //       overflow: 'linebreak'
-  //     },
-  //     columnStyles: {
-  //       0: { cellWidth: 'auto' },
-  //       1: { cellWidth: 'auto' },
-  //       2: { cellWidth: 'auto' },
-  //       3: { cellWidth: 'auto' },
-  //       4: { cellWidth: 'auto' },
-  //       5: { cellWidth: 'auto' },
-  //       6: { cellWidth: 'auto' },
-  //       7: { cellWidth: 'auto' },
-  //       8: { cellWidth: 'auto' },
-  //       9: { cellWidth: 'auto' },
-  //     },
-  //     margin: { top: 15 }
-  //   });
-  
-  //   doc.save('All_Payments.pdf');
-  // }
   generateAllPDFs() {
     const doc = new jsPDF();
     const pageWidth = doc.internal.pageSize.getWidth();
@@ -233,7 +166,7 @@ export class PaymentHistoryComponentComponent implements OnInit {
        'Total Amount', 'Discount', 'Final Amount', 'Method', 'Date']
     ];
   
-    // 🔹 Use filteredPayments here
+    //  Use filteredPayments here
     const data = this.filteredPayments.map((p: any) => [
       p.transactionId,
       p.meterNumber,

@@ -1,7 +1,6 @@
 import { ApplicationConfig, importProvidersFrom, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { BrowserAnimationsModule, provideAnimations } from '@angular/platform-browser/animations';
-// import { provideHttpClient, withFetch ,withInterceptors} from '@angular/common/http';
 import { provideHttpClient, withFetch } from '@angular/common/http';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
@@ -10,7 +9,7 @@ import { routes } from './app.routes';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
-// ✅ Angular Material Modules
+//  Angular Material Modules
 import { MatRadioModule } from '@angular/material/radio';
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
@@ -24,18 +23,15 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { JwtInterceptor } from './interceptors/jwt.interceptor';
-// import { JwtInterceptor } from './app/interceptors/jwt.interceptor';
-// import { provideHttpClient,  } from '@angular/common/http';
-
 export const appConfig: ApplicationConfig = {
   providers: [
     provideAnimations(),
     importProvidersFrom(BrowserAnimationsModule),
 
-    // ✅ Angular Forms and HTTP
+    //  Angular Forms and HTTP
     importProvidersFrom(HttpClientModule, ReactiveFormsModule, FormsModule),
 
-    // ✅ Material UI Modules
+    //  Material UI Modules
     importProvidersFrom(
       MatRadioModule, 
       MatInputModule, 
@@ -51,7 +47,7 @@ export const appConfig: ApplicationConfig = {
       MatSnackBarModule
     ),
 
-    // ✅ Toastr Notifications
+    //  Toastr Notifications
     importProvidersFrom(ToastrModule.forRoot({
       timeOut: 1000,
       positionClass: 'toast-top-right',
@@ -62,7 +58,7 @@ export const appConfig: ApplicationConfig = {
       newestOnTop: true,
     })),
 
-    // ✅ Angular Features
+    //  Angular Features
       provideHttpClient(withFetch()),
       {
         provide: HTTP_INTERCEPTORS,

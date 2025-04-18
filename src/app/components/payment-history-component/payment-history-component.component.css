@@ -1,4 +1,4 @@
-/* 🔹 Main Container Styling */
+/*  Main Container Styling */
 .container {
   padding: 20px;
   position: relative;
@@ -9,7 +9,7 @@
   overflow: hidden;
 }
 
-/* 🔹 Payment Card */
+/*  Payment Card */
 .payment-container {
   width: 98%; /* Increased width */
   max-width: 1200px; /* More space */
@@ -23,10 +23,8 @@
   transition: transform 0.3s ease-in-out;
 }
 
-/* 🔹 Hover Effect on Card */
 
-
-/* 🔹 Title */
+/*  Title */
 h2 {
   color: #673ab7;
   text-align: center;
@@ -35,7 +33,7 @@ h2 {
   text-transform: uppercase;
 }
 
-/* 🔹 Table Styling */
+/*  Table Styling */
 table {
   width: 100%;
   table-layout: auto; /* Allow columns to adjust automatically */
@@ -45,7 +43,7 @@ table {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* 🔹 Table Header */
+/*  Table Header */
 th {
   background-color: #673ab7;
   color: white;
@@ -54,7 +52,7 @@ th {
   text-align: center;
 }
 
-/* 🔹 Table Cells */
+/*  Table Cells */
 th, td {
   padding: 12px;
   border-bottom: 1px solid #ddd;
@@ -64,13 +62,13 @@ th, td {
   white-space: normal;
 }
 
-/* 🔹 Hover Effect on Rows */
+/*  Hover Effect on Rows */
 tr:hover {
   background-color: #f1f1f1;
   transition: background 0.3s;
 }
 
-/* 🔹 Amount Styling */
+/*  Amount Styling */
 .total-amount {
   color: red;
   font-weight: bold;
@@ -86,7 +84,7 @@ tr:hover {
   font-weight: bold;
 }
 
-/* 🔹 PDF Button */
+/*  PDF Button */
 .pdf-btn {
   background-color: #dc3545; /* Red Button */
   color: white;
@@ -101,18 +99,18 @@ tr:hover {
   transition: background 0.3s, transform 0.2s;
 }
 
-/* 🔹 PDF Button Hover */
+/*  PDF Button Hover */
 .pdf-btn:hover {
   background-color: #b02a37; /* Darker Red */
   transform: scale(1.1);
 }
 
-/* 🔹 Icon inside Button */
+/* Icon inside Button */
 .pdf-btn i {
   font-size: 20px;
 }
 
-/* 🔹 Mobile Responsive Adjustments */
+/*  Mobile Responsive Adjustments */
 @media (max-width: 768px) {
   .payment-container {
       width: 100%;
@@ -169,7 +167,7 @@ tr:hover {
   border: 1px solid #ccc;
   border-radius: 4px;
 }
-/* 🔹 Combined Filters and Download Button */
+/*  Combined Filters and Download Button */
 .filters-container {
   display: flex;
   justify-content: center;
@@ -179,7 +177,7 @@ tr:hover {
   margin-bottom: 15px;
 }
 
-/* 🔹 Filters still stay in line */
+/*  Filters still stay in line */
 .filters {
   display: flex;
   gap: 10px;

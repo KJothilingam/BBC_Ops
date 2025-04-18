@@ -16,23 +16,22 @@
 }
 
 /* Logo Section */
-/* Logo Section */
 .logo {
     text-align: center;
     margin-bottom: 20px;
     display: flex;
-    flex-direction: column; /* ✅ Text moves to the next line */
+    flex-direction: column; /*  Text moves to the next line */
     align-items: center;
-    gap: 5px; /* ✅ Reduce gap for a compact look */
+    gap: 5px; /*  Reduce gap for a compact look */
 }
 
 .logo .bulb img {
-    width: 50px;  /* ✅ Slightly bigger logo */
-    height: 50px; /* ✅ Maintain aspect ratio */
+    width: 50px;  /*  Slightly bigger logo */
+    height: 50px; /* Maintain aspect ratio */
 }
 
 .logo h1 {
-    font-size: 20px; /* ✅ Adjusted for better visibility */
+    font-size: 20px; /*  Adjusted for better visibility */
     font-weight: bold;
     color: #2c2c2c;
     margin: 0;
@@ -44,7 +43,7 @@
     list-style: none;
     padding: 0;
     width: 100%;
-    flex-grow: 1;  /* ✅ Pushes logout button to the bottom */
+    flex-grow: 1;  /*  Pushes logout button to the bottom */
 }
 
 .menu li {
@@ -65,19 +64,19 @@
 }
 
 .menu li.active {
-    background: #4318FF;  /* ✅ Active color */
+    background: #4318FF;  /*  Active color */
     color: white;
     border-radius: 5px;
 }
 /* Hover Effect (Different from Active) */
 .menu li:hover {
-    background: #7F5FFF; /* ✅ Lighter shade for hover */
+    background: #7F5FFF; /*  Lighter shade for hover */
     color: white;
     border-radius: 5px;
 }
 /* Logout Button */
 .logout {
-    margin-top: 70%;  /* ✅ Moves logout button to 80% of sidebar height */
+    margin-top: 70%;  /*  Moves logout button to 80% of sidebar height */
     padding: 10px;
     margin-bottom: 30%;
     width: 80%;

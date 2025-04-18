@@ -14,10 +14,10 @@ export class AuthGuard implements CanActivate {
     const user = this.authService.getUserDetails();
     
     if (user && user.userId) {
-      return true;  // ✅ Allow access if user is logged in
+      return true;  //  Allow access if user is logged in
     }
 
-    this.router.navigate(['/']); // ❌ Redirect to login page if not logged in
+    this.router.navigate(['/']); //  Redirect to login page if not logged in
     return false;
   }
 }
