@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { isPlatformBrowser } from '@angular/common';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
   providedIn: 'root'
@@ -11,16 +12,93 @@ import { Router } from '@angular/router';
 export class AuthService implements OnInit {
   private apiUrl = 'http://localhost:8080/employees'; 
   private jwtToken: string | null = null;
+  private inactivityTimer: any;
+  private warningTimer: any;
+  private countdownInterval: any;
+  private remainingSeconds: number = 60;
+  private countdownToast: any;
 
-  constructor(private http: HttpClient, @Inject(PLATFORM_ID) private platformId: any, private router: Router) {}
+  constructor(
+    private http: HttpClient,
+    @Inject(PLATFORM_ID) private platformId: any,
+    private router: Router,
+    private toastr: ToastrService
+  ) {
+    if (isPlatformBrowser(this.platformId)) {
+      const token = localStorage.getItem('jwtToken');
+      if (token) {
+        this.jwtToken = token;
+        this.startInactivityWatcher();
+      }
+
+      // Sync token on storage change
+      window.addEventListener('storage', (event) => {
+        if (event.key === 'jwtToken') {
+          this.jwtToken = event.newValue;
+        }
+      });
+
+      // Detect user activity to reset timers
+      ['click', 'mousemove', 'keydown', 'scroll'].forEach(event => {
+        window.addEventListener(event, () => this.resetInactivityTimer());
+      });
+    }
+  }
 
   ngOnInit() {
-    // Listen for storage changes (when token is added or removed)
-    window.addEventListener('storage', (event) => {
-      if (event.key === 'jwtToken' && event.newValue) {
-        this.jwtToken = event.newValue;  // Sync token with class property
-      }
-    });
+    if (isPlatformBrowser(this.platformId)) {
+      window.addEventListener('storage', (event) => {
+        if (event.key === 'jwtToken' && event.newValue) {
+          this.jwtToken = event.newValue;
+        }
+      });
+    }
+  }
+
+  private startInactivityWatcher() {
+    this.resetInactivityTimer();
+  }
+
+  private resetInactivityTimer() {
+    clearTimeout(this.inactivityTimer);
+    clearTimeout(this.warningTimer);
+    clearInterval(this.countdownInterval);
+
+    // 4 min: show warning toast
+    this.warningTimer = setTimeout(() => {
+      this.remainingSeconds = 60;
+
+      this.countdownToast = this.toastr.warning(`You will be logged out in ${this.remainingSeconds} seconds due to inactivity.`, 'Inactivity Warning', {
+        disableTimeOut: true,
+        tapToDismiss: false,
+        closeButton: true,
+        toastClass: 'ngx-toastr countdown-toast' // Custom class for styling
+      });
+
+      this.countdownInterval = setInterval(() => {
+        this.remainingSeconds--;
+        const message = `You will be logged out in ${this.remainingSeconds} seconds due to inactivity.`;
+
+        // Update the toast message with countdown
+        const toastElement = document.querySelector('.countdown-toast .toast-message');
+        if (toastElement) {
+          toastElement.textContent = message;
+        }
+
+        console.log(message);
+
+        if (this.remainingSeconds <= 0) {
+          clearInterval(this.countdownInterval);
+        }
+      }, 1000);
+    }, 4 * 60 * 1000); // 4 minutes of inactivity
+
+    // 5 min: auto logout
+    this.inactivityTimer = setTimeout(() => {
+      console.log(' Logging out due to 5 min inactivity...');
+      this.logout();
+      this.toastr.info('You have been logged out due to inactivity.', 'Session Expired');
+    }, 5 * 60 * 1000); // 5 minutes of inactivity
   }
 
   generateOtp(email: string): Observable<any> {
@@ -31,7 +109,7 @@ export class AuthService implements OnInit {
     return this.http.post(`${this.apiUrl}/verify-otp`, { email, otp }).pipe(
       tap((response: any) => {
         if (response.userId && response.userName && response.designation && response.token) {
-          this.saveToken(response.token);  // Save token to class property
+          this.saveToken(response.token);
           this.saveUserDetails(response.userId, response.userName, response.designation);
         } else {
           throw new Error("Invalid response structure");
@@ -76,10 +154,8 @@ export class AuthService implements OnInit {
       return;
     }
 
-    // 1. Get full employee details using userId
     this.getEmployeeDetails(userDetails.userId).subscribe({
       next: (employee) => {
-        // Map to match Java's camelCase fields
         const mappedEmployee = {
           employeeId: employee.employee_id,
           name: employee.name,
@@ -106,7 +182,7 @@ export class AuthService implements OnInit {
         console.error("Failed to fetch employee details for logging", err);
       }
     });
-  }      
+  }
 
   logout(): void {
     const token = this.getToken();
@@ -115,27 +191,31 @@ export class AuthService implements OnInit {
       this.http.post('http://localhost:8080/employees/logout', {}, {
         headers: { Authorization: `Bearer ${token}` }
       }).subscribe({
-        next: () => console.log("✅ Backend logout successful"),
-        error: err => console.error("❌ Logout API failed", err)
+        next: () => console.log(" Backend logout successful"),
+        error: err => console.error(" Logout API failed", err)
       });
     }
-    
-    this.jwtToken = null;  // Clear the JWT token from the class property
-    localStorage.clear();  // Optional: Clear localStorage as well
-    
-    // Optional: Redirect to login
+
+    this.jwtToken = null;
+
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.clear();
+    }
+
     this.router.navigate(['/login']);
   }
 
   saveToken(token: string): void {
-    this.jwtToken = token;  // Store the token in the class property
-    localStorage.setItem('jwtToken', token); // Ensure the token is stored in localStorage for tab synchronization
+    this.jwtToken = token;
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.setItem('jwtToken', token);
+    }
   }
-  
+
   getToken(): string | null {
-    return this.jwtToken || localStorage.getItem('jwtToken');  // Return the token from the class property or localStorage
+    return this.jwtToken || (isPlatformBrowser(this.platformId) ? localStorage.getItem('jwtToken') : null);
   }
-  
+
   isLoggedIn(): boolean {
     return !!this.getToken();
   }
