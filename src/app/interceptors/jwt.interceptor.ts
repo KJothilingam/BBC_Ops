@@ -35,7 +35,7 @@ export class JwtInterceptor implements HttpInterceptor {
         if (error.status === 401) {
           const message = error.error?.error || 'Session expired. Please login again.';
           alert(message);
-          this.authService.logout();  // Clear token and logout
+          this.authService.logout();  
           this.router.navigate(['/login']);
         }
         return throwError(() => error);
