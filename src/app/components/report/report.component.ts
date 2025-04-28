@@ -118,6 +118,8 @@ export class ReportComponent {
   
   downloadPDF() {
     this.auditService.getAuditLogs().subscribe((logs: any[]) => {
+      logs.sort((a, b) => b.id - a.id);
+  
       const doc = new jsPDF();
   
       doc.setFontSize(18);
@@ -125,9 +127,8 @@ export class ReportComponent {
       doc.setFontSize(11);
       doc.text(`Generated on: ${new Date().toLocaleString()}`, 14, 30);
   
-      const columns = ['ID', 'Employee ID', 'Name', 'Designation', 'Action', 'Timestamp'];
+      const columns = ['Employee ID', 'Name', 'Designation', 'Action', 'Timestamp']; // Removed 'ID'
       const rows = logs.map(log => [
-        log.id,
         log.employeeId ?? 'N/A',
         log.name,
         log.designation,
@@ -160,6 +161,8 @@ export class ReportComponent {
       doc.save('Employee_Audit_Logs.pdf');
     });
   }
+  
+  
   
   
   
