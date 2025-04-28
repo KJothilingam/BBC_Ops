@@ -24,9 +24,7 @@ export class ReportComponent {
   ngOnInit(): void {
     this.loadReports();
   
-    setInterval(() => {
-      this.loadReports();
-    }, 5000); 
+    
   }
   
 

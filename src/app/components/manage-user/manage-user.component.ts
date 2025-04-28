@@ -8,10 +8,11 @@ import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
 import jsPDF from 'jspdf';
 import { AuthService } from '../../services/auth.service';
+import { LoadingSpinnerComponent } from "../loading-spinner/loading-spinner.component";
 @Component({
   selector: 'app-manage-user',
   standalone: true,
-  imports: [CommonModule, FormsModule, SidebarComponent],
+  imports: [CommonModule, FormsModule, SidebarComponent, LoadingSpinnerComponent],
   templateUrl: './manage-user.component.html',
   styleUrls: ['./manage-user.component.css']
 })
@@ -30,7 +31,7 @@ export class ManageUserComponent implements OnInit {
   
   showUpdateForm: boolean = false;
   isUpdating: boolean = false; 
-
+  loading: boolean = false;
   constructor(private authService: AuthService,private customerService: CustomerService, private toastr: ToastrService) {}
 
   private _searchText: string = '';
@@ -88,7 +89,7 @@ openAddModal() {
         event.target.value = ''; 
         return;
       }
-  
+      // this.loading = true;
       this.selectedFile = file;
     }
   }
@@ -98,11 +99,12 @@ openAddModal() {
       this.toastr.error("Please select a CSV file.", "Error");
       return;
     }
-  
+    this.loading = true;
     this.customerService.uploadCSV(this.selectedFile).subscribe({
       next: (response) => {
         if (response.validRecords > 0 && response.rejectedRecords > 0) {
           //  Partial success: some records were rejected
+          this.loading = false;
           this.toastr.warning(
             `Partial Upload:
              Added: ${response.validRecords}
@@ -113,15 +115,18 @@ openAddModal() {
           if (response.errors && response.errors.length > 0) {
             this.generateExcel(response.errors);
           }
+          
           const logMessage = `Bulk File Partial Updated: Valid- ${response.validRecords},Invalid-${response.rejectedRecords}`;
           this.authService.logAction(logMessage); 
         } else if (response.validRecords > 0) {
           //  All records were successfully uploaded
+          this.loading = false;
           this.toastr.success("All records added successfully!", "Success");
           const logMessage = `All records added successfully!!: Total Number of Record- ${response.validRecords}`;
           this.authService.logAction(logMessage);
         } else {
           //  No records were added
+          this.loading = false;
           this.toastr.error("Failed to add all records.", "Error");
           const logMessage = `Failed to add all records.`;
           this.authService.logAction(logMessage);
@@ -130,6 +135,7 @@ openAddModal() {
         this.fetchCustomers();
       },
       error: (err) => {
+        this.loading = false; 
         console.error("Upload Error:", err);
         this.toastr.error("Failed to upload file. Please try again.", "Error");
       }

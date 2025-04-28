@@ -43,6 +43,7 @@
                 <div class="modal-body">
                     <input type="file" (change)="onFileSelected($event)" accept=".csv" />
                     <button class="btn btn-success mt-2" (click)="uploadFile()">Upload CSV</button>
+                    <app-loading-spinner *ngIf="loading"></app-loading-spinner>
                     <p *ngIf="message" class="message">{{ message }}</p>
                 </div>
             </div>
