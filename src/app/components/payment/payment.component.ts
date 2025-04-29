@@ -1,4 +1,4 @@
-import { Component, ChangeDetectorRef } from '@angular/core';
+import { Component, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { PaymentService } from '../../services/payment.service';
 import { BillService } from '../../services/bill.service';
@@ -37,6 +37,10 @@ import { PaymentHistoryComponentComponent } from "../payment-history-component/p
 ]
 })
 export class PaymentComponent {
+  
+  @ViewChild(PaymentHistoryComponentComponent)
+  paymentHistoryComponent!: PaymentHistoryComponentComponent;
+
   paymentForm: FormGroup;
   isProcessing = false;
   bills: any[] = []; 
@@ -100,7 +104,7 @@ export class PaymentComponent {
     });
   }
 
-  // 🔹 Auto-fill bill details when a bill is selected
+  //  Auto-fill bill details when a bill is selected
   
   onBillSelect() {
     const selectedBillId = parseInt(this.paymentForm.get('billId')?.value, 10);
@@ -151,6 +155,7 @@ export class PaymentComponent {
           };
   
           this.toastr.success('Payment Successful!', 'Success', this.getToastrConfig());
+          this.paymentHistoryComponent.fetchPayments(); 
           const logMessage = `Payment Successful!: Amount: ${response.amountPaid} ,Bill ID: ${paymentData.billId}`;
           this.authService.logAction(logMessage);
           this.generatePDFReceipt(); //  Generate PDF only if success
@@ -326,17 +331,9 @@ export class PaymentComponent {
       doc.save(`receipt_${this.paymentData.invoiceId ?? "unknown"}.pdf`);
     });
   }
-  
-  
 
 
-
-  
-  
-
-
-
-  // 🔹 Toastr Configuration
+  //  Toastr Configuration
   private getToastrConfig() {
     return { timeOut: 3000, positionClass: 'toast-top-right' };
   }

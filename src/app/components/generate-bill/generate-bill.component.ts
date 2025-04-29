@@ -313,7 +313,7 @@ downloadPdf(): void {
   doc.save('invoice-records.pdf');
 }
 
-searchTerm: string = '';  //  Holds the search input
+searchTerm: string = '';  
 
 searchBills() {
   const term = this.searchTerm.toLowerCase().trim();

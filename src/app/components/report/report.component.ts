@@ -22,9 +22,7 @@ export class ReportComponent {
   constructor(private auditService: AuditService,private toastr: ToastrService ,private authService: AuthService,private reportService: ReportService,private customerService: CustomerService) {}
 
   ngOnInit(): void {
-    this.loadReports();
-  
-    
+    this.loadReports();  
   }
   
 

@@ -19,9 +19,12 @@ export class PaymentHistoryComponentComponent implements OnInit {
   selectedPaymentMethod: string = '';
   paymentMethods: string[] = ['CASH', 'CREDIT_CARD', 'DEBIT_CARD', 'UPI', 'WALLET'];
 
-  constructor(private http: HttpClient, private paymentService: PaymentHistoryService) {}
+  constructor(private http: HttpClient, private paymentService: PaymentHistoryService ) {}
 
   ngOnInit() {
+    this.fetchPayments();
+  }
+  fetchPayments(){
     this.http.get<any[]>('http://localhost:8080/payment-records').subscribe(data => {
       this.payments = data.map(payment => ({
         ...payment,
